@@ -1,0 +1,57 @@
+{% comment %}
+  Renders an image card with a title overlaid at the bottom.
+
+  Accepts:
+  - collection: {Object} Collection object (optional)
+  - image: {Object} Image that overrides the collection image (optional)
+  - title: {String} Title that overrides the collection title (optional)
+  - link: {String} URL that overrides the collection URL (optional)
+  - placeholder_index: {Number} Used to vary the placeholder image (optional)
+  - sizes: {String} Value for the image sizes attribute (optional)
+  - lazy_load: {Boolean} Lazy load the image (optional, default true)
+
+  Usage:
+  {% render 'card-category', collection: block.settings.collection, title: block.settings.title %}
+{% endcomment %}
+
+{%- liquid
+  assign card_image = image | default: collection.featured_image
+  assign card_title = title | default: collection.title
+  assign card_link = link | default: collection.url
+  assign placeholder_number = placeholder_index | default: 1 | minus: 1 | modulo: 6 | plus: 1
+  assign placeholder_name = 'collection-' | append: placeholder_number
+
+  if lazy_load == false
+    assign loading = 'eager'
+  else
+    assign loading = 'lazy'
+  endif
+-%}
+
+<div class="card-category">
+  {%- if card_link != blank -%}
+    <a href="{{ card_link }}" class="card-category__link full-unstyled-link">
+  {%- endif -%}
+  <div class="card-category__media">
+    {%- if card_image != blank -%}
+      {{
+        card_image
+        | image_url: width: 1200
+        | image_tag:
+          loading: loading,
+          widths: '330, 535, 750, 1000, 1200',
+          sizes: sizes,
+          alt: card_title,
+          class: 'card-category__image'
+      }}
+    {%- else -%}
+      {{ placeholder_name | placeholder_svg_tag: 'card-category__image placeholder-svg' }}
+    {%- endif -%}
+  </div>
+  {%- if card_title != blank -%}
+    <p class="card-category__title">{{ card_title | escape }}</p>
+  {%- endif -%}
+  {%- if card_link != blank -%}
+    </a>
+  {%- endif -%}
+</div>

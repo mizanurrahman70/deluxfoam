@@ -1,0 +1,238 @@
+{{ 'section-category-slider.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  case section.settings.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    else
+      assign ratio = '4 / 5'
+  endcase
+
+  assign columns = section.settings.columns_desktop
+  assign sizes = '(min-width: ' | append: settings.page_width | append: 'px) calc(' | append: settings.page_width | append: 'px / ' | append: columns | append: '), (min-width: 750px) calc(100vw / ' | append: columns | append: '), 75vw'
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="category-slider page-width section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    style="--category-columns: {{ columns }}; --category-ratio: {{ ratio }};"
+  >
+    <slider-component class="category-slider__component">
+      <div class="category-slider__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="category-slider__title inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.show_arrows and section.blocks.size > 1 -%}
+          <div class="category-slider__buttons">
+            <button
+              type="button"
+              class="category-slider__button category-slider__button--prev"
+              name="previous"
+              aria-label="{{ 'general.slider.previous_slide' | t }}"
+              aria-controls="Slider-{{ section.id }}"
+            >
+              {{- 'icon-arrow.svg' | inline_asset_content -}}
+            </button>
+            <button
+              type="button"
+              class="category-slider__button"
+              name="next"
+              aria-label="{{ 'general.slider.next_slide' | t }}"
+              aria-controls="Slider-{{ section.id }}"
+            >
+              {{- 'icon-arrow.svg' | inline_asset_content -}}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <ul
+        id="Slider-{{ section.id }}"
+        class="category-slider__list list-unstyled"
+        role="list"
+      >
+        {%- for block in section.blocks -%}
+          <li
+            id="Slide-{{ section.id }}-{{ forloop.index }}"
+            class="category-slider__item"
+            {{ block.shopify_attributes }}
+          >
+            {% render 'card-category',
+              collection: block.settings.collection,
+              image: block.settings.image,
+              title: block.settings.title,
+              link: block.settings.link,
+              placeholder_index: forloop.index,
+              sizes: sizes
+            %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </slider-component>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category slider",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Shop by Categories",
+      "label": "t:sections.featured-collection.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "Cards visible on desktop"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ],
+      "default": "portrait",
+      "label": "Image ratio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "default": true,
+      "label": "Show arrows"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Optional. Uses the collection image when empty."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Optional. Uses the collection title when empty."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Optional. Uses the collection link when empty."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category slider",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Sofa" } },
+        { "type": "category", "settings": { "title": "Corner Sofa" } },
+        { "type": "category", "settings": { "title": "Hardwood" } },
+        { "type": "category", "settings": { "title": "Table" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

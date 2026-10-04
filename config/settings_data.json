@@ -16,23 +16,23 @@
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#FFFFFF",
+            "background": "#FCFAF7",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
-            "button_label": "#FFFFFF",
-            "secondary_button_label": "#121212",
+            "text": "#1C1C1C",
+            "button": "#1C1C1C",
+            "button_label": "#FCFAF7",
+            "secondary_button_label": "#1C1C1C",
             "shadow": "#121212"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#F3F3F3",
+            "background": "#F7F4F0",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
-            "button_label": "#F3F3F3",
-            "secondary_button_label": "#121212",
+            "text": "#1C1C1C",
+            "button": "#1C1C1C",
+            "button_label": "#F7F4F0",
+            "secondary_button_label": "#1C1C1C",
             "shadow": "#121212"
           }
         },
@@ -70,9 +70,9 @@
           }
         }
       },
-      "type_header_font": "assistant_n4",
+      "type_header_font": "cormorant_n4",
       "heading_scale": 100,
-      "type_body_font": "assistant_n4",
+      "type_body_font": "inter_n4",
       "body_scale": 100,
       "page_width": 1200,
       "spacing_sections": 0,
