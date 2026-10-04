@@ -1,6 +1,6 @@
 <product-info
   id="MainProduct-{{ section.id }}"
-  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
+  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}{% if section.settings.layout_style == 'minimal' %} product-section--minimal{% endif %}"
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
   data-update-url="true"
@@ -15,6 +15,11 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {%- if section.settings.layout_style == 'minimal' -%}
+    {{ 'section-main-product-minimal.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'product-gallery.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'wishlist-button.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -75,9 +80,13 @@
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <product-component view-event-payload="{{ product | standard_event_data: 'view', context: 'page' | escape }}">
     <div class="page-width">
-      <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
+      <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 or section.settings.layout_style == 'minimal' %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
         <div class="grid__item product__media-wrapper">
-          {% render 'product-media-gallery', variant_images: variant_images %}
+          {%- if section.settings.layout_style == 'minimal' -%}
+            {% render 'product-gallery-minimal', product: product, section_id: section.id %}
+          {%- else -%}
+            {% render 'product-media-gallery', variant_images: variant_images %}
+          {%- endif -%}
         </div>
         <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           <section
@@ -92,7 +101,7 @@
                   {% render block %}
                 {%- when 'text' -%}
                   <p
-                    class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
+                    class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% elsif block.settings.text_style == 'badge' %} product__text--badge{% elsif block.settings.text_style == 'quote' %} product__text--quote{% endif %}"
                     {{ block.shopify_attributes }}
                   >
                     {{- block.settings.text -}}
@@ -471,10 +480,22 @@
                     </button>
                   </modal-opener>
                 {%- when 'share' -%}
-                  {% liquid
-                    assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
-                    render 'share-button', block: block, share_link: share_url
-                  %}
+                  {%- assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin -%}
+                  {%- if block.settings.show_wishlist -%}
+                    <div class="product__actions-row">
+                      <wishlist-button class="wishlist-button" data-handle="{{ product.handle }}">
+                        <button type="button" class="wishlist-button__button" aria-pressed="false">
+                          {{- 'icon-heart.svg' | inline_asset_content -}}
+                          <span class="wishlist-button__label" data-label-add="{{ 'products.product.wishlist_add' | t }}" data-label-remove="{{ 'products.product.wishlist_remove' | t }}">
+                            {{- 'products.product.wishlist_add' | t -}}
+                          </span>
+                        </button>
+                      </wishlist-button>
+                      {% render 'share-button', block: block, share_link: share_url %}
+                    </div>
+                  {%- else -%}
+                    {% render 'share-button', block: block, share_link: share_url %}
+                  {%- endif -%}
 
                 {%- when 'disclosures' -%}
                   {%- render 'product-disclosures',
@@ -529,7 +550,13 @@
                         </span>
                       </p>
                       <p class="rating-count caption">
-                        <span aria-hidden="true">({{ product.metafields.reviews.rating_count }})</span>
+                        {%- if section.settings.layout_style == 'minimal' -%}
+                          <span aria-hidden="true">
+                            {{- 'products.product.reviews_count' | t: count: product.metafields.reviews.rating_count -}}
+                          </span>
+                        {%- else -%}
+                          <span aria-hidden="true">({{ product.metafields.reviews.rating_count }})</span>
+                        {%- endif -%}
                         <span class="visually-hidden">
                           {{- product.metafields.reviews.rating_count }}
                           {{ 'accessibility.total_reviews' | t -}}
@@ -787,6 +814,14 @@
             {
               "value": "uppercase",
               "label": "t:sections.main-product.blocks.text.settings.text_style.options__3.label"
+            },
+            {
+              "value": "badge",
+              "label": "Badge"
+            },
+            {
+              "value": "quote",
+              "label": "Quote"
             }
           ],
           "default": "body",
@@ -953,6 +988,13 @@
       "name": "t:sections.main-product.blocks.share.name",
       "limit": 1,
       "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_wishlist",
+          "default": false,
+          "label": "Show add to wishlist",
+          "info": "Saves products in the visitor's browser. Use a wishlist app for accounts and sharing."
+        },
         {
           "type": "text",
           "id": "share_label",
@@ -1744,6 +1786,12 @@
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
         },
         {
+          "type": "text",
+          "id": "text_1",
+          "label": "Text 1",
+          "info": "Optional. Shown below the heading."
+        },
+        {
           "type": "header",
           "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_2.label"
         },
@@ -1944,6 +1992,12 @@
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
         },
         {
+          "type": "text",
+          "id": "text_2",
+          "label": "Text 2",
+          "info": "Optional. Shown below the heading."
+        },
+        {
           "type": "header",
           "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_3.label"
         },
@@ -2142,11 +2196,34 @@
           "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
+        },
+        {
+          "type": "text",
+          "id": "text_3",
+          "label": "Text 3",
+          "info": "Optional. Shown below the heading."
         }
       ]
     }
   ],
   "settings": [
+    {
+      "type": "select",
+      "id": "layout_style",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "minimal",
+          "label": "Minimal"
+        }
+      ],
+      "default": "default",
+      "label": "Layout style",
+      "info": "Minimal uses square option buttons, a boxed quantity selector and full width buttons."
+    },
     {
       "type": "checkbox",
       "id": "enable_sticky_info",

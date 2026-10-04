@@ -157,3 +157,18 @@
     font-size: calc(var(--font-body-scale) * 1.7rem);
   }
 }
+
+/* Light arrow variant with caret icon */
+.category-slider__button--light {
+  border-color: rgba(var(--color-foreground), 0.15);
+}
+
+.category-slider__button--light .icon-caret {
+  width: 1rem;
+  height: 0.6rem;
+  transform: rotate(-90deg);
+}
+
+.category-slider__button--light.category-slider__button--prev .icon-caret {
+  transform: rotate(90deg);
+}

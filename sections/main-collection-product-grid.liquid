@@ -2,6 +2,22 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign minimal = false
+  if section.settings.layout_style == 'minimal'
+    assign minimal = true
+  endif
+-%}
+
+{%- if minimal -%}
+  {{ 'component-card-product-simple.css' | asset_url | stylesheet_tag }}
+  {{ 'section-collection-minimal.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{%- if section.settings.pagination_type == 'load_more' -%}
+  <script src="{{ 'load-more-products.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
@@ -40,7 +56,7 @@
   view-event-payload="{{ collection | standard_event_data: 'view' | escape }}"
   data-collection-id="{{ collection.id }}"
 >
-  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}{% if minimal %} collection-minimal{% endif %}">
     {%- paginate collection.products by section.settings.products_per_page -%}
       {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
       {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -104,6 +120,12 @@
       <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
         {{ 'component-facets.css' | asset_url | stylesheet_tag }}
         <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+        {%- if minimal and section.settings.filter_type == 'horizontal' -%}
+          <div class="collection-toolbar page-width">
+            <h2 class="collection-toolbar__title h2">
+              {{- section.settings.toolbar_heading | default: collection.title | escape -}}
+            </h2>
+        {%- endif -%}
         {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
           <aside
             aria-labelledby="verticalTitle"
@@ -119,6 +141,9 @@
               paginate: paginate
             %}
           </aside>
+        {%- endif -%}
+        {%- if minimal and section.settings.filter_type == 'horizontal' -%}
+          </div>
         {%- endif -%}
 
         <div
@@ -169,6 +194,18 @@
                       style="--animation-order: {{ forloop.index }};"
                     {% endif %}
                   >
+                    {%- if minimal -%}
+                      {% render 'card-product-simple',
+                        product: product,
+                        section_id: section.id,
+                        ratio: '1 / 1',
+                        sizes: '(min-width: 990px) 25vw, 50vw',
+                        show_type: section.settings.show_product_type,
+                        show_subtitle: false,
+                        show_button: true,
+                        compact: true
+                      %}
+                    {%- else -%}
                     {% render 'card-product',
                       card_product: product,
                       media_aspect_ratio: section.settings.image_ratio,
@@ -182,13 +219,29 @@
                       section_id: section.id,
                       product_view_context: 'collection'
                     %}
+                    {%- endif -%}
                   </li>
                   {%- assign skip_card_product_styles = true -%}
                 {%- endfor -%}
               </ul>
 
               {%- if paginate.pages > 1 -%}
-                {% render 'pagination', paginate: paginate, anchor: '' %}
+                {%- if section.settings.pagination_type == 'load_more' -%}
+                  {%- if paginate.next -%}
+                    <load-more-products class="load-more" data-section-id="{{ section.id }}">
+                      <a
+                        href="{{ paginate.next.url }}"
+                        class="load-more__button button button--secondary"
+                        data-next-url="{{ paginate.next.url }}"
+                      >
+                        <span>{{ section.settings.load_more_label | escape }}</span>
+                        {%- render 'loading-spinner' -%}
+                      </a>
+                    </load-more-products>
+                  {%- endif -%}
+                {%- else -%}
+                  {% render 'pagination', paginate: paginate, anchor: '' %}
+                {%- endif -%}
               {%- endif -%}
             </div>
           {%- endif -%}
@@ -214,6 +267,58 @@
       "step": 4,
       "default": 16,
       "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "minimal",
+          "label": "Minimal"
+        }
+      ],
+      "default": "default",
+      "label": "Layout style",
+      "info": "Minimal uses simple product cards with an add to cart button and boxed filters next to the heading."
+    },
+    {
+      "type": "text",
+      "id": "toolbar_heading",
+      "label": "Heading",
+      "info": "Minimal layout with horizontal filters. Uses the collection title when empty."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_type",
+      "default": true,
+      "label": "Show product type",
+      "info": "Minimal layout only."
+    },
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "options": [
+        {
+          "value": "pages",
+          "label": "Page numbers"
+        },
+        {
+          "value": "load_more",
+          "label": "Load more button"
+        }
+      ],
+      "default": "pages",
+      "label": "Pagination"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "default": "See more",
+      "label": "Load more button label"
     },
     {
       "type": "range",

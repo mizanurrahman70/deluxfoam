@@ -38,6 +38,8 @@
       }
     },
     "continue_shopping": "Continue shopping",
+    "breadcrumbs": "Breadcrumbs",
+    "home": "Home",
     "pagination": {
       "label": "Pagination",
       "page": "Page {{ number }}",
@@ -117,6 +119,12 @@
   "products": {
     "product": {
       "add_to_cart": "Add to cart",
+      "reviews_count": {
+        "one": "{{ count }} Review",
+        "other": "{{ count }} Reviews"
+      },
+      "wishlist_add": "Add to wishlist",
+      "wishlist_remove": "Saved to wishlist",
       "choose_options": "Choose options",
       "choose_product_options": "Choose options for {{ product_name }}",
       "description": "Description",

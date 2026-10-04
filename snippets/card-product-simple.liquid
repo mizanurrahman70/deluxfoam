@@ -10,6 +10,7 @@
   - show_button: {Boolean} Show the add to cart button (optional)
   - sizes: {String} Value for the image sizes attribute (optional)
   - placeholder_index: {Number} Used to vary the placeholder image (optional)
+  - compact: {Boolean} Smaller title for dense grids (optional)
 
   The subtitle is read from the product metafield custom.subtitle (single line text).
 
@@ -22,7 +23,7 @@
   assign card_sizes = sizes | default: '(min-width: 990px) 25vw, 50vw'
 -%}
 
-<div class="card-simple" style="--card-simple-ratio: {{ card_ratio }};">
+<div class="card-simple{% if compact %} card-simple--compact{% endif %}" style="--card-simple-ratio: {{ card_ratio }};">
   {%- if product != blank -%}
     {%- liquid
       assign variant = product.selected_or_first_available_variant

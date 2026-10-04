@@ -57,8 +57,13 @@
           loading="lazy"
         >
       {%- endif -%}
-      <span class="h4 inline-richtext">
-        {{- block.settings.heading_1 -}}
+      <span class="icon-with-text__content">
+        <span class="h4 inline-richtext">
+          {{- block.settings.heading_1 -}}
+        </span>
+        {%- if block.settings.text_1 != blank -%}
+          <span class="icon-with-text__text">{{ block.settings.text_1 | escape }}</span>
+        {%- endif -%}
       </span>
     </li>
   {%- endunless -%}
@@ -79,8 +84,13 @@
           loading="lazy"
         >
       {%- endif -%}
-      <span class="h4 inline-richtext">
-        {{- block.settings.heading_2 -}}
+      <span class="icon-with-text__content">
+        <span class="h4 inline-richtext">
+          {{- block.settings.heading_2 -}}
+        </span>
+        {%- if block.settings.text_2 != blank -%}
+          <span class="icon-with-text__text">{{ block.settings.text_2 | escape }}</span>
+        {%- endif -%}
       </span>
     </li>
   {%- endunless -%}
@@ -101,8 +111,13 @@
           loading="lazy"
         >
       {%- endif -%}
-      <span class="h4 inline-richtext">
-        {{- block.settings.heading_3 -}}
+      <span class="icon-with-text__content">
+        <span class="h4 inline-richtext">
+          {{- block.settings.heading_3 -}}
+        </span>
+        {%- if block.settings.text_3 != blank -%}
+          <span class="icon-with-text__text">{{ block.settings.text_3 | escape }}</span>
+        {%- endif -%}
       </span>
     </li>
   {%- endunless -%}

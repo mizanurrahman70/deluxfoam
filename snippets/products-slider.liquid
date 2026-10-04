@@ -1,0 +1,79 @@
+{% comment %}
+  Renders a heading with arrows and a horizontal slider of product cards.
+  Needs section-category-slider.css and component-card-product-simple.css.
+
+  Accepts:
+  - products: {Array} Products to show
+  - section: {Object} Current section (uses title, heading_size, show_type, show_button)
+  - ratio: {String} CSS aspect ratio of card images, e.g. '4 / 5'
+  - limit: {Number} Maximum number of products (optional, default 8)
+  - exclude_id: {Number} Product ID to leave out, e.g. the current product (optional)
+
+  Usage:
+  {% render 'products-slider', products: recommendations.products, section: section, ratio: '4 / 5' %}
+{% endcomment %}
+
+{%- liquid
+  assign max = limit | default: 8
+  assign count = 0
+  for item in products
+    if item.id != exclude_id and count < max
+      assign count = count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if count > 0 -%}
+  <slider-component class="category-slider__component">
+    <div class="category-slider__header">
+      {%- if section.settings.title != blank -%}
+        <h2 class="category-slider__title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if count > 1 -%}
+        <div class="category-slider__buttons">
+          <button
+            type="button"
+            class="category-slider__button category-slider__button--prev category-slider__button--light"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </button>
+          <button
+            type="button"
+            class="category-slider__button category-slider__button--light"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <ul id="Slider-{{ section.id }}" class="category-slider__list list-unstyled" role="list">
+      {%- assign shown = 0 -%}
+      {%- for item in products -%}
+        {%- if item.id == exclude_id or shown >= max -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign shown = shown | plus: 1 -%}
+        <li id="Slide-{{ section.id }}-{{ shown }}" class="category-slider__item">
+          {% render 'card-product-simple',
+            product: item,
+            section_id: section.id,
+            ratio: ratio,
+            sizes: '(min-width: 990px) 25vw, 75vw',
+            show_type: section.settings.show_type,
+            show_subtitle: false,
+            show_button: section.settings.show_button
+          %}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </slider-component>
+{%- endif -%}

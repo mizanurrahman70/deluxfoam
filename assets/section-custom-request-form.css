@@ -1,0 +1,108 @@
+.request-form__box {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  text-align: center;
+}
+
+@media screen and (min-width: 750px) {
+  .request-form__box {
+    padding: 8rem 8.4rem;
+  }
+}
+
+.request-form__title {
+  margin: 0;
+}
+
+.request-form__text {
+  max-width: 58rem;
+  margin: 1.2rem auto 0;
+  font-size: calc(var(--font-body-scale) * 1.5rem);
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.request-form__text p {
+  margin: 0;
+}
+
+.request-form__form {
+  margin-top: 4rem;
+  text-align: left;
+}
+
+.request-form__grid {
+  display: grid;
+  gap: 2rem 2.4rem;
+}
+
+@media screen and (min-width: 750px) {
+  .request-form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.request-form__field--full {
+  grid-column: 1 / -1;
+}
+
+.request-form__field label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  font-weight: var(--font-body-weight-bold);
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.request-form__field input,
+.request-form__field textarea {
+  display: block;
+  width: 100%;
+  padding: 1.4rem 1.2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.15);
+  border-radius: var(--inputs-radius);
+  background-color: rgb(var(--color-background));
+  font-family: var(--font-body-family);
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  color: rgb(var(--color-foreground));
+}
+
+.request-form__field textarea {
+  min-height: 16rem;
+  resize: vertical;
+}
+
+.request-form__field input::placeholder,
+.request-form__field textarea::placeholder {
+  color: rgba(var(--color-foreground), 0.55);
+}
+
+.request-form__field input:focus-visible,
+.request-form__field textarea:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: 0.1rem;
+}
+
+.request-form__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.request-form__button.button {
+  min-width: 25.6rem;
+  min-height: 5.6rem;
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.3rem);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.request-form__message {
+  margin: 0 0 2rem;
+  justify-content: center;
+}

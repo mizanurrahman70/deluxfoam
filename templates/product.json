@@ -9,6 +9,12 @@
  */
 {
   "sections": {
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -16,7 +22,7 @@
           "type": "text",
           "settings": {
             "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "text_style": "badge"
           }
         },
         "title": {
@@ -45,41 +51,199 @@
             "show_gift_card_recipient": true
           }
         },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
         "share": {
           "type": "share",
           "settings": {
-            "share_label": "Share"
+            "share_label": "Share",
+            "show_wishlist": true
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "trust": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "vertical",
+            "icon_1": "truck",
+            "image_1": "",
+            "heading_1": "Free shipping",
+            "text_1": "On orders over $2,500",
+            "icon_2": "check_mark",
+            "image_2": "",
+            "heading_2": "10-year warranty",
+            "text_2": "Premium structural cover",
+            "icon_3": "none",
+            "image_3": "",
+            "heading_3": "",
+            "text_3": ""
+          }
+        },
+        "quote": {
+          "type": "text",
+          "settings": {
+            "text": "\"Designed for the long view: geometric rigor meets the soft warmth of natural materials, growing more beautiful with every year of use.\"",
+            "text_style": "quote"
           }
         }
       },
       "block_order": [
         "vendor",
         "title",
+        "rating",
         "price",
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
-        "description",
-        "share"
+        "share",
+        "trust",
+        "quote"
       ],
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
+        "media_size": "medium",
+        "constrain_to_viewport": false,
+        "media_fit": "cover",
+        "gallery_layout": "thumbnail",
+        "mobile_thumbnails": "show",
         "media_position": "left",
         "image_zoom": "lightbox",
-        "hide_variants": true,
+        "hide_variants": false,
         "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
+        "padding_top": 8,
+        "padding_bottom": 48,
+        "layout_style": "minimal"
+      }
+    },
+    "info_tabs": {
+      "type": "product-info-tabs",
+      "blocks": {
+        "tab-1": {
+          "type": "tab",
+          "settings": {
+            "title": "About Product"
+          }
+        },
+        "row-2": {
+          "type": "row",
+          "settings": {
+            "heading": "Product details",
+            "content": "<p>Add product details here, or connect a product metafield to show details per product.</p>"
+          }
+        },
+        "row-3": {
+          "type": "row",
+          "settings": {
+            "heading": "Assembly instructions",
+            "content": "<ul><li>One adult can assemble</li><li>20–30 minutes, tools included</li><li>Care and assembly guide included</li></ul>"
+          }
+        },
+        "row-4": {
+          "type": "row",
+          "settings": {
+            "heading": "Shipping & returns",
+            "content": "<p><strong>Order processing:</strong> 2–3 business days. You will receive a shipping confirmation with tracking when your order leaves our warehouse.</p><p><strong>Shipping windows:</strong></p><ul><li>Domestic: typically 2–7 business days after dispatch.</li><li>International: timing varies by destination and carrier.</li></ul><p><strong>Carriers:</strong> we use reputable carriers. Options may vary by region.</p>"
+          }
+        },
+        "tab-5": {
+          "type": "tab",
+          "settings": {
+            "title": "FAQs"
+          }
+        },
+        "row-6": {
+          "type": "row",
+          "settings": {
+            "heading": "Can I change the fabric?",
+            "content": "<p>Yes. Most pieces can be made in any fabric from our range. Use the request form below to ask about custom options.</p>"
+          }
+        },
+        "row-7": {
+          "type": "row",
+          "settings": {
+            "heading": "How do I care for it?",
+            "content": "<p>Vacuum upholstery regularly, blot spills immediately and keep out of direct sunlight to prevent fading.</p>"
+          }
+        },
+        "tab-8": {
+          "type": "tab",
+          "settings": {
+            "title": "Inspiration"
+          }
+        },
+        "row-9": {
+          "type": "row",
+          "settings": {
+            "heading": "Styling ideas",
+            "content": "<p>Pair with natural linen cushions, a wool throw and warm oak accents for a calm, layered living room.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "tab-1",
+        "row-2",
+        "row-3",
+        "row-4",
+        "tab-5",
+        "row-6",
+        "row-7",
+        "tab-8",
+        "row-9"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "custom_request": {
+      "type": "custom-request-form",
+      "settings": {
+        "title": "Need a Bespoke Adjustment?",
+        "heading_size": "h1",
+        "text": "<p>Whether it's a specific fabric of your own or a variation in dimensions to fit your space, we offer customization for every piece.</p>",
+        "name_label": "Full name",
+        "name_placeholder": "Enter your name",
+        "email_label": "Email address",
+        "email_placeholder": "hello@example.com",
+        "message_label": "Your custom request",
+        "message_placeholder": "Tell us about your specific requirements (materials, dimensions, etc.)",
+        "button_label": "Submit request",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "recommendations": {
+      "type": "recommendations-slider",
+      "settings": {
+        "title": "You May Also Like",
+        "heading_size": "h1",
+        "intent": "related",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "image_ratio": "portrait",
+        "show_type": true,
+        "show_button": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 80
+      }
+    },
+    "newsletter": {
+      "type": "newsletter-inline",
+      "settings": {
+        "title": "Stay Inspired",
+        "heading_size": "h1",
+        "text": "<p>Sign up for design inspiration, new collections, and considered living.</p>",
+        "placeholder": "Enter your email address",
+        "button_label": "Subscribe",
+        "disclaimer": "<p>By subscribing, you agree to our Privacy Policy.</p>",
+        "color_scheme": "scheme-7",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "disclosures": {
@@ -87,7 +251,8 @@
       "settings": {
         "padding_top": 36,
         "padding_bottom": 0
-      }
+      },
+      "disabled": true
     },
     "related-products": {
       "type": "related-products",
@@ -105,11 +270,17 @@
         "show_rating": false,
         "padding_top": 36,
         "padding_bottom": 28
-      }
+      },
+      "disabled": true
     }
   },
   "order": [
+    "breadcrumbs",
     "main",
+    "info_tabs",
+    "custom_request",
+    "recommendations",
+    "newsletter",
     "disclosures",
     "related-products"
   ]

@@ -1,0 +1,177 @@
+{{ 'section-product-info-tabs.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-tabs.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% comment %}
+  Blocks are read in order: each "Tab" block starts a new tab, and the "Row" blocks after it belong to that tab.
+{% endcomment %}
+
+{%- assign tab_blocks = section.blocks | where: 'type', 'tab' -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="info-tabs page-width section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {%- if tab_blocks.size > 0 -%}
+      <product-tabs class="info-tabs__inner">
+        <div class="info-tabs__tablist" role="tablist">
+          {%- for block in tab_blocks -%}
+            <button
+              type="button"
+              role="tab"
+              id="InfoTab-{{ block.id }}"
+              class="info-tabs__tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="InfoPanel-{{ block.id }}"
+              {% unless forloop.first %}
+                tabindex="-1"
+              {% endunless %}
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.title | escape }}
+            </button>
+          {%- endfor -%}
+        </div>
+
+        {%- for tab in tab_blocks -%}
+          <div
+            id="InfoPanel-{{ tab.id }}"
+            class="info-tabs__panel"
+            role="tabpanel"
+            aria-labelledby="InfoTab-{{ tab.id }}"
+            {% unless forloop.first %}
+              hidden
+            {% endunless %}
+          >
+            {%- assign current_tab = blank -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'tab' -%}
+                {%- assign current_tab = block.id -%}
+              {%- elsif current_tab == tab.id -%}
+                <div class="info-tabs__row" {{ block.shopify_attributes }}>
+                  <h3 class="info-tabs__label">{{ block.settings.heading | escape }}</h3>
+                  <div class="info-tabs__content rte">
+                    {%- if block.settings.page != blank -%}
+                      {{ block.settings.page.content }}
+                    {%- else -%}
+                      {{ block.settings.content }}
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </product-tabs>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product info tabs",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 30,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add a Tab block, then Row blocks below it. Rows belong to the tab above them."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "About Product",
+          "label": "Title"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Product details",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "default": "<p>Use this row to describe your product. Connect a metafield to show different content per product.</p>",
+          "label": "Content"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page",
+          "info": "Optional. Replaces the content above."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product info tabs",
+      "blocks": [
+        { "type": "tab", "settings": { "title": "About Product" } },
+        { "type": "row", "settings": { "heading": "Product details" } },
+        { "type": "row", "settings": { "heading": "Shipping & returns" } },
+        { "type": "tab", "settings": { "title": "FAQs" } },
+        { "type": "row", "settings": { "heading": "Question" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

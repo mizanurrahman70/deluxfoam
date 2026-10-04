@@ -1,0 +1,94 @@
+{%- style -%}
+  .breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 1.6rem;
+    margin: 0;
+    padding: 1.6rem 0;
+    list-style: none;
+    font-size: calc(var(--font-body-scale) * 1.2rem);
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+  }
+
+  .breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    color: rgb(var(--color-foreground));
+  }
+
+  .breadcrumbs__item:not(:last-child)::after {
+    content: '/';
+    color: rgba(var(--color-foreground), 0.5);
+  }
+
+  .breadcrumbs__link {
+    color: rgba(var(--color-foreground), 0.6);
+    text-decoration: none;
+  }
+
+  .breadcrumbs__link:hover {
+    color: rgb(var(--color-foreground));
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign parent = blank
+  if template.name == 'product'
+    assign parent = collection | default: product.collections.first
+  endif
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <nav class="page-width" aria-label="{{ 'general.breadcrumbs' | t }}">
+    <ol class="breadcrumbs">
+      <li class="breadcrumbs__item">
+        <a href="{{ routes.root_url }}" class="breadcrumbs__link">{{ 'general.home' | t }}</a>
+      </li>
+      {%- case template.name -%}
+        {%- when 'product' -%}
+          {%- if parent != blank -%}
+            <li class="breadcrumbs__item">
+              <a href="{{ parent.url }}" class="breadcrumbs__link">{{ parent.title | escape }}</a>
+            </li>
+          {%- endif -%}
+          <li class="breadcrumbs__item" aria-current="page">{{ product.title | escape }}</li>
+        {%- when 'collection' -%}
+          <li class="breadcrumbs__item" aria-current="page">{{ collection.title | escape }}</li>
+        {%- when 'article' -%}
+          <li class="breadcrumbs__item">
+            <a href="{{ blog.url }}" class="breadcrumbs__link">{{ blog.title | escape }}</a>
+          </li>
+          <li class="breadcrumbs__item" aria-current="page">{{ article.title | escape }}</li>
+        {%- else -%}
+          <li class="breadcrumbs__item" aria-current="page">{{ page_title | escape }}</li>
+      {%- endcase -%}
+    </ol>
+  </nav>
+</div>
+
+{% schema %}
+{
+  "name": "Breadcrumbs",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Breadcrumbs"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,211 @@
+{{ 'section-custom-request-form.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="request-form page-width section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="request-form__box">
+      {%- if section.settings.title != blank -%}
+        <h2 class="request-form__title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="request-form__text rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      {%- assign form_id = 'RequestForm-' | append: section.id -%}
+      {%- form 'contact', id: form_id, class: 'request-form__form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="request-form__message form-status form-status-list form__message" tabindex="-1" autofocus>
+            {{- 'templates.contact.form.post_success' | t -}}
+          </p>
+        {%- elsif form.errors -%}
+          <div class="request-form__message form__message" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        {%- if product -%}
+          <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}">
+          <input type="hidden" name="contact[Product URL]" value="{{ request.origin }}{{ product.url }}">
+        {%- endif -%}
+
+        <div class="request-form__grid">
+          <div class="request-form__field">
+            <label for="{{ form_id }}-name">{{ section.settings.name_label | escape }}</label>
+            <input
+              id="{{ form_id }}-name"
+              type="text"
+              name="contact[name]"
+              autocomplete="name"
+              placeholder="{{ section.settings.name_placeholder | escape }}"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            >
+          </div>
+          <div class="request-form__field">
+            <label for="{{ form_id }}-email">{{ section.settings.email_label | escape }}</label>
+            <input
+              id="{{ form_id }}-email"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              required
+              aria-required="true"
+              placeholder="{{ section.settings.email_placeholder | escape }}"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            >
+          </div>
+          <div class="request-form__field request-form__field--full">
+            <label for="{{ form_id }}-body">{{ section.settings.message_label | escape }}</label>
+            <textarea
+              id="{{ form_id }}-body"
+              name="contact[body]"
+              rows="6"
+              placeholder="{{ section.settings.message_placeholder | escape }}"
+            >{{- form.body -}}</textarea>
+          </div>
+        </div>
+        <div class="request-form__actions">
+          <button type="submit" class="request-form__button button">
+            {{- section.settings.button_label | escape -}}
+          </button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom request form",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Messages are sent to your store email. On product pages the product name and link are included."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Need a Bespoke Adjustment?",
+      "label": "t:sections.featured-collection.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Whether it's a specific fabric of your own or a variation in dimensions to fit your space, we offer customization for this collection.</p>",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "default": "Full name",
+      "label": "Name label"
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "default": "Enter your name",
+      "label": "Name placeholder"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "default": "Email address",
+      "label": "Email label"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "default": "hello@example.com",
+      "label": "Email placeholder"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "default": "Your custom request",
+      "label": "Message label"
+    },
+    {
+      "type": "text",
+      "id": "message_placeholder",
+      "default": "Tell us about your specific requirements (materials, dimensions, etc.)",
+      "label": "Message placeholder"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Submit request",
+      "label": "Button label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom request form"
+    }
+  ]
+}
+{% endschema %}

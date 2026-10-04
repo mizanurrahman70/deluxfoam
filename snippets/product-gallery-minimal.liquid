@@ -1,0 +1,102 @@
+{% comment %}
+  Renders a product gallery with one large image and a row of thumbnails.
+  Shows placeholder images when the product has no media.
+
+  Accepts:
+  - product: {Object} Product object
+  - section_id: {String} Current section ID (used for the zoom modal)
+
+  Usage:
+  {% render 'product-gallery-minimal', product: product, section_id: section.id %}
+{% endcomment %}
+
+{%- liquid
+  assign featured = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+  assign thumbs_limit = 10
+-%}
+
+<product-gallery class="product-gallery" data-section-id="{{ section_id }}">
+  {%- if product.media.size > 0 -%}
+    <div class="product-gallery__main">
+      {%- for media in product.media -%}
+        {%- if media.id == featured.id -%}
+          {%- assign loading = 'eager' -%}
+        {%- else -%}
+          {%- assign loading = 'lazy' -%}
+        {%- endif -%}
+        <div
+          class="product-gallery__slide{% if media.id == featured.id %} is-active{% endif %}"
+          data-media-id="{{ media.id }}"
+          {% unless media.id == featured.id %}
+            hidden
+          {% endunless %}
+        >
+          {{
+            media.preview_image
+            | image_url: width: 1600
+            | image_tag:
+              loading: loading,
+              widths: '550, 750, 1000, 1300, 1600',
+              sizes: '(min-width: 990px) 55vw, 100vw',
+              alt: media.alt | default: product.title,
+              class: 'product-gallery__image'
+          }}
+          {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+            <span class="product-gallery__badge" aria-hidden="true">{{- 'icon-play.svg' | inline_asset_content -}}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      <modal-opener class="product-gallery__zoom" data-modal="#ProductModal-{{ section_id }}">
+        <button
+          type="button"
+          class="product-gallery__zoom-button"
+          data-media-id="{{ featured.id }}"
+          aria-haspopup="dialog"
+          aria-label="{{ 'products.product.media.open_media' | t: index: 1 }}"
+        >
+          {{- 'icon-zoom.svg' | inline_asset_content -}}
+        </button>
+      </modal-opener>
+    </div>
+
+    {%- if product.media.size > 1 -%}
+      <ul class="product-gallery__thumbs list-unstyled" role="list">
+        {%- for media in product.media limit: thumbs_limit -%}
+          <li>
+            <button
+              type="button"
+              class="product-gallery__thumb{% if media.id == featured.id %} is-active{% endif %}"
+              data-media-id="{{ media.id }}"
+              aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+              {% if media.id == featured.id %}
+                aria-current="true"
+              {% endif %}
+            >
+              {{
+                media.preview_image
+                | image_url: width: 300
+                | image_tag: loading: 'lazy', widths: '150, 300', sizes: '150px', alt: '', class: 'product-gallery__thumb-image'
+              }}
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  {%- else -%}
+    <div class="product-gallery__main">
+      <div class="product-gallery__slide is-active">
+        {{ 'product-apparel-1' | placeholder_svg_tag: 'product-gallery__image placeholder-svg' }}
+      </div>
+    </div>
+    <ul class="product-gallery__thumbs list-unstyled" role="list" aria-hidden="true">
+      {%- for i in (1..5) -%}
+        <li>
+          <span class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}">
+            {{ 'product-' | append: i | placeholder_svg_tag: 'product-gallery__thumb-image placeholder-svg' }}
+          </span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</product-gallery>
