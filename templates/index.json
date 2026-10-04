@@ -9,54 +9,112 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide-1": {
+          "type": "slide",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "image_overlay_opacity": 0,
+            "show_text_box": false,
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide-2": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "image_overlay_opacity": 0,
+            "show_text_box": false,
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
+          }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "image_overlay_opacity": 0,
+            "show_text_box": false,
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "slide-1",
+        "slide-2",
+        "slide-3"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "dots",
+        "controls_overlay": true,
+        "auto_rotate": false,
+        "change_slides_speed": 5,
         "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "show_text_below": false,
+        "accessibility_info": "Slideshow about our brand"
       }
     },
     "category_slider": {
       "type": "category-slider",
       "blocks": {
-        "category-1": { "type": "category", "settings": { "title": "Sofa" } },
-        "category-2": { "type": "category", "settings": { "title": "Corner Sofa" } },
-        "category-3": { "type": "category", "settings": { "title": "Hardwood" } },
-        "category-4": { "type": "category", "settings": { "title": "Table" } }
+        "category-1": {
+          "type": "category",
+          "settings": {
+            "title": "Sofa"
+          }
+        },
+        "category-2": {
+          "type": "category",
+          "settings": {
+            "title": "Corner Sofa"
+          }
+        },
+        "category-3": {
+          "type": "category",
+          "settings": {
+            "title": "Hardwood"
+          }
+        },
+        "category-4": {
+          "type": "category",
+          "settings": {
+            "title": "Table"
+          }
+        }
       },
-      "block_order": ["category-1", "category-2", "category-3", "category-4"],
+      "block_order": [
+        "category-1",
+        "category-2",
+        "category-3",
+        "category-4"
+      ],
       "settings": {
         "title": "Shop by Categories",
         "heading_size": "h1",
@@ -68,38 +126,369 @@
         "padding_bottom": 36
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "best_sellers": {
+      "type": "product-showcase",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
+        "heading_size": "h1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_button": true,
+        "all_tab_label": "All",
+        "color_scheme": "scheme-1",
+        "title": "Best Sellers",
+        "link_label": "View All Products",
+        "link_url": "shopify://collections/all",
         "collection": "all",
         "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
+        "image_ratio": "square",
+        "show_type": false,
+        "show_subtitle": true,
+        "button_label": "",
+        "button_link": "",
+        "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "popular_furniture": {
+      "type": "product-showcase",
+      "settings": {
+        "heading_size": "h1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_button": true,
+        "all_tab_label": "All",
+        "color_scheme": "scheme-1",
+        "title": "Popular Furniture",
+        "link_label": "View All Furniture",
+        "link_url": "shopify://collections/all",
+        "collection": "all",
+        "products_to_show": 4,
+        "image_ratio": "portrait",
+        "show_type": true,
+        "show_subtitle": false,
+        "button_label": "",
+        "button_link": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "more_ideas": {
+      "type": "product-showcase",
+      "blocks": {
+        "tab-1": {
+          "type": "tab",
+          "settings": {
+            "label": "Sofa"
+          }
+        },
+        "tab-2": {
+          "type": "tab",
+          "settings": {
+            "label": "Corner Sofa"
+          }
+        },
+        "tab-3": {
+          "type": "tab",
+          "settings": {
+            "label": "Table"
+          }
+        },
+        "tab-4": {
+          "type": "tab",
+          "settings": {
+            "label": "Tool"
+          }
+        },
+        "tab-5": {
+          "type": "tab",
+          "settings": {
+            "label": "Divan"
+          }
+        },
+        "tab-6": {
+          "type": "tab",
+          "settings": {
+            "label": "Hardware"
+          }
+        },
+        "tab-7": {
+          "type": "tab",
+          "settings": {
+            "label": "Barrios Fabrics"
+          }
+        }
+      },
+      "block_order": [
+        "tab-1",
+        "tab-2",
+        "tab-3",
+        "tab-4",
+        "tab-5",
+        "tab-6",
+        "tab-7"
+      ],
+      "settings": {
+        "heading_size": "h1",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_button": true,
+        "all_tab_label": "All",
+        "color_scheme": "scheme-1",
+        "title": "More Ideas and Inspiration",
+        "link_label": "",
+        "link_url": "",
+        "collection": "all",
+        "products_to_show": 8,
+        "image_ratio": "square",
+        "show_type": true,
+        "show_subtitle": true,
+        "button_label": "View All Products",
+        "button_link": "shopify://collections/all",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>\"The Velvet Lounge Chair is even more beautiful in person. The craftsmanship is evident in every detail.\"</p>",
+            "author": "Sarah Jenkins",
+            "product_label": "Velvet Lounge Chair"
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>\"Exceptional quality and service. The delivery was seamless, and the table fits perfectly in my dining room.\"</p>",
+            "author": "David Miller",
+            "product_label": "Marble Coffee Table"
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 4,
+            "quote": "<p>\"Love the minimalist design of the floor lamp. It adds a sophisticated touch to my study area.\"</p>",
+            "author": "Elena Rodriguez",
+            "product_label": "Ceramic Floor Lamp"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial-1",
+        "testimonial-2",
+        "testimonial-3"
+      ],
+      "settings": {
+        "title": "What Our Customers Say",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "shorts": {
+      "type": "shorts-slider",
+      "blocks": {
+        "short-1": {
+          "type": "short",
+          "settings": {
+            "link": ""
+          }
+        },
+        "short-2": {
+          "type": "short",
+          "settings": {
+            "link": ""
+          }
+        },
+        "short-3": {
+          "type": "short",
+          "settings": {
+            "link": ""
+          }
+        },
+        "short-4": {
+          "type": "short",
+          "settings": {
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "short-1",
+        "short-2",
+        "short-3",
+        "short-4"
+      ],
+      "settings": {
+        "title": "Latest DELUXFOAM shorts",
+        "heading_size": "h0",
+        "text": "<p>Take a glance and grab ideas from the artistic frames of DELUXFOAM.</p>",
+        "link_label": "Explore to view more interior ideas",
+        "link": "shopify://collections/all",
+        "columns_desktop": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 24
+      }
+    },
+    "promo_collage": {
+      "type": "promo-collage",
+      "blocks": {
+        "promo-1": {
+          "type": "promo",
+          "settings": {
+            "heading": "Elevate your space for less",
+            "text": "Shop our exclusive sale now!",
+            "link_label": "Learn more",
+            "link": "shopify://collections/all"
+          }
+        },
+        "promo-2": {
+          "type": "promo",
+          "settings": {
+            "heading": "Home essentials",
+            "text": "Discounted for a limited time!",
+            "link_label": "Learn more",
+            "link": "shopify://collections/all"
+          }
+        },
+        "promo-3": {
+          "type": "promo",
+          "settings": {
+            "heading": "Style upgrade alert",
+            "text": "Discover our limited time sale!",
+            "link_label": "Learn more",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "promo-1",
+        "promo-2",
+        "promo-3"
+      ],
+      "settings": {
+        "full_width": true,
+        "overlay_opacity": 35,
+        "color_scheme": "scheme-1",
+        "text_color_scheme": "scheme-3",
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    },
+    "faq": {
+      "type": "faq-image",
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "question": "What are your delivery timelines?",
+            "answer": "<p>Most in-stock pieces ship within 5–7 business days. Made-to-order items take 4–8 weeks. You will receive tracking details as soon as your order ships.</p>"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>Unused items in their original condition can be returned within 30 days of delivery. Made-to-order and custom pieces are final sale.</p>"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "What materials do you use?",
+            "answer": "<p>We work with solid hardwoods, high-resilience foam, natural linen, wool and performance fabrics sourced from trusted mills.</p>"
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "question": "How do I care for my furniture?",
+            "answer": "<p>Dust wood surfaces with a soft dry cloth, vacuum upholstery regularly, and treat spills immediately by blotting rather than rubbing.</p>"
+          }
+        },
+        "question-5": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer customization?",
+            "answer": "<p>Yes. Many of our sofas and beds can be made in your choice of size, fabric and finish. Contact us for a quote.</p>"
+          }
+        },
+        "question-6": {
+          "type": "question",
+          "settings": {
+            "question": "What does the warranty cover?",
+            "answer": "<p>Frames are covered for 10 years and cushions for 2 years against manufacturing defects under normal household use.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3",
+        "question-4",
+        "question-5",
+        "question-6"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "heading_size": "h1",
+        "image_position": "left",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "journal": {
+      "type": "journal",
+      "settings": {
+        "title": "Journal",
+        "heading_size": "h1",
+        "subtitle": "Ideas and inspiration for considered living.",
+        "link_label": "View All Journal",
+        "link_url": "",
+        "blog": "news",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "newsletter": {
+      "type": "newsletter-inline",
+      "settings": {
+        "title": "Stay Inspired",
+        "heading_size": "h1",
+        "text": "<p>Sign up for design inspiration, new collections, and considered living.</p>",
+        "placeholder": "Enter your email address",
+        "button_label": "Subscribe",
+        "disclaimer": "<p>By subscribing, you agree to our Privacy Policy.</p>",
+        "color_scheme": "scheme-7",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     }
   },
   "order": [
-    "image_banner",
+    "hero",
     "category_slider",
-    "featured_collection"
+    "best_sellers",
+    "popular_furniture",
+    "more_ideas",
+    "testimonials",
+    "shorts",
+    "promo_collage",
+    "faq",
+    "journal",
+    "newsletter"
   ]
 }

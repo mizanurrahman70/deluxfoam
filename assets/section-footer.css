@@ -506,3 +506,114 @@
     }
   }
 }
+
+/* Minimal style */
+.footer--minimal {
+  border-top: none;
+}
+
+.footer--minimal .footer__content-top {
+  padding-bottom: 4.8rem;
+}
+
+@media screen and (min-width: 750px) {
+  .footer--minimal .footer__blocks-wrapper.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
+  }
+
+  .footer--minimal .footer-block.grid__item {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .footer--minimal .footer__blocks-wrapper.grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.footer--minimal .footer-block__heading {
+  margin: 0 0 1.6rem;
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  font-size: calc(var(--font-body-scale) * 1.6rem);
+  letter-spacing: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.footer--minimal .footer-block--text:first-child .footer-block__heading {
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 2.4rem);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.footer--minimal .footer-block__details-content {
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  line-height: 1.7;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.footer--minimal .footer-block__details-content p {
+  max-width: 20em;
+}
+
+.footer--minimal .footer-block__details-content .list-menu__item--link {
+  padding: 0.5rem 0;
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.footer--minimal .footer-block__details-content > li:not(:last-child) {
+  margin-right: 0;
+}
+
+.footer--minimal .footer__content-bottom {
+  padding-top: 2.4rem;
+}
+
+.footer--minimal .footer__content-bottom-wrapper:empty {
+  display: none;
+}
+
+.footer--minimal .footer__copyright {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.6rem;
+  width: 100%;
+  margin-top: 0;
+  text-align: left;
+}
+
+.footer--minimal .copyright__content {
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.footer--minimal .policies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2.4rem;
+}
+
+.footer--minimal .policies li::before {
+  content: none;
+}
+
+.footer--minimal .policies li a {
+  padding: 0;
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .footer--minimal .policies {
+    margin-left: auto;
+  }
+}

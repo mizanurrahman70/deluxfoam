@@ -1,0 +1,58 @@
+{% comment %}
+  Renders a minimal article card: image, first tag, title, excerpt and read more link.
+
+  Accepts:
+  - article: {Object} Article object (optional, renders a placeholder when blank)
+  - sizes: {String} Value for the image sizes attribute (optional)
+  - excerpt_words: {Number} Number of words in the excerpt (optional, default 20)
+
+  Usage:
+  {% render 'card-article-simple', article: article %}
+{% endcomment %}
+
+{%- liquid
+  assign card_sizes = sizes | default: '(min-width: 990px) 33vw, 100vw'
+  assign words = excerpt_words | default: 20
+-%}
+
+<article class="card-article">
+  {%- if article != blank -%}
+    <a href="{{ article.url }}" class="card-article__media" tabindex="-1" aria-hidden="true">
+      {%- if article.image -%}
+        {{
+          article.image
+          | image_url: width: 1100
+          | image_tag:
+            loading: 'lazy',
+            widths: '375, 550, 750, 1100',
+            sizes: card_sizes,
+            alt: article.image.alt | default: article.title,
+            class: 'card-article__image'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'card-article__image placeholder-svg' }}
+      {%- endif -%}
+    </a>
+    {%- if article.tags.size > 0 -%}
+      <p class="card-article__tag">{{ article.tags.first | escape }}</p>
+    {%- endif -%}
+    <h3 class="card-article__title h3">
+      <a href="{{ article.url }}" class="full-unstyled-link">{{ article.title | escape }}</a>
+    </h3>
+    {%- if article.excerpt != blank or article.content != blank -%}
+      <p class="card-article__excerpt">
+        {{- article.excerpt | default: article.content | strip_html | truncatewords: words -}}
+      </p>
+    {%- endif -%}
+    <a href="{{ article.url }}" class="card-article__link">
+      {{- 'blogs.article.read_more' | t -}}
+      {{- 'icon-arrow.svg' | inline_asset_content -}}
+    </a>
+  {%- else -%}
+    <div class="card-article__media">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'card-article__image placeholder-svg' }}
+    </div>
+    <h3 class="card-article__title h3">{{ 'sections.featured_blog.onboarding_title' | t }}</h3>
+    <p class="card-article__excerpt">{{ 'sections.featured_blog.onboarding_content' | t }}</p>
+  {%- endif -%}
+</article>

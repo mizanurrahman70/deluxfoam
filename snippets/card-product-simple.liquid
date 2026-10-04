@@ -1,0 +1,125 @@
+{% comment %}
+  Renders a minimal product card: image, product type, title, subtitle, price and add to cart.
+
+  Accepts:
+  - product: {Object} Product object (optional, renders a placeholder when blank)
+  - section_id: {String} Current section ID
+  - ratio: {String} CSS aspect ratio of the image, e.g. '1 / 1' (optional)
+  - show_type: {Boolean} Show the product type above the title (optional)
+  - show_subtitle: {Boolean} Show the custom.subtitle metafield (optional)
+  - show_button: {Boolean} Show the add to cart button (optional)
+  - sizes: {String} Value for the image sizes attribute (optional)
+  - placeholder_index: {Number} Used to vary the placeholder image (optional)
+
+  The subtitle is read from the product metafield custom.subtitle (single line text).
+
+  Usage:
+  {% render 'card-product-simple', product: product, section_id: section.id, show_type: true %}
+{% endcomment %}
+
+{%- liquid
+  assign card_ratio = ratio | default: '1 / 1'
+  assign card_sizes = sizes | default: '(min-width: 990px) 25vw, 50vw'
+-%}
+
+<div class="card-simple" style="--card-simple-ratio: {{ card_ratio }};">
+  {%- if product != blank -%}
+    {%- liquid
+      assign variant = product.selected_or_first_available_variant
+      assign form_id = 'card-simple-form-' | append: section_id | append: '-' | append: product.id
+      assign subtitle = product.metafields.custom.subtitle.value
+    -%}
+    <a href="{{ product.url }}" class="card-simple__media" tabindex="-1" aria-hidden="true">
+      {%- if product.featured_media -%}
+        {{
+          product.featured_media
+          | image_url: width: 1000
+          | image_tag:
+            loading: 'lazy',
+            widths: '275, 400, 550, 720, 1000',
+            sizes: card_sizes,
+            alt: product.featured_media.alt | default: product.title,
+            class: 'card-simple__image'
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'card-simple__image placeholder-svg' }}
+      {%- endif -%}
+    </a>
+
+    <div class="card-simple__info">
+      {%- if show_type and product.type != blank -%}
+        <p class="card-simple__type">{{ product.type | escape }}</p>
+      {%- endif -%}
+      <h3 class="card-simple__title">
+        <a href="{{ product.url }}" class="full-unstyled-link">{{ product.title | escape }}</a>
+      </h3>
+      {%- if show_subtitle and subtitle != blank -%}
+        <p class="card-simple__subtitle">{{ subtitle | escape }}</p>
+      {%- endif -%}
+      <div class="card-simple__price">
+        {% render 'price', product: product, price_class: '' %}
+      </div>
+    </div>
+
+    {%- if show_button -%}
+      <div class="card-simple__actions">
+        {%- if product.variants_count > 1 -%}
+          <a href="{{ product.url }}" class="card-simple__button button button--secondary button--full-width">
+            {{ 'products.product.choose_options' | t }}
+          </a>
+        {%- else -%}
+          <product-form data-section-id="{{ section_id }}">
+            {%- form 'product', product, id: form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              <input
+                type="hidden"
+                name="id"
+                value="{{ variant.id }}"
+                class="product-variant-id"
+                {% unless variant.available %}
+                  disabled
+                {% endunless %}
+              >
+              <button
+                id="{{ form_id }}-submit"
+                type="submit"
+                name="add"
+                class="card-simple__button button button--secondary button--full-width"
+                aria-live="polite"
+                {% unless variant.available %}
+                  disabled
+                {% endunless %}
+              >
+                <span>
+                  {%- if variant.available -%}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {%- else -%}
+                    {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            {%- endform -%}
+          </product-form>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    {%- assign placeholder_number = placeholder_index | default: 1 | minus: 1 | modulo: 6 | plus: 1 -%}
+    <div class="card-simple__media">
+      {{ 'product-' | append: placeholder_number | placeholder_svg_tag: 'card-simple__image placeholder-svg' }}
+    </div>
+    <div class="card-simple__info">
+      <h3 class="card-simple__title">{{ 'onboarding.product_title' | t }}</h3>
+      <div class="card-simple__price">
+        {% render 'price', placeholder: true %}
+      </div>
+    </div>
+    {%- if show_button -%}
+      <div class="card-simple__actions">
+        <button type="button" class="card-simple__button button button--secondary button--full-width" disabled>
+          {{ 'products.product.add_to_cart' | t }}
+        </button>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>

@@ -1,0 +1,33 @@
+{% comment %}
+  Renders a section heading row with an optional subtitle and "view all" link.
+
+  Accepts:
+  - title: {String} Heading text (inline richtext)
+  - heading_size: {String} Heading size class, e.g. h1 (optional, default h1)
+  - subtitle: {String} Text below the heading (optional)
+  - link_label: {String} Label of the link on the right (optional)
+  - link_url: {String} URL of the link on the right (optional)
+  - class: {String} Extra classes for the wrapper (optional)
+
+  Usage:
+  {% render 'section-heading', title: section.settings.title, link_label: section.settings.link_label, link_url: section.settings.link_url %}
+{% endcomment %}
+
+{%- if title != blank or link_label != blank -%}
+  <div class="section-heading{% if class %} {{ class }}{% endif %}">
+    <div class="section-heading__text">
+      {%- if title != blank -%}
+        <h2 class="section-heading__title inline-richtext {{ heading_size | default: 'h1' }}">{{ title }}</h2>
+      {%- endif -%}
+      {%- if subtitle != blank -%}
+        <p class="section-heading__subtitle">{{ subtitle }}</p>
+      {%- endif -%}
+    </div>
+    {%- if link_label != blank and link_url != blank -%}
+      <a href="{{ link_url }}" class="section-heading__link link link--text">
+        {{- link_label | escape -}}
+        {{- 'icon-arrow.svg' | inline_asset_content -}}
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

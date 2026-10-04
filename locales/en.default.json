@@ -92,6 +92,7 @@
   "blogs": {
     "article": {
       "blog": "Blog",
+      "read_more": "Read more",
       "read_more_title": "Read more: {{ title }}",
       "comments": {
         "one": "{{ count }} comment",

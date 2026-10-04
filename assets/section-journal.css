@@ -1,0 +1,89 @@
+.journal__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem 3.2rem;
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .journal__list {
+    grid-template-columns: repeat(min(var(--journal-columns), 2), minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .journal__list {
+    grid-template-columns: repeat(var(--journal-columns), minmax(0, 1fr));
+  }
+}
+
+.card-article__media {
+  display: block;
+  aspect-ratio: 5 / 3;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  border-radius: var(--blog-card-corner-radius);
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+.card-article__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-long) ease;
+}
+
+.card-article__media:hover .card-article__image {
+  transform: scale(1.03);
+}
+
+.card-article__tag {
+  margin: 0 0 0.8rem;
+  font-size: calc(var(--font-body-scale) * 1.1rem);
+  font-weight: var(--font-body-weight-bold);
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.card-article__title {
+  margin: 0;
+  font-size: calc(var(--font-heading-scale) * 2.4rem);
+  line-height: 1.2;
+}
+
+.card-article__title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.card-article__excerpt {
+  margin: 0.8rem 0 0;
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.card-article__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 1.2rem;
+  font-size: calc(var(--font-body-scale) * 1.3rem);
+  font-weight: var(--font-body-weight-bold);
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.card-article__link .icon {
+  width: 1.2rem;
+  height: 0.9rem;
+  margin-left: 0.4rem;
+  transition: transform var(--duration-short) ease;
+}
+
+.card-article__link:hover .icon {
+  transform: translateX(0.3rem);
+}

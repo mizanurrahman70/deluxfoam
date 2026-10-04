@@ -1,0 +1,380 @@
+{{ 'component-section-heading.css' | asset_url | stylesheet_tag }}
+{{ 'component-card-product-simple.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'section-product-showcase.css' | asset_url | stylesheet_tag }}
+
+{%- unless section.settings.show_button == false -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+{%- if section.blocks.size > 0 -%}
+  <script src="{{ 'product-tabs.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  case section.settings.image_ratio
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    else
+      assign ratio = '1 / 1'
+  endcase
+
+  assign columns = section.settings.columns_desktop
+  assign limit = section.settings.products_to_show
+  assign sizes = '(min-width: ' | append: settings.page_width | append: 'px) calc(' | append: settings.page_width | append: 'px / ' | append: columns | append: '), (min-width: 990px) calc(100vw / ' | append: columns | append: '), 50vw'
+  assign has_tabs = false
+  if section.blocks.size > 0
+    assign has_tabs = true
+  endif
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="product-showcase page-width section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    style="--showcase-columns: {{ columns }}; --showcase-columns-mobile: {{ section.settings.columns_mobile }};"
+  >
+    {% render 'section-heading',
+      title: section.settings.title,
+      heading_size: section.settings.heading_size,
+      link_label: section.settings.link_label,
+      link_url: section.settings.link_url,
+      class: 'product-showcase__heading'
+    %}
+
+    {%- capture all_panel -%}
+      <ul class="product-showcase__grid list-unstyled" role="list">
+        {%- if section.settings.collection != blank and section.settings.collection.products_count > 0 -%}
+          {%- for product in section.settings.collection.products limit: limit -%}
+            <li class="product-showcase__item">
+              {% render 'card-product-simple',
+                product: product,
+                section_id: section.id,
+                ratio: ratio,
+                sizes: sizes,
+                show_type: section.settings.show_type,
+                show_subtitle: section.settings.show_subtitle,
+                show_button: section.settings.show_button
+              %}
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..columns) -%}
+            <li class="product-showcase__item">
+              {% render 'card-product-simple',
+                section_id: section.id,
+                ratio: ratio,
+                placeholder_index: i,
+                show_button: section.settings.show_button
+              %}
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+    {%- endcapture -%}
+
+    {%- if has_tabs -%}
+      <product-tabs class="product-showcase__tabs">
+        <div class="product-showcase__tablist" role="tablist">
+          <button
+            type="button"
+            role="tab"
+            id="Tab-{{ section.id }}-all"
+            class="product-showcase__tab"
+            aria-selected="true"
+            aria-controls="TabPanel-{{ section.id }}-all"
+          >
+            {{ section.settings.all_tab_label | escape }}
+          </button>
+          {%- for block in section.blocks -%}
+            <button
+              type="button"
+              role="tab"
+              id="Tab-{{ section.id }}-{{ block.id }}"
+              class="product-showcase__tab"
+              aria-selected="false"
+              aria-controls="TabPanel-{{ section.id }}-{{ block.id }}"
+              tabindex="-1"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.label | default: block.settings.collection.title | escape }}
+            </button>
+          {%- endfor -%}
+        </div>
+
+        <div
+          id="TabPanel-{{ section.id }}-all"
+          class="product-showcase__panel"
+          role="tabpanel"
+          aria-labelledby="Tab-{{ section.id }}-all"
+        >
+          {{ all_panel }}
+        </div>
+
+        {%- for block in section.blocks -%}
+          <div
+            id="TabPanel-{{ section.id }}-{{ block.id }}"
+            class="product-showcase__panel"
+            role="tabpanel"
+            aria-labelledby="Tab-{{ section.id }}-{{ block.id }}"
+            hidden
+          >
+            <ul class="product-showcase__grid list-unstyled" role="list">
+              {%- for product in block.settings.collection.products limit: limit -%}
+                <li class="product-showcase__item">
+                  {% render 'card-product-simple',
+                    product: product,
+                    section_id: section.id,
+                    ratio: ratio,
+                    sizes: sizes,
+                    show_type: section.settings.show_type,
+                    show_subtitle: section.settings.show_subtitle,
+                    show_button: section.settings.show_button
+                  %}
+                </li>
+              {%- else -%}
+                <li class="product-showcase__empty">{{ 'sections.collection_template.empty' | t }}</li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endfor -%}
+      </product-tabs>
+    {%- else -%}
+      {{ all_panel }}
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+      <div class="product-showcase__footer">
+        <a href="{{ section.settings.button_link }}" class="product-showcase__button button">
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product showcase",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 10,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Best Sellers",
+      "label": "t:sections.featured-collection.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "View All Products",
+      "label": "Heading link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Heading link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:sections.featured-collection.settings.collection.label"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 8,
+      "label": "t:sections.featured-collection.settings.products_to_show.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__2.label"
+        }
+      ],
+      "default": "2",
+      "label": "t:sections.featured-collection.settings.columns_mobile.label"
+    },
+    {
+      "type": "header",
+      "content": "Product card"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ],
+      "default": "square",
+      "label": "Image ratio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_type",
+      "default": false,
+      "label": "Show product type"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "default": true,
+      "label": "Show subtitle",
+      "info": "Uses the product metafield custom.subtitle."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "default": true,
+      "label": "Show add to cart button"
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "text",
+      "id": "all_tab_label",
+      "default": "All",
+      "label": "First tab label",
+      "info": "Tabs appear when you add tab blocks. The first tab shows the collection above."
+    },
+    {
+      "type": "header",
+      "content": "Bottom button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "Uses the collection title when empty."
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.featured-collection.settings.collection.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product showcase"
+    }
+  ]
+}
+{% endschema %}

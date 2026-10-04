@@ -1,0 +1,101 @@
+.card-simple {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-simple__media {
+  display: block;
+  position: relative;
+  aspect-ratio: var(--card-simple-ratio, 1 / 1);
+  overflow: hidden;
+  border-radius: var(--product-card-corner-radius);
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+.card-simple__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-long) ease;
+}
+
+.card-simple__media:hover .card-simple__image {
+  transform: scale(1.03);
+}
+
+.card-simple__info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 1.6rem;
+}
+
+.card-simple__type {
+  margin: 0 0 0.6rem;
+  font-size: calc(var(--font-body-scale) * 1.1rem);
+  line-height: 1.4;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.card-simple__title {
+  margin: 0;
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  font-size: calc(var(--font-body-scale) * 1.7rem);
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.card-simple__title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.card-simple__subtitle {
+  margin: 0.6rem 0 0;
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  line-height: 1.4;
+  color: rgba(var(--color-foreground), 0.65);
+}
+
+.card-simple__price {
+  margin-top: 0.8rem;
+}
+
+.card-simple__price .price {
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  letter-spacing: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.card-simple__actions {
+  margin-top: 1.6rem;
+}
+
+.card-simple__button.button {
+  min-height: 3.8rem;
+  min-width: 0;
+  padding: 0 1.2rem;
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+}
+
+.card-simple__button.button--secondary:not([disabled]):hover {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+@media screen and (min-width: 750px) {
+  .card-simple__title {
+    font-size: calc(var(--font-body-scale) * 2rem);
+  }
+}

@@ -1,0 +1,179 @@
+{{ 'section-promo-collage.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="promo-collage section-{{ section.id }}-padding{% if section.settings.full_width %} promo-collage--full-width{% else %} page-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    style="--promo-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+  >
+    {%- for block in section.blocks -%}
+      <div class="promo-collage__item promo-collage__item--{{ forloop.index }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {{
+            block.settings.image
+            | image_url: width: 1600
+            | image_tag:
+              loading: 'lazy',
+              widths: '375, 550, 750, 1100, 1600',
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              class: 'promo-collage__image'
+          }}
+        {%- else -%}
+          {%- assign placeholder_number = forloop.index | minus: 1 | modulo: 2 | plus: 1 -%}
+          {{ 'lifestyle-' | append: placeholder_number | placeholder_svg_tag: 'promo-collage__image placeholder-svg' }}
+        {%- endif -%}
+
+        <div class="promo-collage__content color-{{ section.settings.text_color_scheme }}">
+          {%- if block.settings.heading != blank -%}
+            <h3 class="promo-collage__heading h1">{{ block.settings.heading | escape }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p class="promo-collage__text">{{ block.settings.text | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.link_label != blank -%}
+            <a
+              {% if block.settings.link != blank %}
+                href="{{ block.settings.link }}"
+              {% else %}
+                role="link" aria-disabled="true"
+              {% endif %}
+              class="promo-collage__link"
+            >
+              {{- block.settings.link_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Promo collage",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 3,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The first block is the large image on the left. The next two stack on the right."
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": true,
+      "label": "t:sections.featured-collection.settings.full_width.label"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 35,
+      "label": "Image overlay opacity"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "text_color_scheme",
+      "label": "Text color scheme",
+      "info": "Only the text color is used.",
+      "default": "scheme-3"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promo",
+      "name": "Promo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Elevate your space for less",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Shop our exclusive sale now!",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "default": "Learn more",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo collage",
+      "blocks": [
+        { "type": "promo" },
+        { "type": "promo", "settings": { "heading": "Home essentials", "text": "Discounted for a limited time!" } },
+        { "type": "promo", "settings": { "heading": "Style upgrade alert", "text": "Discover our limited time sale!" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
