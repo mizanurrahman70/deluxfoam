@@ -1,0 +1,40 @@
+{% doc %}
+  Renders a "Liquid tips" highlight card. Every tip is rendered server-side;
+  one is visible at a time and assets/liquid-tips.js reveals a different one
+  when the refresh control is activated.
+
+  @param {string[]} [tips] - Translation keys for the tip sentences to choose
+    from. Pass them as a split string, since render can't take inline arrays.
+
+  @example
+  {% assign tips = 'hello_world.liquid_tips_1,hello_world.liquid_tips_2' | split: ',' %}
+  {% render 'liquid-tips', tips: tips %}
+{% enddoc %}
+
+{%- liquid
+  assign tip_count = tips.size
+  assign seed = 'now' | date: '%N'
+  if tip_count > 0
+    assign index = seed | modulo: tip_count
+  endif
+-%}
+
+<div class="highlight" data-liquid-tips>
+  <h3>{{ 'hello_world.liquid_tips_title' | t }}</h3>
+
+  {%- for tip in tips -%}
+    <p class="highlight-description" data-tip {% unless forloop.index0 == index %}hidden{% endunless %}>
+      {{- tip | t -}}
+    </p>
+  {%- endfor -%}
+
+  {% if tip_count > 1 %}
+    <p>
+      <a role="button" tabindex="0" data-refresh-tip>
+        {{ 'hello_world.liquid_tips_refresh' | t }}
+      </a>
+    </p>
+  {% endif %}
+</div>
+
+<script src="{{ 'liquid-tips.js' | asset_url }}" defer></script>

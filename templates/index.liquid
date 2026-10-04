@@ -1,0 +1,13 @@
+{%- liquid
+  assign tips = 'hello_world.liquid_tips_1,hello_world.liquid_tips_2,hello_world.liquid_tips_3' | split: ','
+
+  capture highlights
+    render 'liquid-tips', tips: tips
+  endcapture
+
+  capture page_content
+    render 'hello-world', content: highlights
+  endcapture
+
+  render 'container', content: page_content
+-%}

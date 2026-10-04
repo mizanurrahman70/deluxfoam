@@ -1,0 +1,23 @@
+{% doc %}
+  Wraps composed page content in a semantic HTML element. Every template
+  captures its page markup and renders it through this snippet, which owns
+  the outer layout element.
+
+  @param {string} content - Captured markup to render inside the wrapper.
+  @param {string} [tag] - HTML element for the wrapper. Default: 'section'.
+  @param {string} [alignment] - Text alignment: 'left', 'center', or 'right'. Default: 'left'.
+
+  @example Default section wrapper
+  {% capture content %}
+    <h1>{{ page.title }}</h1>
+    {{ page.content }}
+  {% endcapture %}
+  {% render 'container', content: content %}
+{% enddoc %}
+
+{%- assign tag = tag | default: 'section' -%}
+{%- assign alignment = alignment | default: 'left' -%}
+
+<{{ tag }} class="block-container" style="--text-align: {{ alignment }};">
+  {{ content }}
+</{{ tag }}>

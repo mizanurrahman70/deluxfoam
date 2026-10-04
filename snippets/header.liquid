@@ -1,0 +1,34 @@
+{% doc %}
+  Renders the theme's storefront header: shop title, main menu,
+  customer account entry, and cart link. Rendered directly in
+  layout/theme.liquid so it wraps every page. Menus are configured in
+  the "Header and footer" theme settings.
+{% enddoc %}
+
+<header>
+  <h2 class="header__title">
+    {{ shop.name | link_to: routes.root_url }}
+  </h2>
+
+  <div class="header__menu">
+    {% for link in settings.header_menu.links %}
+      {{ link.title | link_to: link.url }}
+    {% endfor %}
+  </div>
+
+  <div class="header__icons">
+    {% if shop.customer_accounts_enabled %}
+      <shopify-account menu="{{ settings.header_customer_account_menu }}">
+        {{ 'icon-account.svg' | inline_asset_content }}
+      </shopify-account>
+    {% endif %}
+
+    <a href="{{ routes.cart_url }}">
+      {% if cart.item_count > 0 %}
+        <sup>{{ cart.item_count }}</sup>
+      {% endif %}
+
+      {{ 'icon-cart.svg' | inline_asset_content }}
+    </a>
+  </div>
+</header>
