@@ -349,7 +349,10 @@ span.product-gallery__thumb {
 }
 
 .product-section--minimal .product-form__submit.button:before,
-.product-section--minimal .product-form__submit.button:after {
+.product-section--minimal .product-form__submit.button:after,
+.product-section--minimal .product-form__submit.button:not([disabled]):hover:after,
+.product-section--minimal .product-form__submit.button:focus:after,
+.product-section--minimal button.shopify-payment-button__button--unbranded:hover:not([disabled]):after {
   box-shadow: none;
 }
 

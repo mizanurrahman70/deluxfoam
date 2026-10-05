@@ -4,20 +4,28 @@
   height: 100%;
 }
 
+/* Fixed-ratio image box: every card image has the same shape whatever the photo size.
+   flex-shrink: 0 stops the box being squeezed when card text is taller in the same row. */
 .card-simple__media {
   display: block;
   position: relative;
+  flex-shrink: 0;
+  width: 100%;
   aspect-ratio: var(--card-simple-ratio, 1 / 1);
   overflow: hidden;
   border-radius: var(--product-card-corner-radius);
   background-color: rgba(var(--color-foreground), 0.04);
 }
 
-.card-simple__image {
+.card-simple__media > .card-simple__image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
+  object-position: center;
   transition: transform var(--duration-long) ease;
 }
 
@@ -74,7 +82,11 @@
   color: rgb(var(--color-foreground));
 }
 
+/* The button is .button--secondary, which redefines --color-button on itself.
+   Capture the scheme's primary button colours here so the hover state can use them. */
 .card-simple__actions {
+  --brand-button: var(--color-button);
+  --brand-button-text: var(--color-button-text);
   margin-top: 1.6rem;
 }
 
@@ -82,6 +94,9 @@
   min-height: 3.8rem;
   min-width: 0;
   padding: 0 1.2rem;
+  border: 0.1rem solid rgb(var(--color-foreground));
+  transition: background-color var(--duration-short) ease, border-color var(--duration-short) ease,
+    color var(--duration-short) ease;
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight-bold);
   font-size: calc(var(--font-body-scale) * 1.2rem);
@@ -89,13 +104,28 @@
   text-transform: uppercase;
 }
 
-.card-simple__button.button--secondary:not([disabled]):hover {
-  background-color: rgb(var(--color-button));
-  color: rgb(var(--color-button-text));
+/* Border is drawn on the button itself, so Dawn's pseudo-element border is not needed */
+.card-simple__button.button:before,
+.card-simple__button.button:after,
+.card-simple__button.button:not([disabled]):hover:after,
+.card-simple__button.button:focus:after,
+.card-simple__button.button:focus-visible:after {
+  box-shadow: none;
 }
 
-.card-simple__button.button--secondary:not([disabled]):hover:after {
-  box-shadow: 0 0 0 var(--buttons-border-width) rgb(var(--color-button));
+.card-simple__button.button--secondary:not([disabled]):hover {
+  border-color: rgb(var(--brand-button));
+  background-color: rgb(var(--brand-button));
+  color: rgb(var(--brand-button-text));
+}
+
+.card-simple__button.button[disabled] {
+  border-color: rgba(var(--color-foreground), 0.2);
+  color: rgba(var(--color-foreground), 0.5);
+}
+
+.card-simple__button .loading__spinner .path {
+  stroke: currentColor;
 }
 
 @media screen and (min-width: 750px) {

@@ -98,15 +98,16 @@
   display: inline-block;
   margin-top: 2.4rem;
   padding: 0 0.2rem 0.6rem;
-  border-bottom: 0.2rem solid rgb(var(--color-foreground));
+  border-bottom: 0.2rem solid rgb(var(--color-button));
   font-size: calc(var(--font-body-scale) * 1.3rem);
   font-weight: var(--font-body-weight-bold);
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: rgb(var(--color-foreground));
   text-decoration: none;
+  transition: color var(--duration-short) ease;
 }
 
 .promo-collage__link:hover {
-  opacity: 0.8;
+  color: rgb(var(--color-button));
 }

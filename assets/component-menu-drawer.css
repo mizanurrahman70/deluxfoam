@@ -121,6 +121,11 @@ details[open].menu-opening > .menu-drawer__submenu {
   background-color: rgba(var(--color-foreground), 0.08);
 }
 
+.menu-drawer__menu-item--active,
+.menu-drawer__menu-item--active:hover {
+  color: rgb(var(--color-button));
+}
+
 .js .menu-drawer__menu-item .icon-caret {
   display: none;
 }
