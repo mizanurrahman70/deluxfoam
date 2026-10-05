@@ -37,11 +37,14 @@
 
 .section-heading__link:hover {
   text-decoration: underline;
-  text-underline-offset: 0.3rem;
+  text-decoration-color: rgb(var(--color-button));
+  text-decoration-thickness: 0.2rem;
+  text-underline-offset: 0.6rem;
 }
 
 .section-heading__link:hover .icon {
   transform: translateX(0.3rem);
+  color: rgb(var(--color-button));
 }
 
 @media screen and (min-width: 750px) {
