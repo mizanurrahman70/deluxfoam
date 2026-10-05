@@ -15,98 +15,104 @@
   }
 }
 
-/* Toolbar: heading and count on the left, filters and sort on the right */
+/* Toolbar: heading and count on the left, filters and sort on the right.
+   Selectors start with .collection-minimal so they outrank component-facets.css, which loads after this file. */
 .collection-toolbar__title {
   margin: 0;
 }
 
-.collection-toolbar .facets-wrapper.page-width {
+.collection-minimal .collection-toolbar .facets-wrapper.page-width {
   padding-left: 0;
   padding-right: 0;
 }
 
 @media screen and (max-width: 749px) {
-  .collection-toolbar {
+  .collection-minimal .collection-toolbar {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
     margin-bottom: 2.4rem;
   }
 
-  .collection-toolbar .facets-container {
+  .collection-minimal .collection-toolbar .facets-container {
     padding-top: 0;
   }
 }
 
 @media screen and (min-width: 750px) {
-  .collection-toolbar {
+  .collection-minimal .collection-toolbar {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
     grid-template-areas:
-      'title filters sort'
-      'count filters sort'
-      'active active active';
-    column-gap: 2.4rem;
+      'title filters sort clear'
+      'count filters sort clear';
+    column-gap: 0;
     align-items: center;
     margin-bottom: 3.2rem;
   }
 
-  .collection-toolbar .facets-wrapper,
-  .collection-toolbar .facets-container,
-  .collection-toolbar facet-filters-form.facets,
-  .collection-toolbar .facets__form {
+  .collection-minimal .collection-toolbar .facets-wrapper,
+  .collection-minimal .collection-toolbar .facets-container,
+  .collection-minimal .collection-toolbar facet-filters-form.facets,
+  .collection-minimal .collection-toolbar .facets__form {
     display: contents;
   }
 
+  /* Heading and count */
   .collection-toolbar__title {
     grid-area: title;
     align-self: end;
+    margin: 0;
   }
 
-  .collection-toolbar .product-count {
+  .collection-minimal .collection-toolbar .product-count {
     grid-area: count;
     align-self: start;
-    margin: 0.4rem 0 0;
+    margin: 0.6rem 0 0;
     text-align: left;
   }
 
-  .collection-toolbar .product-count__text {
+  .collection-minimal .collection-toolbar .product-count__text {
     margin: 0;
-    font-size: calc(var(--font-body-scale) * 1.2rem);
+    font-size: calc(var(--font-body-scale) * 1.1rem);
     letter-spacing: 0.12rem;
     text-transform: uppercase;
     color: rgba(var(--color-foreground), 0.6);
   }
 
-  .collection-toolbar .facets__wrapper {
+  /* Filter dropdowns */
+  .collection-minimal .collection-toolbar .facets__wrapper {
     grid-area: filters;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 1.2rem;
-    margin: 0;
+    align-items: center;
+    align-self: center;
+    gap: 1rem;
+    margin: 0 0 0 2.4rem;
   }
 
-  .collection-toolbar .facets__heading {
+  .collection-minimal .collection-toolbar .facets__heading {
     display: none;
   }
 
-  .collection-toolbar .facets__disclosure {
+  .collection-minimal .collection-toolbar .facets__disclosure {
     margin: 0;
   }
 
-  .collection-toolbar .facets__summary {
+  .collection-minimal .collection-toolbar .facets__summary {
     display: flex;
     align-items: center;
-    min-width: 14rem;
-    height: 4rem;
-    padding: 0 1.2rem;
+    min-width: 12rem;
+    height: 3.4rem;
+    margin: 0;
+    padding: 0 1rem 0 1.2rem;
     border: 0.1rem solid rgba(var(--color-foreground), 0.15);
-    font-size: calc(var(--font-body-scale) * 1.3rem);
+    font-size: calc(var(--font-body-scale) * 1.2rem);
     color: rgb(var(--color-foreground));
   }
 
-  .collection-toolbar .facets__summary > div {
+  .collection-minimal .collection-toolbar .facets__summary > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -114,71 +120,126 @@
     width: 100%;
   }
 
-  .collection-toolbar .facets__summary:hover,
-  .collection-toolbar .facets__disclosure[open] .facets__summary {
-    border-color: rgb(var(--color-foreground));
-  }
-
-  .collection-toolbar .facets__summary .icon-caret {
+  .collection-minimal .collection-toolbar .facets__summary .icon-caret {
     position: static;
     width: 1rem;
     height: 0.6rem;
   }
 
-  .collection-toolbar .sorting {
-    grid-area: sort;
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding-left: 2.4rem;
-    border-left: 0.1rem solid rgba(var(--color-foreground), 0.15);
-  }
-
-  .collection-toolbar .facet-filters__field {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    height: 4rem;
-    min-width: 16rem;
-    padding: 0 1.2rem;
-    border: 0.1rem solid rgba(var(--color-foreground), 0.15);
-  }
-
-  .collection-toolbar .facet-filters__field:hover {
+  .collection-minimal .collection-toolbar .facets__summary:hover,
+  .collection-minimal .collection-toolbar .facets__disclosure[open] .facets__summary,
+  .collection-minimal .collection-toolbar .facets__disclosure:has(input:checked) .facets__summary,
+  .collection-minimal .collection-toolbar .facets__disclosure:has(.facets__price input:not(:placeholder-shown)) .facets__summary {
     border-color: rgb(var(--color-foreground));
   }
 
-  .collection-toolbar .facet-filters__label {
-    margin: 0;
-    font-size: calc(var(--font-body-scale) * 1.3rem);
+  /* Sort, separated by a divider */
+  .collection-minimal .collection-toolbar .sorting {
+    grid-area: sort;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    margin: 0 0 0 2rem;
+    padding: 0.2rem 0 0.2rem 2rem;
+    border-left: 0.1rem solid rgba(var(--color-foreground), 0.15);
   }
 
-  .collection-toolbar .facet-filters__label label {
+  .collection-minimal .collection-toolbar .facet-filters__field {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-grow: 0;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 3.4rem;
+    min-width: 13.6rem;
+    padding: 0 1rem 0 1.2rem;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.15);
+  }
+
+  .collection-minimal .collection-toolbar .facet-filters__field:hover {
+    border-color: rgb(var(--color-foreground));
+  }
+
+  .collection-minimal .collection-toolbar .facet-filters__label {
+    margin: 0;
+    font-size: calc(var(--font-body-scale) * 1.2rem);
+  }
+
+  .collection-minimal .collection-toolbar .facet-filters__label label {
     color: rgb(var(--color-foreground));
   }
 
-  .collection-toolbar .facet-filters__field .select {
+  .collection-minimal .collection-toolbar .facet-filters__field .select {
     flex-grow: 1;
   }
 
-  .collection-toolbar .facet-filters__sort {
-    height: 3.8rem;
+  .collection-minimal .collection-toolbar .facet-filters__sort {
+    height: 3.2rem;
     margin: 0;
-    padding-right: 2rem;
-    font-size: calc(var(--font-body-scale) * 1.3rem);
-  }
-
-  .collection-toolbar .active-facets-desktop {
-    grid-area: active;
-    justify-content: flex-end;
-    margin-top: 1.6rem;
-  }
-
-  .collection-toolbar .active-facets__button-remove {
+    padding: 0 2rem 0 0;
+    border: 0;
     font-size: calc(var(--font-body-scale) * 1.2rem);
+    color: rgba(var(--color-foreground), 0.75);
+    box-shadow: none;
+  }
+
+  .collection-minimal .collection-toolbar .facet-filters__sort:focus-visible {
+    outline: 0;
+  }
+
+  .collection-minimal .collection-toolbar .facet-filters__field:focus-within {
+    border-color: rgb(var(--color-foreground));
+  }
+
+  /* Clear all sits on the same row and only shows while a filter is active (Dawn hides it when it is
+     the only child). Selected-value chips are not shown on desktop; an active filter is marked by
+     the darker border on its dropdown instead. */
+  .collection-minimal .collection-toolbar .active-facets-desktop {
+    grid-area: clear;
+    display: flex;
+    align-items: center;
+    width: auto;
+    align-self: center;
+    margin: 0 0 0 2.4rem;
+  }
+
+  .collection-minimal .collection-toolbar .active-facets-desktop > facet-remove:not(.active-facets__button-wrapper) {
+    display: none;
+  }
+
+  .collection-minimal .collection-toolbar .active-facets-desktop facet-remove.active-facets__button-wrapper:not(:only-child) {
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  .collection-minimal .collection-toolbar .active-facets__button-remove {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: rgb(var(--color-foreground));
+  }
+
+  .collection-minimal .collection-toolbar .active-facets__button-remove::before {
+    content: '\00D7';
+    font-size: calc(var(--font-body-scale) * 1.6rem);
+    line-height: 1;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  .collection-minimal .collection-toolbar .active-facets__button-remove span {
+    font-size: calc(var(--font-body-scale) * 1.1rem);
     letter-spacing: 0.06rem;
     text-transform: uppercase;
-    text-decoration: none;
+  }
+
+  .collection-minimal .collection-toolbar .active-facets__button-remove:hover span {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
   }
 }
 
