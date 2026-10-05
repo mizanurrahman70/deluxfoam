@@ -1,0 +1,18 @@
+{% comment %}
+  Renders the theme's built-in logo (assets/logo-header.svg) when no logo is uploaded
+  in Theme settings > Logo. Uses the same classes and width setting as an uploaded logo.
+
+  Usage:
+  {% render 'header-logo-fallback' %}
+{% endcomment %}
+
+{%- assign logo_height = settings.logo_width | times: 708 | divided_by: 2318 -%}
+<div class="header__heading-logo-wrapper">
+  <img
+    src="{{ 'logo-header.svg' | asset_url }}"
+    class="header__heading-logo"
+    width="{{ settings.logo_width }}"
+    height="{{ logo_height }}"
+    alt="{{ shop.name | escape }}"
+  >
+</div>

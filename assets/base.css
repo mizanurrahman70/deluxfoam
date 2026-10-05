@@ -2501,6 +2501,12 @@ input[type='checkbox'] {
   transition: width 0.3s cubic-bezier(0.52, 0, 0.61, 0.99);
 }
 
+@media screen and (max-width: 749px) {
+  .header__heading-logo {
+    max-width: min(100%, 14rem);
+  }
+}
+
 @media screen and (max-width: 989px) {
   .header__heading,
   .header__heading-link {
