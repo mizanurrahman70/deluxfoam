@@ -244,7 +244,11 @@
 }
 
 /* Load more */
+/* The button is .button--secondary, which redefines --color-button on itself.
+   Capture the scheme's primary button colours on the wrapper for the hover state. */
 .load-more {
+  --brand-button: var(--color-button);
+  --brand-button-text: var(--color-button-text);
   display: flex;
   justify-content: center;
   margin-top: 4.8rem;
@@ -254,10 +258,30 @@
   position: relative;
   min-width: 13.6rem;
   min-height: 4.2rem;
+  border: 0.1rem solid rgb(var(--color-foreground));
   font-family: var(--font-body-family);
   font-size: calc(var(--font-body-scale) * 1.2rem);
   letter-spacing: 0.04rem;
   text-transform: uppercase;
+  transition: background-color var(--duration-short) ease, border-color var(--duration-short) ease,
+    color var(--duration-short) ease;
+}
+
+.load-more__button.button:before,
+.load-more__button.button:after,
+.load-more__button.button:not([disabled]):hover:after,
+.load-more__button.button:focus:after {
+  box-shadow: none;
+}
+
+.load-more__button.button:hover {
+  border-color: rgb(var(--brand-button));
+  background-color: rgb(var(--brand-button));
+  color: rgb(var(--brand-button-text));
+}
+
+.load-more__button .loading__spinner .path {
+  stroke: currentColor;
 }
 
 .load-more__button.loading > span {
