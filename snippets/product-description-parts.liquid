@@ -15,6 +15,8 @@
       'sections'   - one info-tabs row per <h3> section
       'first_line' - the first sentence of the section named in `heading`, as plain text
   - heading: {String} Section heading to look up, for mode 'first_line' (case insensitive)
+  - collapsible: {Boolean} Render mode 'sections' rows as accordion items, defaults to false
+  - accordion_name: {String} Accordion group name, keeps a single row open at a time
 
   Usage:
   {% render 'product-description-parts', product: product, mode: 'sections' %}
@@ -48,16 +50,24 @@
           {%- if pieces.size < 2 -%}
             {%- continue -%}
           {%- endif -%}
-          <div class="info-tabs__row">
-            <h3 class="info-tabs__label">{{ pieces.first | strip_html | strip }}</h3>
-            <div class="info-tabs__content rte">{{ pieces.last }}</div>
-          </div>
+          {%- assign part_heading = pieces.first | strip_html | strip -%}
+          {%- render 'info-tabs-row',
+            heading: part_heading,
+            content: pieces.last,
+            collapsible: collapsible,
+            open: forloop.first,
+            name: accordion_name
+          -%}
         {%- endfor -%}
       {%- else -%}
-        <div class="info-tabs__row">
-          <h3 class="info-tabs__label">{{ 'products.product.description_heading' | t }}</h3>
-          <div class="info-tabs__content rte">{{ description }}</div>
-        </div>
+        {%- assign description_heading = 'products.product.description_heading' | t -%}
+        {%- render 'info-tabs-row',
+          heading: description_heading,
+          content: description,
+          collapsible: collapsible,
+          open: true,
+          name: accordion_name
+        -%}
       {%- endif -%}
 
     {%- when 'first_line' -%}

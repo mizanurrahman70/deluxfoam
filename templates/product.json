@@ -135,7 +135,8 @@
         "tab-faq": {
           "type": "tab",
           "settings": {
-            "title": "FAQs"
+            "title": "FAQs",
+            "collapsible": true
           }
         },
         "faq-1": {

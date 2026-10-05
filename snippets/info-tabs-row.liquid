@@ -1,0 +1,39 @@
+{% comment %}
+  Renders one heading + content row of a product info tab.
+
+  A tab renders its rows either as a static two column grid (heading left,
+  content right) or, when the tab is collapsible, as an accordion item where
+  the content drops below the heading.
+
+  Accepts:
+  - heading: {String} Row heading
+  - content: {HTML} Row content markup, already rendered
+  - attributes: {HTML} Markup to put on the outermost element, typically
+    `block.shopify_attributes`
+  - heading_tag: {String} Heading element, defaults to 'h3'
+  - collapsible: {Boolean} Render as an accordion item, defaults to false
+  - open: {Boolean} Expand a collapsible row, defaults to false
+  - name: {String} Accordion group name, keeps a single row open at a time
+
+  Usage:
+  {% render 'info-tabs-row', heading: block.settings.heading, content: block.settings.content, attributes: block.shopify_attributes %}
+{% endcomment %}
+
+{%- liquid
+  assign heading_tag = heading_tag | default: 'h3'
+-%}
+
+{%- if collapsible -%}
+  <details class="info-tabs__accordion" name="{{ name }}" {% if open %}open{% endif %} {{ attributes }}>
+    <summary class="info-tabs__accordion-summary">
+      <{{ heading_tag }} class="info-tabs__accordion-title">{{ heading | escape }}</{{ heading_tag }}>
+      {{- 'icon-caret.svg' | inline_asset_content -}}
+    </summary>
+    <div class="info-tabs__content rte">{{ content }}</div>
+  </details>
+{%- else -%}
+  <div class="info-tabs__row" {{ attributes }}>
+    <{{ heading_tag }} class="info-tabs__label">{{ heading | escape }}</{{ heading_tag }}>
+    <div class="info-tabs__content rte">{{ content }}</div>
+  </div>
+{%- endif -%}
