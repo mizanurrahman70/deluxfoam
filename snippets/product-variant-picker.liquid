@@ -50,7 +50,7 @@
           %}
         </fieldset>
       {%- elsif picker_type == 'button' -%}
-        <fieldset class="js product-form__input product-form__input--pill">
+        <fieldset class="js product-form__input product-form__input--pill{% if option.values.size == 1 %} product-form__input--single{% endif %}">
           <legend class="form__label">
             {{- option.name -}}
             {%- if option.values.size > 1 -%}

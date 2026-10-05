@@ -1,0 +1,42 @@
+{% comment %}
+  Renders two icon facts. The second one reads the first sentence of a description section (e.g. Warranty).
+
+  Accepts:
+  - block: {Object} The main-product block
+  - product: {Object} Product object
+
+  Usage:
+  {% render 'product-facts', block: block, product: product %}
+{% endcomment %}
+
+{%- capture warranty_line -%}
+  {%- render 'product-description-parts', product: product, mode: 'first_line', heading: block.settings.warranty_heading -%}
+{%- endcapture -%}
+{%- assign warranty_line = warranty_line | strip | default: block.settings.text_2 -%}
+<ul
+  class="icon-with-text icon-with-text--vertical product__facts list-unstyled"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.heading_1 != blank -%}
+    <li class="icon-with-text__item">
+      {%- render 'icon-accordion', icon: block.settings.icon_1 -%}
+      <span class="icon-with-text__content">
+        <span class="h4">{{ block.settings.heading_1 | escape }}</span>
+        {%- if block.settings.text_1 != blank -%}
+          <span class="icon-with-text__text">{{ block.settings.text_1 | escape }}</span>
+        {%- endif -%}
+      </span>
+    </li>
+  {%- endif -%}
+  {%- if block.settings.heading_2 != blank -%}
+    <li class="icon-with-text__item">
+      {%- render 'icon-accordion', icon: block.settings.icon_2 -%}
+      <span class="icon-with-text__content">
+        <span class="h4">{{ block.settings.heading_2 | escape }}</span>
+        {%- if warranty_line != blank -%}
+          <span class="icon-with-text__text">{{ warranty_line | escape }}</span>
+        {%- endif -%}
+      </span>
+    </li>
+  {%- endif -%}
+</ul>

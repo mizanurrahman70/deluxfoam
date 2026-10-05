@@ -1,0 +1,75 @@
+{% comment %}
+  Splits a product description into parts using its <h3> headings.
+
+  Expected description format:
+    <h2>Product title</h2>  (optional, removed because the page already shows the title)
+    <p>Intro paragraph</p>
+    <h3>Section heading</h3> section content
+    <h3>Section heading</h3> section content ...
+
+  Accepts:
+  - product: {Object} Product object
+  - mode: {String} What to render:
+      'full'       - the whole description
+      'intro'      - the text before the first <h3> (the whole description when it has no <h3>)
+      'sections'   - one info-tabs row per <h3> section
+      'first_line' - the first sentence of the section named in `heading`, as plain text
+  - heading: {String} Section heading to look up, for mode 'first_line' (case insensitive)
+
+  Usage:
+  {% render 'product-description-parts', product: product, mode: 'sections' %}
+{% endcomment %}
+
+{%- if product.description != blank -%}
+  {%- liquid
+    assign description = product.description
+    assign parts = description | split: '<h3>'
+    assign intro = parts.first
+    if intro contains '</h2>'
+      assign intro = intro | split: '</h2>' | last
+    endif
+  -%}
+
+  {%- case mode -%}
+    {%- when 'full' -%}
+      {{- description -}}
+
+    {%- when 'intro' -%}
+      {%- if parts.size > 1 -%}
+        {{- intro | strip -}}
+      {%- else -%}
+        {{- description -}}
+      {%- endif -%}
+
+    {%- when 'sections' -%}
+      {%- if parts.size > 1 -%}
+        {%- for part in parts offset: 1 -%}
+          {%- assign pieces = part | split: '</h3>' -%}
+          {%- if pieces.size < 2 -%}
+            {%- continue -%}
+          {%- endif -%}
+          <div class="info-tabs__row">
+            <h3 class="info-tabs__label">{{ pieces.first | strip_html | strip }}</h3>
+            <div class="info-tabs__content rte">{{ pieces.last }}</div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="info-tabs__row">
+          <h3 class="info-tabs__label">{{ 'products.product.description_heading' | t }}</h3>
+          <div class="info-tabs__content rte">{{ description }}</div>
+        </div>
+      {%- endif -%}
+
+    {%- when 'first_line' -%}
+      {%- assign wanted = heading | downcase | strip -%}
+      {%- for part in parts offset: 1 -%}
+        {%- assign pieces = part | split: '</h3>' -%}
+        {%- assign section_heading = pieces.first | strip_html | strip | downcase -%}
+        {%- if section_heading == wanted and pieces.size > 1 -%}
+          {%- assign text = pieces.last | strip_html | strip -%}
+          {{- text | split: '. ' | first | remove: '.' -}}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+  {%- endcase -%}
+{%- endif -%}

@@ -58,6 +58,12 @@
             {%- for block in section.blocks -%}
               {%- if block.type == 'tab' -%}
                 {%- assign current_tab = block.id -%}
+              {%- elsif current_tab == tab.id and block.type == 'description' -%}
+                <div class="info-tabs__group" {{ block.shopify_attributes }}>
+                  {%- if product -%}
+                    {% render 'product-description-parts', product: product, mode: 'sections' %}
+                  {%- endif -%}
+                </div>
               {%- elsif current_tab == tab.id -%}
                 <div class="info-tabs__row" {{ block.shopify_attributes }}>
                   <h3 class="info-tabs__label">{{ block.settings.heading | escape }}</h3>
@@ -124,6 +130,17 @@
     }
   ],
   "blocks": [
+    {
+      "type": "description",
+      "name": "Rows from description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Adds one row per H3 heading in the product description (for example Key details, Materials and build, Warranty)."
+        }
+      ]
+    },
     {
       "type": "tab",
       "name": "Tab",

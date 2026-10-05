@@ -1,0 +1,27 @@
+{% comment %}
+  Renders the outlined badge above the product title (product type, vendor or collection).
+
+  Accepts:
+  - block: {Object} The main-product block
+  - product: {Object} Product object
+
+  Usage:
+  {% render 'product-badge', block: block, product: product %}
+{% endcomment %}
+
+{%- liquid
+  case block.settings.source
+    when 'vendor'
+      assign badge_text = product.vendor
+    when 'collection'
+      assign badge_text = collection.title | default: product.collections.first.title
+    else
+      assign badge_text = product.type
+  endcase
+-%}
+{%- if badge_text != blank -%}
+  <p class="product__text product__text--badge" {{ block.shopify_attributes }}>
+    {{- badge_text | escape }} {{ block.settings.suffix | escape -}}
+  </p>
+{%- endif -%}
+

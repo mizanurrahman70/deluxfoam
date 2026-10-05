@@ -106,6 +106,12 @@
                   >
                     {{- block.settings.text -}}
                   </p>
+                {%- when 'badge' -%}
+                  {% render 'product-badge', block: block, product: product %}
+                {%- when 'tags' -%}
+                  {% render 'product-tags', block: block, product: product %}
+                {%- when 'product_facts' -%}
+                  {% render 'product-facts', block: block, product: product %}
                 {%- when 'title' -%}
                   <div class="product__title" {{ block.shopify_attributes }}>
                     <h1>{{ product.title | escape }}</h1>
@@ -203,8 +209,11 @@
                   </p>
                 {%- when 'description' -%}
                   {%- if product.description != blank -%}
-                    <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                      {{ product.description }}
+                    <div
+                      class="product__description rte quick-add-hidden{% if block.settings.text_style == 'quote' %} product__text--quote{% endif %}"
+                      {{ block.shopify_attributes }}
+                    >
+                      {% render 'product-description-parts', product: product, mode: block.settings.content %}
                     </div>
                   {%- endif -%}
                 {%- when 'sku' -%}
@@ -261,7 +270,13 @@
                       for="Quantity-{{ section.id }}"
                       aria-labelledby="quantity-label-{{ section.id }}"
                     >
-                      <span aria-hidden="true">{{ 'products.product.quantity.label' | t }}</span>
+                      <span aria-hidden="true">
+                        {%- if product.tags contains 'Sold Per Metre' -%}
+                          {{- 'products.product.quantity.label_metres' | t -}}
+                        {%- else -%}
+                          {{- 'products.product.quantity.label' | t -}}
+                        {%- endif -%}
+                      </span>
                       <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}" aria-hidden="true">
                         {%- render 'loading-spinner' -%}
                         <span
@@ -981,7 +996,142 @@
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "content",
+          "options": [
+            { "value": "full", "label": "Full description" },
+            { "value": "intro", "label": "Intro only" }
+          ],
+          "default": "full",
+          "label": "Content",
+          "info": "Intro only shows the text before the first H3 heading. Use the Product info tabs section for the rest."
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            { "value": "body", "label": "t:sections.main-product.blocks.text.settings.text_style.options__1.label" },
+            { "value": "quote", "label": "Quote" }
+          ],
+          "default": "body",
+          "label": "t:sections.main-product.blocks.text.settings.text_style.label"
+        }
+      ]
+    },
+    {
+      "type": "badge",
+      "name": "Badge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "source",
+          "options": [
+            { "value": "type", "label": "Product type" },
+            { "value": "vendor", "label": "Vendor" },
+            { "value": "collection", "label": "Collection" }
+          ],
+          "default": "type",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "default": "Collection",
+          "label": "Text after"
+        }
+      ]
+    },
+    {
+      "type": "tags",
+      "name": "Feature tags",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows product tags as small labels. Tags that contain an underscore (for example Model_ or Price_) are always hidden."
+        },
+        {
+          "type": "textarea",
+          "id": "exclude",
+          "default": "Barrios, Barrios Fabrics, Sofa, Corner Sofa, Divan, Table, Fabric, Tool, Hardware, Living Room, Upholstery, Spare Parts, Sofa Parts",
+          "label": "Hide these tags",
+          "info": "Comma separated."
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 5,
+          "label": "Maximum tags"
+        }
+      ]
+    },
+    {
+      "type": "product_facts",
+      "name": "Product facts",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_1",
+          "options": [
+            { "value": "truck", "label": "Truck" },
+            { "value": "map_pin", "label": "Map pin" },
+            { "value": "box", "label": "Box" },
+            { "value": "return", "label": "Return" }
+          ],
+          "default": "truck",
+          "label": "Icon 1"
+        },
+        {
+          "type": "text",
+          "id": "heading_1",
+          "default": "Free delivery",
+          "label": "Heading 1"
+        },
+        {
+          "type": "text",
+          "id": "text_1",
+          "default": "Inside Dhaka, placement included",
+          "label": "Text 1"
+        },
+        {
+          "type": "select",
+          "id": "icon_2",
+          "options": [
+            { "value": "check_mark", "label": "Check mark" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "heart", "label": "Heart" }
+          ],
+          "default": "check_mark",
+          "label": "Icon 2"
+        },
+        {
+          "type": "text",
+          "id": "heading_2",
+          "default": "Warranty",
+          "label": "Heading 2"
+        },
+        {
+          "type": "text",
+          "id": "warranty_heading",
+          "default": "Warranty",
+          "label": "Description section to read",
+          "info": "Text 2 is the first sentence of this H3 section in the product description."
+        },
+        {
+          "type": "text",
+          "id": "text_2",
+          "label": "Text 2 fallback",
+          "info": "Used when the description has no matching section."
+        }
+      ]
     },
     {
       "type": "share",

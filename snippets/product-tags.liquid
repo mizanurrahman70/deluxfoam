@@ -1,0 +1,36 @@
+{% comment %}
+  Renders product tags as small labels. Tags containing an underscore, and tags listed in the block setting, are hidden.
+
+  Accepts:
+  - block: {Object} The main-product block
+  - product: {Object} Product object
+
+  Usage:
+  {% render 'product-tags', block: block, product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign excluded = block.settings.exclude | downcase | split: ','
+  assign shown_tags = 0
+-%}
+<ul class="product__tags list-unstyled" role="list" {{ block.shopify_attributes }}>
+  {%- for tag in product.tags -%}
+    {%- assign tag_key = tag | downcase | strip -%}
+    {%- assign skip = false -%}
+    {%- if tag contains '_' or shown_tags >= block.settings.limit -%}
+      {%- assign skip = true -%}
+    {%- endif -%}
+    {%- for item in excluded -%}
+      {%- assign item_key = item | strip -%}
+      {%- if item_key == tag_key -%}
+        {%- assign skip = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if skip -%}
+      {%- continue -%}
+    {%- endif -%}
+    {%- assign shown_tags = shown_tags | plus: 1 -%}
+    <li class="product__tag">{{ tag | escape }}</li>
+  {%- endfor -%}
+</ul>
+

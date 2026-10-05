@@ -119,6 +119,7 @@
   "products": {
     "product": {
       "add_to_cart": "Add to cart",
+      "description_heading": "Product details",
       "reviews_count": {
         "one": "{{ count }} Review",
         "other": "{{ count }} Reviews"
@@ -150,6 +151,7 @@
       "nested_label": "{{ title }} for {{ parent_title }}",
       "quantity": {
         "label": "Quantity",
+        "label_metres": "Quantity (metres)",
         "input_label": "Quantity for {{ product }}",
         "increase": "Increase quantity for {{ product }}",
         "decrease": "Decrease quantity for {{ product }}",
