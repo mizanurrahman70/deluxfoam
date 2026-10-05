@@ -1,4 +1,7 @@
 {{ 'section-shorts-slider.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.autoplay -%}
+  <script src="{{ 'slider-autoplay.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -40,6 +43,7 @@
       {%- endif -%}
     </div>
 
+    <slider-autoplay class="shorts__autoplay" data-speed="{% if section.settings.autoplay %}{{ section.settings.autoplay_speed | times: 1000 }}{% else %}0{% endif %}">
     <slider-component class="shorts__slider">
       <ul id="Slider-{{ section.id }}" class="shorts__list list-unstyled" role="list">
         {%- for block in section.blocks -%}
@@ -105,6 +109,7 @@
         </button>
       {%- endif -%}
     </slider-component>
+    </slider-autoplay>
   </div>
 </div>
 
@@ -169,6 +174,23 @@
       "step": 1,
       "default": 3,
       "label": "Cards visible on desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "default": true,
+      "label": "Auto-rotate slides",
+      "info": "Pauses while visitors hover or swipe, and stays off for visitors who prefer reduced motion."
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 3,
+      "label": "Change slides every"
     },
     {
       "type": "color_scheme",
