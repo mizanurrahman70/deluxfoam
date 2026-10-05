@@ -9,6 +9,8 @@
   - limit: {Number} Maximum number of products (optional, default 8)
   - exclude_id: {Number} Product ID to leave out, e.g. the current product (optional)
 
+  Products that appear more than once in `products` are shown once.
+
   Usage:
   {% render 'products-slider', products: recommendations.products, section: section, ratio: '4 / 5' %}
 {% endcomment %}
@@ -16,9 +18,14 @@
 {%- liquid
   assign max = limit | default: 8
   assign count = 0
+  assign seen = ','
   for item in products
+    assign key = ',' | append: item.id | append: ','
     if item.id != exclude_id and count < max
-      assign count = count | plus: 1
+      unless seen contains key
+        assign count = count | plus: 1
+        assign seen = seen | append: item.id | append: ','
+      endunless
     endif
   endfor
 -%}
@@ -57,11 +64,14 @@
 
     <ul id="Slider-{{ section.id }}" class="category-slider__list list-unstyled" role="list">
       {%- assign shown = 0 -%}
+      {%- assign seen = ',' -%}
       {%- for item in products -%}
-        {%- if item.id == exclude_id or shown >= max -%}
+        {%- assign key = ',' | append: item.id | append: ',' -%}
+        {%- if item.id == exclude_id or shown >= max or seen contains key -%}
           {%- continue -%}
         {%- endif -%}
         {%- assign shown = shown | plus: 1 -%}
+        {%- assign seen = seen | append: item.id | append: ',' -%}
         <li id="Slide-{{ section.id }}-{{ shown }}" class="category-slider__item">
           {% render 'card-product-simple',
             product: item,

@@ -1,3 +1,9 @@
+/* The wrapper can be a custom element (e.g. product-recommendations), which is inline by default
+   and would ignore the page-width padding and max-width. */
+.category-slider {
+  display: block;
+}
+
 .category-slider__component {
   display: block;
 }
@@ -46,8 +52,9 @@
 }
 
 .category-slider__button:not([disabled]):hover {
-  background-color: rgb(var(--color-foreground));
-  color: rgb(var(--color-background));
+  border-color: rgb(var(--color-button));
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
 }
 
 .category-slider__button[disabled] {
@@ -74,6 +81,7 @@
 
 .category-slider__item {
   flex: 0 0 75%;
+  min-width: 0;
   scroll-snap-align: start;
 }
 

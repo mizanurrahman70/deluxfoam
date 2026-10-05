@@ -309,30 +309,56 @@ span.product-gallery__thumb {
 }
 
 /* ---------- Buy buttons ---------- */
+/* Dawn marks Add to cart as .button--secondary, which redefines --color-button on the button itself.
+   Capture the scheme's primary button colours on the wrapper so the button can use them. */
 .product-section--minimal .product-form__buttons {
+  --brand-button: var(--color-button);
+  --brand-button-text: var(--color-button-text);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
   max-width: none;
 }
 
 .product-section--minimal .product-form__submit.button {
   min-height: 5.6rem;
-  margin-bottom: 1.2rem;
+  margin: 0;
+  border: 0.1rem solid rgb(var(--brand-button));
   border-radius: 0;
-  background-color: rgb(var(--color-foreground));
-  color: rgb(var(--color-background));
+  background-color: rgb(var(--brand-button));
+  color: rgb(var(--brand-button-text));
   font-family: var(--font-body-family);
   font-weight: var(--font-body-weight-bold);
   font-size: calc(var(--font-body-scale) * 1.4rem);
-  letter-spacing: 0;
+  letter-spacing: 0.04rem;
   text-transform: uppercase;
+  transition: background-color var(--duration-short) ease, border-color var(--duration-short) ease,
+    color var(--duration-short) ease;
 }
 
 .product-section--minimal .product-form__submit.button:not([disabled]):hover {
-  opacity: 0.85;
+  border-color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.product-section--minimal .product-form__submit.button[disabled] {
+  border-color: rgba(var(--color-foreground), 0.2);
+  background-color: rgba(var(--color-foreground), 0.06);
+  color: rgba(var(--color-foreground), 0.5);
 }
 
 .product-section--minimal .product-form__submit.button:before,
 .product-section--minimal .product-form__submit.button:after {
   box-shadow: none;
+}
+
+.product-section--minimal .product-form__submit .loading__spinner .path {
+  stroke: currentColor;
+}
+
+.product-section--minimal .shopify-payment-button {
+  margin: 0;
 }
 
 .product-section--minimal .shopify-payment-button__button {
@@ -366,15 +392,19 @@ span.product-gallery__thumb {
 }
 
 /* ---------- Wishlist and share ---------- */
-.product__actions-row,
+.product-section--minimal .product__info-container > .product__actions-row,
 .product-section--minimal .product__info-container > share-button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4.8rem;
-  margin: 2.4rem 0 0;
-  padding-bottom: 2.4rem;
+  margin: 2.8rem 0 0;
+  padding-bottom: 2.8rem;
   border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
+}
+
+.product-section--minimal .product__info-container > .product-form {
+  margin-top: 0;
 }
 
 .product__actions-row share-button {
@@ -411,7 +441,8 @@ span.product-gallery__thumb {
 }
 
 .wishlist-button.is-saved .icon path {
-  fill: currentColor;
+  fill: rgb(var(--color-button));
+  stroke: rgb(var(--color-button));
 }
 
 .wishlist-button.is-saved .wishlist-button__button {

@@ -90,8 +90,12 @@
 }
 
 .card-simple__button.button--secondary:not([disabled]):hover {
-  background-color: rgb(var(--color-foreground));
-  color: rgb(var(--color-background));
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+.card-simple__button.button--secondary:not([disabled]):hover:after {
+  box-shadow: 0 0 0 var(--buttons-border-width) rgb(var(--color-button));
 }
 
 @media screen and (min-width: 750px) {

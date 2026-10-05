@@ -37,27 +37,37 @@
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
   >
-    {%- if recommendations.performed and recommendations.products_count > 0 -%}
-      {% render 'products-slider',
-        products: recommendations.products,
-        section: section,
-        ratio: ratio,
-        limit: section.settings.products_to_show
-      %}
-    {%- elsif product -%}
-      {%- comment -%}
-        Shown until Shopify returns recommendations, and kept when it returns none.
-      {%- endcomment -%}
-      {%- assign fallback = section.settings.fallback_collection | default: product.collections.first -%}
-      {%- if fallback != blank -%}
+    {%- comment -%}
+      The page first renders a filled row from the product's collection, topped up with other products.
+      Shopify's recommendations replace it only when there are enough of them to fill a row;
+      otherwise this section renders nothing for the recommendations request and the first row stays.
+    {%- endcomment -%}
+    {%- if recommendations.performed -%}
+      {%- if recommendations.products_count >= columns -%}
         {% render 'products-slider',
-          products: fallback.products,
+          products: recommendations.products,
           section: section,
           ratio: ratio,
-          limit: section.settings.products_to_show,
-          exclude_id: product.id
+          limit: section.settings.products_to_show
         %}
       {%- endif -%}
+    {%- elsif product -%}
+      {%- liquid
+        assign pool = collections.all.products
+        if product.collections.size > 0
+          assign pool = product.collections.first.products | concat: pool
+        endif
+        if section.settings.fallback_collection != blank
+          assign pool = section.settings.fallback_collection.products | concat: pool
+        endif
+      -%}
+      {% render 'products-slider',
+        products: pool,
+        section: section,
+        ratio: ratio,
+        limit: section.settings.products_to_show,
+        exclude_id: product.id
+      %}
     {%- endif -%}
   </product-recommendations>
 </div>
@@ -117,7 +127,7 @@
       "type": "collection",
       "id": "fallback_collection",
       "label": "Fallback collection",
-      "info": "Shown when Shopify has no recommendations yet. Uses the product's first collection when empty."
+      "info": "Shown first when Shopify has too few recommendations. The row is then filled from the product's collection and all products."
     },
     {
       "type": "range",

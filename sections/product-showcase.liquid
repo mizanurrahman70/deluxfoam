@@ -85,6 +85,16 @@
           {%- endfor -%}
         {%- endif -%}
       </ul>
+      {%- if section.settings.button_label != blank and section.settings.collection.products_count > limit -%}
+        <div class="product-showcase__footer">
+          <a
+            href="{{ section.settings.button_link | default: section.settings.collection.url }}"
+            class="product-showcase__button button"
+          >
+            {{- section.settings.button_label | escape -}}
+          </a>
+        </div>
+      {%- endif -%}
     {%- endcapture -%}
 
     {%- if has_tabs -%}
@@ -150,6 +160,13 @@
                 <li class="product-showcase__empty">{{ 'sections.collection_template.empty' | t }}</li>
               {%- endfor -%}
             </ul>
+            {%- if section.settings.button_label != blank and block.settings.collection.products_count > limit -%}
+              <div class="product-showcase__footer">
+                <a href="{{ block.settings.collection.url }}" class="product-showcase__button button">
+                  {{- section.settings.button_label | escape -}}
+                </a>
+              </div>
+            {%- endif -%}
           </div>
         {%- endfor -%}
       </product-tabs>
@@ -157,13 +174,6 @@
       {{ all_panel }}
     {%- endif -%}
 
-    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
-      <div class="product-showcase__footer">
-        <a href="{{ section.settings.button_link }}" class="product-showcase__button button">
-          {{- section.settings.button_label | escape -}}
-        </a>
-      </div>
-    {%- endif -%}
   </div>
 </div>
 
@@ -319,7 +329,8 @@
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button link"
+      "label": "Button link",
+      "info": "Shown only when there are more products than the section displays. Uses the collection link when empty. Tabs link to their own collection."
     },
     {
       "type": "color_scheme",

@@ -60,7 +60,7 @@
   right: 0;
   bottom: 0;
   height: 0.2rem;
-  background-color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-button));
   transform: scaleX(0);
   transition: transform var(--duration-short) ease;
 }

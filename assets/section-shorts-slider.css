@@ -32,7 +32,7 @@
   display: inline-block;
   margin-top: 2.4rem;
   padding: 0 0.4rem 1rem;
-  border-bottom: 0.2rem solid rgb(var(--color-foreground));
+  border-bottom: 0.2rem solid rgb(var(--color-button));
   font-size: calc(var(--font-body-scale) * 1.5rem);
   font-weight: var(--font-body-weight-bold);
   color: rgb(var(--color-foreground));
