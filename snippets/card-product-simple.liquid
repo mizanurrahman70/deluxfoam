@@ -53,7 +53,9 @@
         <p class="card-simple__type">{{ product.type | escape }}</p>
       {%- endif -%}
       <h3 class="card-simple__title">
-        <a href="{{ product.url }}" class="full-unstyled-link">{{ product.title | escape }}</a>
+        <a href="{{ product.url }}" class="full-unstyled-link" title="{{ product.title | escape }}">
+          {{- product.title | escape -}}
+        </a>
       </h3>
       {%- if show_subtitle and subtitle != blank -%}
         <p class="card-simple__subtitle">{{ subtitle | escape }}</p>
