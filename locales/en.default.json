@@ -119,6 +119,7 @@
   "products": {
     "product": {
       "add_to_cart": "Add to cart",
+      "buy_now": "Buy now",
       "description_heading": "Product details",
       "reviews_count": {
         "one": "{{ count }} Review",

@@ -7,7 +7,7 @@
   - ratio: {String} CSS aspect ratio of the image, e.g. '1 / 1' (optional)
   - show_type: {Boolean} Show the product type above the title (optional)
   - show_subtitle: {Boolean} Show the custom.subtitle metafield (optional)
-  - show_button: {Boolean} Show the add to cart button (optional)
+  - show_button: {Boolean} Show the cart icon (adds to cart) and the Buy now button (checkout) (optional)
   - sizes: {String} Value for the image sizes attribute (optional)
   - placeholder_index: {Number} Used to vary the placeholder image (optional)
   - compact: {Boolean} Smaller title for dense grids (optional)
@@ -60,8 +60,56 @@
       {%- if show_subtitle and subtitle != blank -%}
         <p class="card-simple__subtitle">{{ subtitle | escape }}</p>
       {%- endif -%}
-      <div class="card-simple__price">
-        {% render 'price', product: product, price_class: '' %}
+      <div class="card-simple__price-row">
+        <div class="card-simple__price">
+          {% render 'price', product: product, price_class: '' %}
+        </div>
+        {%- if show_button -%}
+          {%- if product.variants_count > 1 -%}
+            <a
+              href="{{ product.url }}"
+              class="card-simple__icon-button"
+              aria-label="{{ 'products.product.choose_options' | t }}: {{ product.title | escape }}"
+            >
+              {{- 'icon-cart.svg' | inline_asset_content -}}
+            </a>
+          {%- else -%}
+            <product-form class="card-simple__quick-add" data-section-id="{{ section_id }}">
+              {%- form 'product', product, id: form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input
+                  type="hidden"
+                  name="id"
+                  value="{{ variant.id }}"
+                  class="product-variant-id"
+                  {% unless variant.available %}
+                    disabled
+                  {% endunless %}
+                >
+                <button
+                  id="{{ form_id }}-submit"
+                  type="submit"
+                  name="add"
+                  class="card-simple__icon-button"
+                  aria-label="{{ 'products.product.add_to_cart' | t }}: {{ product.title | escape }}"
+                  aria-live="polite"
+                  {% unless variant.available %}
+                    disabled
+                  {% endunless %}
+                >
+                  <span class="visually-hidden">
+                    {%- if variant.available -%}
+                      {{ 'products.product.add_to_cart' | t }}
+                    {%- else -%}
+                      {{ 'products.product.sold_out' | t }}
+                    {%- endif -%}
+                  </span>
+                  {{- 'icon-cart.svg' | inline_asset_content -}}
+                  {%- render 'loading-spinner' -%}
+                </button>
+              {%- endform -%}
+            </product-form>
+          {%- endif -%}
+        {%- endif -%}
       </div>
     </div>
 
@@ -71,39 +119,18 @@
           <a href="{{ product.url }}" class="card-simple__button button button--secondary button--full-width">
             {{ 'products.product.choose_options' | t }}
           </a>
+        {%- elsif variant.available -%}
+          {%- comment -%} Cart permalink: goes straight to checkout with just this item {%- endcomment -%}
+          <a
+            href="{{ routes.cart_url }}/{{ variant.id }}:1"
+            class="card-simple__button button button--secondary button--full-width"
+          >
+            {{ 'products.product.buy_now' | t }}
+          </a>
         {%- else -%}
-          <product-form data-section-id="{{ section_id }}">
-            {%- form 'product', product, id: form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-              <input
-                type="hidden"
-                name="id"
-                value="{{ variant.id }}"
-                class="product-variant-id"
-                {% unless variant.available %}
-                  disabled
-                {% endunless %}
-              >
-              <button
-                id="{{ form_id }}-submit"
-                type="submit"
-                name="add"
-                class="card-simple__button button button--secondary button--full-width"
-                aria-live="polite"
-                {% unless variant.available %}
-                  disabled
-                {% endunless %}
-              >
-                <span>
-                  {%- if variant.available -%}
-                    {{ 'products.product.add_to_cart' | t }}
-                  {%- else -%}
-                    {{ 'products.product.sold_out' | t }}
-                  {%- endif -%}
-                </span>
-                {%- render 'loading-spinner' -%}
-              </button>
-            {%- endform -%}
-          </product-form>
+          <button type="button" class="card-simple__button button button--secondary button--full-width" disabled>
+            {{ 'products.product.sold_out' | t }}
+          </button>
         {%- endif -%}
       </div>
     {%- endif -%}
@@ -114,14 +141,19 @@
     </div>
     <div class="card-simple__info">
       <h3 class="card-simple__title">{{ 'onboarding.product_title' | t }}</h3>
-      <div class="card-simple__price">
-        {% render 'price', placeholder: true %}
+      <div class="card-simple__price-row">
+        <div class="card-simple__price">
+          {% render 'price', placeholder: true %}
+        </div>
+        {%- if show_button -%}
+          <span class="card-simple__icon-button" aria-hidden="true">{{- 'icon-cart.svg' | inline_asset_content -}}</span>
+        {%- endif -%}
       </div>
     </div>
     {%- if show_button -%}
       <div class="card-simple__actions">
         <button type="button" class="card-simple__button button button--secondary button--full-width" disabled>
-          {{ 'products.product.add_to_cart' | t }}
+          {{ 'products.product.buy_now' | t }}
         </button>
       </div>
     {%- endif -%}

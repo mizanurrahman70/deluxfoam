@@ -1,4 +1,8 @@
+/* Buttons inside the card use .button--secondary, which redefines --color-button on itself.
+   Capture the scheme's primary button colours here for hover states. */
 .card-simple {
+  --brand-button: var(--color-button);
+  --brand-button-text: var(--color-button-text);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -83,8 +87,70 @@
   color: rgba(var(--color-foreground), 0.65);
 }
 
-.card-simple__price {
+.card-simple__price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
   margin-top: 0.8rem;
+}
+
+.card-simple__price {
+  min-width: 0;
+}
+
+/* Small square cart button on the right of the price */
+.card-simple__quick-add {
+  flex-shrink: 0;
+}
+
+.card-simple__icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.25);
+  border-radius: 50%;
+  background: transparent;
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  transition: background-color var(--duration-short) ease, border-color var(--duration-short) ease,
+    color var(--duration-short) ease;
+}
+
+.card-simple__icon-button > svg {
+  /* the icon artwork fills about 55% of its viewBox */
+  width: 3.8rem;
+  height: 3.8rem;
+}
+
+.card-simple__icon-button:not([disabled]):hover {
+  border-color: rgb(var(--brand-button));
+  background-color: rgb(var(--brand-button));
+  color: rgb(var(--brand-button-text));
+}
+
+.card-simple__icon-button[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.card-simple__icon-button .loading__spinner {
+  position: absolute;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.card-simple__icon-button.loading > svg {
+  visibility: hidden;
+}
+
+.card-simple__icon-button .loading__spinner .path {
+  stroke: currentColor;
 }
 
 .card-simple__price .price {
@@ -93,11 +159,7 @@
   color: rgb(var(--color-foreground));
 }
 
-/* The button is .button--secondary, which redefines --color-button on itself.
-   Capture the scheme's primary button colours here so the hover state can use them. */
 .card-simple__actions {
-  --brand-button: var(--color-button);
-  --brand-button-text: var(--color-button-text);
   margin-top: 1.6rem;
 }
 
@@ -153,8 +215,18 @@
   font-size: calc(var(--font-body-scale) * 1.4rem);
 }
 
-.card-simple--compact .card-simple__price {
+.card-simple--compact .card-simple__price-row {
   margin-top: 0.4rem;
+}
+
+.card-simple--compact .card-simple__icon-button {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.card-simple--compact .card-simple__icon-button > svg {
+  width: 3.4rem;
+  height: 3.4rem;
 }
 
 .card-simple--compact .card-simple__actions {
