@@ -87,3 +87,71 @@
   font-weight: var(--font-body-weight-bold);
   letter-spacing: 0;
 }
+
+/* Custom elements are inline by default; the tabs wrapper must be a block so its height can animate */
+.product-showcase__tabs {
+  display: block;
+}
+
+/* Smooth tab change (driven by product-tabs.js):
+   is-leaving  - the old panel fades out
+   is-entering - the new panel starts hidden, cards slightly lower
+   is-entered  - the new panel fades in, cards rise into place one after another */
+.product-showcase__panel {
+  transition: opacity 0.18s ease;
+}
+
+.product-showcase__panel.is-leaving {
+  opacity: 0;
+}
+
+.product-showcase__panel.is-entering {
+  opacity: 0;
+}
+
+.product-showcase__panel.is-entering.is-entered {
+  opacity: 1;
+  transition-duration: 0.3s;
+}
+
+.product-showcase__panel.is-entering .product-showcase__item {
+  opacity: 0;
+  transform: translateY(1.2rem);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.product-showcase__panel.is-entered .product-showcase__item {
+  opacity: 1;
+  transform: none;
+}
+
+.product-showcase__panel.is-entered .product-showcase__item:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+.product-showcase__panel.is-entered .product-showcase__item:nth-child(3) {
+  transition-delay: 0.1s;
+}
+
+.product-showcase__panel.is-entered .product-showcase__item:nth-child(4) {
+  transition-delay: 0.15s;
+}
+
+.product-showcase__panel.is-entered .product-showcase__item:nth-child(n + 5) {
+  transition-delay: 0.2s;
+}
+
+.product-showcase__tab {
+  transition: color var(--duration-short) ease;
+}
+
+.product-showcase__tab::after {
+  transition: transform 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-showcase__panel,
+  .product-showcase__panel .product-showcase__item {
+    transition: none;
+  }
+}

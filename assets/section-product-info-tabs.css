@@ -178,3 +178,24 @@
   margin: 0.4rem 0;
   padding-left: 1.6rem;
 }
+
+/* Smooth tab change (classes set by product-tabs.js) */
+.info-tabs__panel {
+  transition: opacity 0.18s ease;
+}
+
+.info-tabs__panel.is-leaving,
+.info-tabs__panel.is-entering {
+  opacity: 0;
+}
+
+.info-tabs__panel.is-entering.is-entered {
+  opacity: 1;
+  transition-duration: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-tabs__panel {
+    transition: none;
+  }
+}
