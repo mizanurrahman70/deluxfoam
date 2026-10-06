@@ -8,6 +8,10 @@
   - ratio: {String} CSS aspect ratio of card images, e.g. '4 / 5'
   - limit: {Number} Maximum number of products (optional, default 8)
   - exclude_id: {Number} Product ID to leave out, e.g. the current product (optional)
+  - link_label: {String} Label of a "view all" link shown next to the arrows (optional)
+  - link_url: {String} URL of that link (optional)
+  - autoplay_speed: {Number} Milliseconds between automatic slides; 0 or blank turns it off (optional,
+    needs slider-autoplay.js)
 
   Products that appear more than once in `products` are shown once.
 
@@ -31,12 +35,20 @@
 -%}
 
 {%- if count > 0 -%}
+  <slider-autoplay data-speed="{{ autoplay_speed | default: 0 }}">
   <slider-component class="category-slider__component">
     <div class="category-slider__header">
       {%- if section.settings.title != blank -%}
         <h2 class="category-slider__title inline-richtext {{ section.settings.heading_size }}">
           {{ section.settings.title }}
         </h2>
+      {%- endif -%}
+      <div class="section-heading__actions">
+      {%- if link_label != blank and link_url != blank -%}
+        <a href="{{ link_url }}" class="section-heading__link link link--text">
+          {{- link_label | escape -}}
+          {{- 'icon-arrow.svg' | inline_asset_content -}}
+        </a>
       {%- endif -%}
       {%- if count > 1 -%}
         <div class="category-slider__buttons">
@@ -60,6 +72,7 @@
           </button>
         </div>
       {%- endif -%}
+      </div>
     </div>
 
     <ul id="Slider-{{ section.id }}" class="category-slider__list list-unstyled" role="list">
@@ -86,4 +99,5 @@
       {%- endfor -%}
     </ul>
   </slider-component>
+  </slider-autoplay>
 {%- endif -%}

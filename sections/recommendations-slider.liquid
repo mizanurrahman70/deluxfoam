@@ -1,4 +1,8 @@
 {{ 'section-category-slider.css' | asset_url | stylesheet_tag }}
+{{ 'component-section-heading.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.autoplay -%}
+  <script src="{{ 'slider-autoplay.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 {{ 'component-card-product-simple.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {%- if section.settings.show_button -%}
@@ -27,6 +31,23 @@
       assign ratio = '4 / 5'
   endcase
   assign columns = section.settings.columns_desktop
+
+  assign autoplay_speed = 0
+  if section.settings.autoplay
+    assign autoplay_speed = section.settings.autoplay_speed | times: 1000
+  endif
+
+  comment
+    "View all" goes to the product's own collection. The recommendations request has no product
+    context, so it falls back to all products there.
+  endcomment
+  assign view_all_url = section.settings.link_url
+  if view_all_url == blank and product.collections.size > 0
+    assign view_all_url = product.collections.first.url
+  endif
+  if view_all_url == blank
+    assign view_all_url = routes.all_products_collection_url
+  endif
 -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
@@ -48,7 +69,10 @@
           products: recommendations.products,
           section: section,
           ratio: ratio,
-          limit: section.settings.products_to_show
+          limit: section.settings.products_to_show,
+          link_label: section.settings.link_label,
+          link_url: view_all_url,
+          autoplay_speed: autoplay_speed
         %}
       {%- endif -%}
     {%- elsif product -%}
@@ -66,7 +90,10 @@
         section: section,
         ratio: ratio,
         limit: section.settings.products_to_show,
-        exclude_id: product.id
+        exclude_id: product.id,
+        link_label: section.settings.link_label,
+        link_url: view_all_url,
+        autoplay_speed: autoplay_speed
       %}
     {%- endif -%}
   </product-recommendations>
@@ -174,6 +201,36 @@
       "id": "show_button",
       "default": false,
       "label": "Show add to cart button"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "View All Products",
+      "label": "View all link label",
+      "info": "Leave empty to hide the link."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "View all link",
+      "info": "Uses the product's collection when empty."
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "default": true,
+      "label": "Auto-rotate slides",
+      "info": "Pauses while visitors hover or swipe, and stays off for visitors who prefer reduced motion."
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 3,
+      "label": "Change slides every"
     },
     {
       "type": "color_scheme",

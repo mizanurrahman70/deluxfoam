@@ -17,6 +17,17 @@
   color: rgba(var(--color-foreground), 0.7);
 }
 
+.section-heading__actions {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  flex-shrink: 0;
+}
+
+.section-heading__actions .section-heading__link {
+  padding-bottom: 0;
+}
+
 .section-heading__link {
   display: inline-flex;
   align-items: center;
