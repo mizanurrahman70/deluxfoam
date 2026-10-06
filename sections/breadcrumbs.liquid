@@ -37,7 +37,16 @@
 {%- liquid
   assign parent = blank
   if template.name == 'product'
-    assign parent = collection | default: product.collections.first
+    if collection and collection.handle != 'frontpage' and collection.handle != 'all'
+      assign parent = collection
+    else
+      for item in product.collections
+        if item.handle != 'frontpage' and item.handle != 'all'
+          assign parent = item
+          break
+        endif
+      endfor
+    endif
   endif
 -%}
 

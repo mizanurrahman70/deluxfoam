@@ -374,9 +374,9 @@ span.product-gallery__thumb {
   color: rgb(var(--color-foreground));
   border: 0.1rem solid rgb(var(--color-foreground));
   font-family: var(--font-body-family);
-  font-weight: var(--font-body-weight);
+  font-weight: var(--font-body-weight-bold);
   font-size: calc(var(--font-body-scale) * 1.4rem);
-  letter-spacing: 0;
+  letter-spacing: 0.04rem;
   text-transform: uppercase;
 }
 
