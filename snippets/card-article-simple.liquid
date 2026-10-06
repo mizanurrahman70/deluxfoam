@@ -19,6 +19,7 @@
   {%- if article != blank -%}
     <a href="{{ article.url }}" class="card-article__media" tabindex="-1" aria-hidden="true">
       {%- if article.image -%}
+        {%- assign image_alt = article.image.alt | default: article.title -%}
         {{
           article.image
           | image_url: width: 1100
@@ -26,7 +27,7 @@
             loading: 'lazy',
             widths: '375, 550, 750, 1100',
             sizes: card_sizes,
-            alt: article.image.alt | default: article.title,
+            alt: image_alt,
             class: 'card-article__image'
         }}
       {%- else -%}

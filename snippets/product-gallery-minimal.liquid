@@ -24,6 +24,7 @@
         {%- else -%}
           {%- assign loading = 'lazy' -%}
         {%- endif -%}
+        {%- assign image_alt = media.alt | default: product.title -%}
         <div
           class="product-gallery__slide{% if media.id == featured.id %} is-active{% endif %}"
           data-media-id="{{ media.id }}"
@@ -38,7 +39,7 @@
               loading: loading,
               widths: '550, 750, 1000, 1300, 1600',
               sizes: '(min-width: 990px) 55vw, 100vw',
-              alt: media.alt | default: product.title,
+              alt: image_alt,
               class: 'product-gallery__image'
           }}
           {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
