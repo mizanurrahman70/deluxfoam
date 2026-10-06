@@ -15,49 +15,16 @@
         "slide-1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/furniture-hero-banner.png",
+            "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
             "subheading": "",
             "button_label": "",
             "link": "",
             "button_style_secondary": false,
-            "box_align": "middle-center",
-            "image_overlay_opacity": 0,
             "show_text_box": false,
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-3"
-          }
-        },
-        "slide-2": {
-          "type": "slide",
-          "settings": {
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
             "box_align": "middle-center",
-            "image_overlay_opacity": 0,
-            "show_text_box": false,
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-3"
-          }
-        },
-        "slide-3": {
-          "type": "slide",
-          "settings": {
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "image_overlay_opacity": 0,
-            "show_text_box": false,
             "text_alignment": "center",
             "text_alignment_mobile": "center",
             "color_scheme": "scheme-3"
@@ -65,13 +32,11 @@
         }
       },
       "block_order": [
-        "slide-1",
-        "slide-2",
-        "slide-3"
+        "slide-1"
       ],
       "settings": {
         "layout": "full_bleed",
-        "slide_height": "adapt_image",
+        "slide_height": "medium",
         "slider_visual": "dots",
         "controls_overlay": true,
         "auto_rotate": false,
@@ -87,25 +52,64 @@
         "category-1": {
           "type": "category",
           "settings": {
-            "title": "Sofa"
+            "collection": "sofa",
+            "image": "shopify://shop_images/photo-1594809512566-021e8369702a_781c23bf-4c74-4913-a274-1176a7b375e3.jpg",
+            "title": "Sofa",
+            "link": ""
           }
         },
         "category-2": {
           "type": "category",
           "settings": {
-            "title": "Corner Sofa"
+            "collection": "corner-sofa",
+            "image": "shopify://shop_images/photo-1484101403633-562f891dc89a.jpg",
+            "title": "Corner Sofa",
+            "link": ""
           }
         },
         "category-3": {
           "type": "category",
           "settings": {
-            "title": "Hardwood"
+            "collection": "hardware",
+            "image": "shopify://shop_images/photo-1645651964715-d200ce0939cc.jpg",
+            "title": "Hardwood",
+            "link": ""
           }
         },
         "category-4": {
           "type": "category",
           "settings": {
-            "title": "Table"
+            "collection": "table",
+            "image": "shopify://shop_images/photo-1631396326646-c06a935ff3a6_c41d1135-99a6-4fdc-886b-6b5e38329cd7.jpg",
+            "title": "Table",
+            "link": ""
+          }
+        },
+        "category_XGCqge": {
+          "type": "category",
+          "settings": {
+            "collection": "barrios-fabrics",
+            "image": "shopify://shop_images/photo-1634712282287-14ed57b9cc89.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "category_4jFB9M": {
+          "type": "category",
+          "settings": {
+            "collection": "tool",
+            "image": "shopify://shop_images/photo-1605701249987-f0bb9b505d06_84e7e871-8162-4a80-b4d8-1ebf69ad689b.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "category_cTGxpe": {
+          "type": "category",
+          "settings": {
+            "collection": "divan",
+            "image": "shopify://shop_images/photo-1552259013-a245aa0fb94a_c70f21a3-9469-4a63-9070-5c059efd6faa.jpg",
+            "title": "",
+            "link": ""
           }
         }
       },
@@ -113,7 +117,10 @@
         "category-1",
         "category-2",
         "category-3",
-        "category-4"
+        "category-4",
+        "category_XGCqge",
+        "category_4jFB9M",
+        "category_cTGxpe"
       ],
       "settings": {
         "title": "Shop by Categories",
@@ -121,6 +128,8 @@
         "columns_desktop": 4,
         "image_ratio": "portrait",
         "show_arrows": true,
+        "autoplay": true,
+        "autoplay_speed": 3,
         "color_scheme": "scheme-1",
         "padding_top": 72,
         "padding_bottom": 36
@@ -129,22 +138,22 @@
     "best_sellers": {
       "type": "product-showcase",
       "settings": {
-        "heading_size": "h1",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "show_button": true,
-        "all_tab_label": "All",
-        "color_scheme": "scheme-1",
         "title": "Best Sellers",
+        "heading_size": "h1",
         "link_label": "View All Products",
         "link_url": "shopify://collections/all",
         "collection": "all",
         "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "image_ratio": "square",
         "show_type": false,
         "show_subtitle": true,
+        "show_button": true,
+        "all_tab_label": "All",
         "button_label": "",
         "button_link": "",
+        "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -152,22 +161,22 @@
     "popular_furniture": {
       "type": "product-showcase",
       "settings": {
-        "heading_size": "h1",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "show_button": true,
-        "all_tab_label": "All",
-        "color_scheme": "scheme-1",
         "title": "Popular Furniture",
+        "heading_size": "h1",
         "link_label": "View All Furniture",
         "link_url": "shopify://collections/all",
         "collection": "all",
         "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "image_ratio": "portrait",
         "show_type": true,
         "show_subtitle": false,
+        "show_button": true,
+        "all_tab_label": "All",
         "button_label": "",
         "button_link": "",
+        "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -178,43 +187,50 @@
         "tab-1": {
           "type": "tab",
           "settings": {
-            "label": "Sofa"
+            "label": "Sofa",
+            "collection": "sofa"
           }
         },
         "tab-2": {
           "type": "tab",
           "settings": {
-            "label": "Corner Sofa"
+            "label": "Corner Sofa",
+            "collection": "corner-sofa"
           }
         },
         "tab-3": {
           "type": "tab",
           "settings": {
-            "label": "Table"
+            "label": "Table",
+            "collection": "table"
           }
         },
         "tab-4": {
           "type": "tab",
           "settings": {
-            "label": "Tool"
+            "label": "Tool",
+            "collection": "tool"
           }
         },
         "tab-5": {
           "type": "tab",
           "settings": {
-            "label": "Divan"
+            "label": "Divan",
+            "collection": "divan"
           }
         },
         "tab-6": {
           "type": "tab",
           "settings": {
-            "label": "Hardware"
+            "label": "Hardware",
+            "collection": "hardware"
           }
         },
         "tab-7": {
           "type": "tab",
           "settings": {
-            "label": "Barrios Fabrics"
+            "label": "Barrios Fabrics",
+            "collection": "barrios-fabrics"
           }
         }
       },
@@ -228,22 +244,22 @@
         "tab-7"
       ],
       "settings": {
-        "heading_size": "h1",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "show_button": true,
-        "all_tab_label": "All",
-        "color_scheme": "scheme-1",
         "title": "More Ideas and Inspiration",
+        "heading_size": "h1",
         "link_label": "",
         "link_url": "",
         "collection": "all",
         "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
         "image_ratio": "square",
         "show_type": true,
         "show_subtitle": true,
+        "show_button": true,
+        "all_tab_label": "All",
         "button_label": "View All Products",
         "button_link": "shopify://collections/all",
+        "color_scheme": "scheme-1",
         "padding_top": 48,
         "padding_bottom": 48
       }
@@ -296,32 +312,44 @@
     "shorts": {
       "type": "shorts-slider",
       "blocks": {
+        "short_6YraCB": {
+          "type": "short",
+          "settings": {
+            "image": "shopify://shop_images/photo-1560352624-5170564e4213.jpg",
+            "link": "shopify://collections/divan"
+          }
+        },
         "short-1": {
           "type": "short",
           "settings": {
-            "link": ""
+            "image": "shopify://shop_images/photo-1594809512566-021e8369702a_781c23bf-4c74-4913-a274-1176a7b375e3.jpg",
+            "link": "shopify://collections/sofa"
           }
         },
         "short-2": {
           "type": "short",
           "settings": {
-            "link": ""
+            "image": "shopify://shop_images/photo-1725831497798-a9440836e146.jpg",
+            "link": "shopify://collections/corner-sofa"
           }
         },
         "short-3": {
           "type": "short",
           "settings": {
-            "link": ""
+            "image": "shopify://shop_images/photo-1497218770144-3fea6dbc33fe.jpg",
+            "link": "shopify://collections/tool"
           }
         },
         "short-4": {
           "type": "short",
           "settings": {
-            "link": ""
+            "image": "shopify://shop_images/photo-1608613304899-ea8098577e38.jpg",
+            "link": "shopify://collections/hardware"
           }
         }
       },
       "block_order": [
+        "short_6YraCB",
         "short-1",
         "short-2",
         "short-3",
@@ -334,6 +362,8 @@
         "link_label": "Explore to view more interior ideas",
         "link": "shopify://collections/all",
         "columns_desktop": 3,
+        "autoplay": true,
+        "autoplay_speed": 3,
         "color_scheme": "scheme-1",
         "padding_top": 48,
         "padding_bottom": 24
@@ -345,6 +375,7 @@
         "promo-1": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/photo-1590375096341-0c6b35a09d79.jpg",
             "heading": "Elevate your space for less",
             "text": "Shop our exclusive sale now!",
             "link_label": "Learn more",
@@ -354,6 +385,7 @@
         "promo-2": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/photo-1493663284031-b7e3aefcae8e.jpg",
             "heading": "Home essentials",
             "text": "Discounted for a limited time!",
             "link_label": "Learn more",
@@ -363,6 +395,7 @@
         "promo-3": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/photo-1626081063434-79a2169791b1.jpg",
             "heading": "Style upgrade alert",
             "text": "Discover our limited time sale!",
             "link_label": "Learn more",
@@ -441,6 +474,7 @@
       "settings": {
         "title": "Frequently Asked Questions",
         "heading_size": "h1",
+        "image": "shopify://shop_images/photo-1552259013-a245aa0fb94a_c70f21a3-9469-4a63-9070-5c059efd6faa.jpg",
         "image_position": "left",
         "color_scheme": "scheme-1",
         "padding_top": 48,
