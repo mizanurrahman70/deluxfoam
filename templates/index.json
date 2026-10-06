@@ -181,6 +181,27 @@
         "padding_bottom": 36
       }
     },
+    "promo_banner": {
+      "type": "promo-banner",
+      "settings": {
+        "eyebrow": "Made to order",
+        "heading": "Your sofa, in any fabric you choose",
+        "heading_size": "h0",
+        "text": "<p>Velvet, chenille, linen or jacquard. Built in our own factory and ready in 10–15 working days, with free delivery inside Dhaka.</p>",
+        "button_label": "Shop sofas",
+        "button_link": "shopify://collections/sofa",
+        "link_label": "Browse fabrics",
+        "link": "shopify://collections/barrios-fabrics",
+        "height": "medium",
+        "content_position": "left",
+        "overlay_opacity": 40,
+        "full_width": false,
+        "color_scheme": "scheme-1",
+        "text_color_scheme": "scheme-3",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
     "more_ideas": {
       "type": "product-showcase",
       "blocks": {
@@ -517,6 +538,7 @@
     "category_slider",
     "best_sellers",
     "popular_furniture",
+    "promo_banner",
     "more_ideas",
     "testimonials",
     "shorts",

@@ -1,0 +1,288 @@
+{{ 'section-promo-banner.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="section-{{ section.id }}-padding{% unless section.settings.full_width %} page-width{% endunless %}">
+    <div
+      class="promo-banner promo-banner--{{ section.settings.height }} promo-banner--{{ section.settings.content_position }}{% if section.settings.full_width %} promo-banner--full-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      style="--promo-banner-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+    >
+      <div class="promo-banner__media">
+        {%- if section.settings.image != blank -%}
+          {%- liquid
+            assign image_alt = section.settings.image.alt | default: section.settings.heading
+            if section.settings.image_mobile != blank
+              assign desktop_class = 'promo-banner__image promo-banner__image--desktop'
+            else
+              assign desktop_class = 'promo-banner__image'
+            endif
+          -%}
+          {{
+            section.settings.image
+            | image_url: width: 2400
+            | image_tag:
+              loading: 'lazy',
+              widths: '750, 1100, 1500, 1800, 2400',
+              sizes: '100vw',
+              alt: image_alt,
+              class: desktop_class
+          }}
+          {%- if section.settings.image_mobile != blank -%}
+            {{
+              section.settings.image_mobile
+              | image_url: width: 1100
+              | image_tag:
+                loading: 'lazy',
+                widths: '550, 750, 1100',
+                sizes: '100vw',
+                alt: image_alt,
+                class: 'promo-banner__image promo-banner__image--mobile'
+            }}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'promo-banner__image placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <div class="promo-banner__content color-{{ section.settings.text_color_scheme }}">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="promo-banner__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="promo-banner__heading inline-richtext {{ section.settings.heading_size }}">
+            {{- section.settings.heading -}}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="promo-banner__text rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank or section.settings.link_label != blank -%}
+          <div class="promo-banner__actions">
+            {%- if section.settings.button_label != blank -%}
+              <a
+                {% if section.settings.button_link != blank %}
+                  href="{{ section.settings.button_link }}"
+                {% else %}
+                  role="link" aria-disabled="true"
+                {% endif %}
+                class="promo-banner__button button"
+              >
+                {{- section.settings.button_label | escape -}}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.link_label != blank -%}
+              <a
+                {% if section.settings.link != blank %}
+                  href="{{ section.settings.link }}"
+                {% else %}
+                  role="link" aria-disabled="true"
+                {% endif %}
+                class="promo-banner__link"
+              >
+                {{- section.settings.link_label | escape -}}
+                {{- 'icon-arrow.svg' | inline_asset_content -}}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Promo banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Wide images work best (about 2400 × 900 px)."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "Optional. Taller images work best on phones (about 1100 × 1300 px)."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "default": "Made to order",
+      "label": "Small label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Your sofa, in any fabric you choose",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h0",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Velvet, chenille, linen or jacquard. Built in our own factory and ready in 10–15 working days.</p>",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Shop sofas",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "Browse fabrics",
+      "label": "Second link label",
+      "info": "Optional text link next to the button."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Second link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium",
+      "label": "Height"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Text position"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 40,
+      "label": "Image overlay opacity"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.full_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "text_color_scheme",
+      "label": "Text color scheme",
+      "info": "Text and button colors over the image.",
+      "default": "scheme-3"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo banner"
+    }
+  ]
+}
+{% endschema %}
