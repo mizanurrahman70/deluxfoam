@@ -200,7 +200,7 @@ slideshow-component:not(.page-width) .slider-buttons {
   transform: scale(0.8);
 }
 
-/* Pagination on the image */
+/* Pagination on the image: one translucent pill with the slide indicators and a clear pause/play button */
 .slideshow--controls-overlay {
   position: relative;
 }
@@ -210,8 +210,16 @@ slideshow-component:not(.page-width) .slider-buttons {
   left: 50%;
   bottom: 1.6rem;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 0;
+  padding: 0.4rem 0.6rem 0.4rem 1.2rem;
   border: 0;
-  background: transparent;
+  border-radius: 99rem;
+  background-color: rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(0.6rem);
+  backdrop-filter: blur(0.6rem);
   transform: translateX(-50%);
 }
 
@@ -221,26 +229,108 @@ slideshow-component:not(.page-width) .slider-buttons {
 }
 
 .slideshow--controls-overlay .slider-counter {
+  display: flex;
+  align-items: center;
+  margin: 0;
   color: rgb(255, 255, 255);
 }
 
+.slideshow--controls-overlay .slideshow__control-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .slideshow--controls-overlay .slider-counter__link--dots {
-  padding: 0.6rem 0.3rem;
+  padding: 0.8rem 0.4rem;
 }
 
 .slideshow--controls-overlay .slider-counter__link--dots .dot {
-  width: 1.2rem;
-  height: 0.4rem;
+  width: 0.8rem;
+  height: 0.8rem;
   border: 0;
-  border-radius: 0.2rem;
+  border-radius: 99rem;
   background-color: rgba(255, 255, 255, 0.5);
-  transition: width var(--duration-short) ease, background-color var(--duration-short) ease;
+  transition: width 0.3s ease, background-color var(--duration-short) ease;
 }
 
-.slideshow--controls-overlay .slider-counter__link--active.slider-counter__link--dots .dot,
-.slideshow--controls-overlay .slider-counter__link--dots:not(.slider-counter__link--active):hover .dot {
-  width: 3.2rem;
+.slideshow--controls-overlay .slider-counter__link--active.slider-counter__link--dots .dot {
+  width: 2.4rem;
   background-color: rgb(255, 255, 255);
+}
+
+.slideshow--controls-overlay .slider-counter__link--dots:not(.slider-counter__link--active):hover .dot {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+/* Pause / play: white icon in its own round button, separated by a thin divider */
+.slideshow--controls-overlay .slideshow__autoplay.slider-button {
+  position: relative;
+  right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 3.2rem;
+  height: 3.2rem;
+  min-width: 0;
+  min-height: 0;
+  margin: 0 0 0 0.4rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+.slideshow--controls-overlay .slideshow__autoplay.slider-button::before {
+  content: '';
+  position: absolute;
+  left: -0.4rem;
+  top: 50%;
+  width: 0.1rem;
+  height: 1.6rem;
+  background-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-50%);
+}
+
+.slideshow--controls-overlay .slideshow__autoplay:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.slideshow--controls-overlay .slideshow__autoplay .svg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.slideshow--controls-overlay .slideshow__autoplay .icon.icon-pause {
+  width: 1rem;
+  height: 1.2rem;
+}
+
+.slideshow--controls-overlay .slideshow__autoplay .icon.icon-play {
+  width: 1rem;
+  height: 1.2rem;
+}
+
+.slideshow--controls-overlay .slideshow__autoplay path,
+.slideshow--controls-overlay .slideshow__autoplay:hover path {
+  fill: rgb(255, 255, 255);
+}
+
+/* Dawn's pause bars are hairline; a matching stroke makes them read clearly at this size */
+.slideshow--controls-overlay .slideshow__autoplay .icon-pause path {
+  stroke: rgb(255, 255, 255);
+  stroke-width: 0.7;
+  stroke-linejoin: round;
+}
+
+.slideshow--controls-overlay .slideshow__autoplay:focus-visible {
+  outline: 0.2rem solid rgb(255, 255, 255);
+  outline-offset: 0.1rem;
 }
 
 @media screen and (min-width: 750px) {
