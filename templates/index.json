@@ -29,18 +29,56 @@
             "text_alignment_mobile": "center",
             "color_scheme": "scheme-3"
           }
+        },
+        "slide_H8fmx8": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/hardware-hero-banner.png",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
+          }
+        },
+        "slide_6dtUX6": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/furniture-hero-banner-no-text.png",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
+          }
         }
       },
       "block_order": [
-        "slide-1"
+        "slide-1",
+        "slide_H8fmx8",
+        "slide_6dtUX6"
       ],
       "settings": {
         "layout": "full_bleed",
         "slide_height": "medium",
         "slider_visual": "dots",
         "controls_overlay": true,
-        "auto_rotate": false,
-        "change_slides_speed": 5,
+        "auto_rotate": true,
+        "change_slides_speed": 3,
         "image_behavior": "none",
         "show_text_below": false,
         "accessibility_info": "Slideshow about our brand"
@@ -143,8 +181,8 @@
         "link_label": "View All Products",
         "link_url": "shopify://collections/all",
         "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
+        "products_to_show": 10,
+        "columns_desktop": 5,
         "columns_mobile": "2",
         "image_ratio": "square",
         "show_type": false,
@@ -166,8 +204,8 @@
         "link_label": "View All Furniture",
         "link_url": "shopify://collections/all",
         "collection": "all",
-        "products_to_show": 4,
-        "columns_desktop": 4,
+        "products_to_show": 5,
+        "columns_desktop": 5,
         "columns_mobile": "2",
         "image_ratio": "portrait",
         "show_type": true,
@@ -184,6 +222,7 @@
     "promo_banner": {
       "type": "promo-banner",
       "settings": {
+        "image": "shopify://shop_images/foam-products-promo-banner-no-text.png",
         "eyebrow": "Made to order",
         "heading": "Your sofa, in any fabric you choose",
         "heading_size": "h0",
