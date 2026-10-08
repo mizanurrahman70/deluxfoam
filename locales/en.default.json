@@ -295,7 +295,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -397,6 +396,19 @@
       "min_error": "This item has a minimum of {{ min }}",
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
+    },
+    "mattress_calculator": {
+      "size": "Mattress size",
+      "length": "Length",
+      "width": "Width",
+      "thickness": "Thickness (orthopedic)",
+      "thickness_hint": "Used for CFT. Spring and topper thickness is fixed.",
+      "discount": "Discount",
+      "discount_hint": "Off MRP. Set 0 to show full price.",
+      "price_basis": "Price = {{ unit }} × rate",
+      "mrp": "MRP",
+      "offer": "Offer price",
+      "view_product": "View product"
     }
   },
   "localization": {

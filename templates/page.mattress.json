@@ -1,0 +1,153 @@
+{
+  "sections": {
+    "calculator": {
+      "type": "mattress-calculator",
+      "blocks": {
+        "ortho-1": {
+          "type": "ortho",
+          "settings": {
+            "name": "0.5″ Felt + 3″ Rebonded + 0.5″ Felt",
+            "meta": "Fabrics 4 ounce · Thickness 4″",
+            "rate": 1050
+          }
+        },
+        "ortho-2": {
+          "type": "ortho",
+          "settings": {
+            "name": "1″ Felt + 2″ Rebonded + 1″ Felt",
+            "meta": "Fabrics 4 ounce · Thickness 4″",
+            "rate": 1150
+          }
+        },
+        "ortho-3": {
+          "type": "ortho",
+          "settings": {
+            "name": "0.5″ Rebonded + 3″ Pefoam + 0.5″ Rebonded",
+            "meta": "Fabrics 4 ounce · Thickness 4″",
+            "rate": 850
+          }
+        },
+        "ortho-4": {
+          "type": "ortho",
+          "settings": {
+            "name": "0.5″ Felt + 3″ Pefoam + 0.5″ Felt",
+            "meta": "Fabrics 4 ounce · Thickness 4″",
+            "rate": 950
+          }
+        },
+        "spring-1": {
+          "type": "spring",
+          "settings": {
+            "name": "Bonnell Spring — 8″",
+            "meta": "Fabrics 4 ounce",
+            "rate": 550
+          }
+        },
+        "spring-2": {
+          "type": "spring",
+          "settings": {
+            "name": "Bonnell Spring — 10″",
+            "meta": "Fabrics 4 ounce",
+            "rate": 650
+          }
+        },
+        "spring-3": {
+          "type": "spring",
+          "settings": {
+            "name": "Pocket Spring — 8″",
+            "meta": "Bamboo fabrics",
+            "rate": 1100
+          }
+        },
+        "spring-4": {
+          "type": "spring",
+          "settings": {
+            "name": "Pocket Spring — 10″",
+            "meta": "Bamboo fabrics",
+            "rate": 1200
+          }
+        },
+        "topper-1": {
+          "type": "topper",
+          "settings": {
+            "name": "Topper — Jacket Foam 2″",
+            "meta": "Fabrics 4 ounce",
+            "rate": 150
+          }
+        },
+        "topper-2": {
+          "type": "topper",
+          "settings": {
+            "name": "Topper — Super Soft Foam 1″",
+            "meta": "Fabrics 4 ounce",
+            "rate": 200
+          }
+        },
+        "topper-3": {
+          "type": "topper",
+          "settings": {
+            "name": "Topper — Super Soft Foam 2″",
+            "meta": "Fabrics 4 ounce",
+            "rate": 250
+          }
+        },
+        "topper-4": {
+          "type": "topper",
+          "settings": {
+            "name": "Topper — Latex Foam 2″",
+            "meta": "Bamboo fabrics",
+            "rate": 1300
+          }
+        }
+      },
+      "block_order": [
+        "ortho-1",
+        "ortho-2",
+        "ortho-3",
+        "ortho-4",
+        "spring-1",
+        "spring-2",
+        "spring-3",
+        "spring-4",
+        "topper-1",
+        "topper-2",
+        "topper-3",
+        "topper-4"
+      ],
+      "settings": {
+        "eyebrow": "Price calculator",
+        "title": "Mattress Price Calculator",
+        "heading_size": "h0",
+        "subtitle": "Choose a size to see the price of every mattress. Price list of 01/07/2026.",
+        "currency_symbol": "৳",
+        "discount": 25,
+        "show_discount_input": false,
+        "ortho_title": "Orthopedic Mattress",
+        "spring_title": "Spring Mattress",
+        "topper_title": "Mattress Toppers",
+        "contact": "<p><strong>New Delux Foam</strong> · Cha-104/1, North Badda, Munshi Bari Pragati Sarani, Dhaka-1212 · 01304-736351 · 01918-401714</p>",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "newsletter": {
+      "type": "newsletter-inline",
+      "settings": {
+        "title": "Stay Inspired",
+        "heading_size": "h1",
+        "text": "<p>Sign up for design inspiration, new collections, and considered living.</p>",
+        "placeholder": "Enter your email address",
+        "button_label": "Subscribe",
+        "disclaimer": "<p>By subscribing, you agree to our Privacy Policy.</p>",
+        "color_scheme": "scheme-7",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "calculator",
+    "newsletter"
+  ]
+}

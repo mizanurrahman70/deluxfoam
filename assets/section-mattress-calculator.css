@@ -1,0 +1,432 @@
+mattress-calculator {
+  display: block;
+}
+
+/* ---------- Intro ---------- */
+.mattress-calc__intro {
+  max-width: 72rem;
+  margin-bottom: 3.2rem;
+}
+
+.mattress-calc__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.2rem;
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  font-weight: var(--font-body-weight-bold);
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.mattress-calc__eyebrow::before {
+  content: '';
+  width: 2.4rem;
+  height: 0.2rem;
+  background-color: rgb(var(--color-button));
+}
+
+.mattress-calc__title {
+  margin: 0;
+}
+
+.mattress-calc__subtitle {
+  margin: 1.2rem 0 0;
+  font-size: calc(var(--font-body-scale) * 1.6rem);
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+/* ---------- Size panel ---------- */
+.mattress-calc__panel {
+  padding: 2.4rem 1.6rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  border-radius: 1.2rem;
+  background-color: rgba(var(--color-foreground), 0.02);
+}
+
+@media screen and (min-width: 750px) {
+  .mattress-calc__panel {
+    padding: 3.2rem;
+  }
+}
+
+.mattress-calc__label {
+  margin: 0 0 1.6rem;
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.mattress-calc__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 2.4rem;
+}
+
+.mattress-calc__chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.8rem 1.6rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.2);
+  border-radius: 99rem;
+  background-color: rgb(var(--color-background));
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.3rem);
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  transition: border-color var(--duration-short) ease, background-color var(--duration-short) ease,
+    color var(--duration-short) ease;
+}
+
+.mattress-calc__chip small {
+  font-weight: var(--font-body-weight);
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.mattress-calc__chip:hover {
+  border-color: rgb(var(--color-button));
+}
+
+.mattress-calc__chip.is-active {
+  border-color: rgb(var(--color-button));
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+.mattress-calc__chip.is-active small {
+  color: rgba(var(--color-button-text), 0.8);
+}
+
+.mattress-calc__dims {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+
+@media screen and (min-width: 480px) {
+  .mattress-calc__dims {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .mattress-calc__dims {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+}
+
+.mattress-calc__dim {
+  padding: 1.4rem 1.6rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  border-radius: 0.8rem;
+  background-color: rgb(var(--color-background));
+}
+
+.mattress-calc__dim--accent {
+  border-color: rgba(var(--color-button), 0.4);
+}
+
+.mattress-calc__dim-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: calc(var(--font-body-scale) * 1.1rem);
+  font-weight: var(--font-body-weight-bold);
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.mattress-calc__pair {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.mattress-calc__field {
+  position: relative;
+  flex: 1;
+}
+
+.mattress-calc__field input {
+  width: 100%;
+  padding: 0.8rem 3.4rem 0.8rem 1.2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.15);
+  border-radius: 0.6rem;
+  background-color: rgb(var(--color-background));
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 2rem);
+  color: rgb(var(--color-foreground));
+  -moz-appearance: textfield;
+}
+
+.mattress-calc__field input::-webkit-outer-spin-button,
+.mattress-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mattress-calc__field input:focus-visible {
+  outline: 0.2rem solid rgb(var(--color-button));
+  outline-offset: 0;
+  border-color: transparent;
+}
+
+.mattress-calc__unit {
+  position: absolute;
+  top: 50%;
+  right: 1.2rem;
+  transform: translateY(-50%);
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  font-weight: var(--font-body-weight-bold);
+  color: rgba(var(--color-foreground), 0.5);
+  pointer-events: none;
+}
+
+.mattress-calc__hint {
+  margin: 0.6rem 0 0;
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  line-height: 1.4;
+  color: rgba(var(--color-foreground), 0.55);
+}
+
+/* Summary strip: brand black with white numbers */
+.mattress-calc__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin-top: 2.4rem;
+  padding: 1.8rem 1.2rem;
+  border-radius: 0.8rem;
+  background-color: rgb(17, 17, 17);
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.mattress-calc__stat-value {
+  display: block;
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 2rem);
+  font-variant-numeric: tabular-nums;
+}
+
+@media screen and (min-width: 750px) {
+  .mattress-calc__stat-value {
+    font-size: calc(var(--font-body-scale) * 2.6rem);
+  }
+}
+
+.mattress-calc__stat-label {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: calc(var(--font-body-scale) * 1.1rem);
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.mattress-calc__stat + .mattress-calc__stat {
+  border-left: 0.1rem solid rgba(255, 255, 255, 0.15);
+}
+
+/* ---------- Product groups ---------- */
+.mattress-calc__group {
+  margin-top: 4.8rem;
+}
+
+.mattress-calc__group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.mattress-calc__badge {
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  font-size: calc(var(--font-body-scale) * 1.1rem);
+  font-weight: var(--font-body-weight-bold);
+  letter-spacing: 0.1rem;
+  color: rgb(255, 255, 255);
+}
+
+.mattress-calc__badge--ortho {
+  background-color: rgb(var(--color-button));
+}
+
+.mattress-calc__badge--spring {
+  background-color: rgb(17, 17, 17);
+}
+
+.mattress-calc__badge--topper {
+  background-color: rgba(var(--color-foreground), 0.55);
+}
+
+.mattress-calc__group-title {
+  margin: 0;
+}
+
+.mattress-calc__basis {
+  margin-left: auto;
+  font-size: calc(var(--font-body-scale) * 1.3rem);
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.mattress-calc__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem;
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .mattress-calc__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.mattress-calc__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  border-left: 0.3rem solid rgba(var(--color-foreground), 0.3);
+  border-radius: 0.8rem;
+  background-color: rgb(var(--color-background));
+  transition: box-shadow var(--duration-short) ease;
+}
+
+.mattress-calc__card:hover {
+  box-shadow: 0 0.8rem 2rem rgba(var(--color-shadow), 0.06);
+}
+
+.mattress-calc__card--ortho {
+  border-left-color: rgb(var(--color-button));
+}
+
+.mattress-calc__card--spring {
+  border-left-color: rgb(17, 17, 17);
+}
+
+.mattress-calc__name {
+  margin: 0;
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.6rem);
+  line-height: 1.35;
+  color: rgb(var(--color-foreground));
+}
+
+.mattress-calc__meta {
+  margin: 0;
+  font-size: calc(var(--font-body-scale) * 1.3rem);
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.mattress-calc__prices {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-top: auto;
+  padding-top: 1.2rem;
+  border-top: 0.1rem dashed rgba(var(--color-foreground), 0.15);
+}
+
+.mattress-calc__prices p {
+  margin: 0;
+}
+
+.mattress-calc__price-label {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: calc(var(--font-body-scale) * 1rem);
+  font-weight: var(--font-body-weight-bold);
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.55);
+}
+
+.mattress-calc__mrp s {
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.5rem);
+  font-variant-numeric: tabular-nums;
+  color: rgba(var(--color-foreground), 0.55);
+  text-decoration-color: rgb(var(--color-button));
+}
+
+.mattress-calc__offer {
+  text-align: right;
+}
+
+.mattress-calc__offer .mattress-calc__price-label {
+  color: rgb(var(--color-button));
+}
+
+.mattress-calc__offer-value {
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 2.4rem);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: rgb(var(--color-foreground));
+}
+
+/* With no discount, show a single price */
+.mattress-calc__card--no-discount .mattress-calc__mrp,
+.mattress-calc__card--no-discount .mattress-calc__offer .mattress-calc__price-label {
+  display: none;
+}
+
+.mattress-calc__formula {
+  margin: 0;
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: rgba(var(--color-foreground), 0.5);
+}
+
+.mattress-calc__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  margin-top: 0.4rem;
+  font-size: calc(var(--font-body-scale) * 1.3rem);
+  font-weight: var(--font-body-weight-bold);
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.mattress-calc__link .icon {
+  width: 1.2rem;
+  height: 0.9rem;
+  transition: transform var(--duration-short) ease;
+}
+
+.mattress-calc__link:hover {
+  color: rgb(var(--color-button));
+}
+
+.mattress-calc__link:hover .icon {
+  transform: translateX(0.3rem);
+}
+
+/* ---------- Contact ---------- */
+.mattress-calc__contact {
+  margin-top: 4.8rem;
+  padding-top: 2.4rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.7);
+}

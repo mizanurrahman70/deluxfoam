@@ -1,0 +1,359 @@
+{{ 'section-mattress-calculator.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mattress-calculator.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign groups = 'ortho,spring,topper' | split: ','
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <mattress-calculator
+    class="mattress-calc page-width section-{{ section.id }}-padding"
+    data-currency="{{ section.settings.currency_symbol | escape }}"
+    data-discount="{{ section.settings.discount }}"
+  >
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="mattress-calc__intro">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="mattress-calc__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="mattress-calc__title {{ section.settings.heading_size }}">{{ section.settings.title | escape }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="mattress-calc__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Size inputs {%- endcomment -%}
+    <div class="mattress-calc__panel">
+      <h2 class="mattress-calc__label">{{ 'sections.mattress_calculator.size' | t }}</h2>
+
+      <div class="mattress-calc__presets" role="group" aria-label="{{ 'sections.mattress_calculator.size' | t }}">
+        {%- assign presets = 'Single:78:36,Semi-Double:78:48,Double:78:54,Queen:78:60,King:78:72' | split: ',' -%}
+        {%- for preset in presets -%}
+          {%- assign p = preset | split: ':' -%}
+          <button type="button" class="mattress-calc__chip" data-length="{{ p[1] }}" data-width="{{ p[2] }}">
+            {{ p[0] }} <small>{{ p[1] }}″×{{ p[2] }}″</small>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <div class="mattress-calc__dims">
+        <div class="mattress-calc__dim">
+          <span class="mattress-calc__dim-label" id="Length-{{ section.id }}">{{ 'sections.mattress_calculator.length' | t }}</span>
+          <div class="mattress-calc__pair">
+            <label class="mattress-calc__field">
+              <span class="visually-hidden">{{ 'sections.mattress_calculator.length' | t }} (ft)</span>
+              <input type="number" inputmode="numeric" min="0" step="1" value="6" data-input="lenFt">
+              <span class="mattress-calc__unit" aria-hidden="true">ft</span>
+            </label>
+            <label class="mattress-calc__field">
+              <span class="visually-hidden">{{ 'sections.mattress_calculator.length' | t }} (in)</span>
+              <input type="number" inputmode="decimal" min="0" max="11.5" step="0.5" value="6" data-input="lenIn">
+              <span class="mattress-calc__unit" aria-hidden="true">in</span>
+            </label>
+          </div>
+          <p class="mattress-calc__hint">6 ft 6 in = 78″</p>
+        </div>
+
+        <div class="mattress-calc__dim">
+          <span class="mattress-calc__dim-label">{{ 'sections.mattress_calculator.width' | t }}</span>
+          <div class="mattress-calc__pair">
+            <label class="mattress-calc__field">
+              <span class="visually-hidden">{{ 'sections.mattress_calculator.width' | t }} (ft)</span>
+              <input type="number" inputmode="numeric" min="0" step="1" value="5" data-input="widFt">
+              <span class="mattress-calc__unit" aria-hidden="true">ft</span>
+            </label>
+            <label class="mattress-calc__field">
+              <span class="visually-hidden">{{ 'sections.mattress_calculator.width' | t }} (in)</span>
+              <input type="number" inputmode="decimal" min="0" max="11.5" step="0.5" value="0" data-input="widIn">
+              <span class="mattress-calc__unit" aria-hidden="true">in</span>
+            </label>
+          </div>
+          <p class="mattress-calc__hint">5 ft 0 in = 60″</p>
+        </div>
+
+        <div class="mattress-calc__dim">
+          <span class="mattress-calc__dim-label">{{ 'sections.mattress_calculator.thickness' | t }}</span>
+          <div class="mattress-calc__pair">
+            <label class="mattress-calc__field">
+              <span class="visually-hidden">{{ 'sections.mattress_calculator.thickness' | t }} (in)</span>
+              <input type="number" inputmode="decimal" min="1" step="0.5" value="4" data-input="thickIn">
+              <span class="mattress-calc__unit" aria-hidden="true">in</span>
+            </label>
+          </div>
+          <p class="mattress-calc__hint">{{ 'sections.mattress_calculator.thickness_hint' | t }}</p>
+        </div>
+
+        {%- if section.settings.show_discount_input -%}
+          <div class="mattress-calc__dim mattress-calc__dim--accent">
+            <span class="mattress-calc__dim-label">{{ 'sections.mattress_calculator.discount' | t }}</span>
+            <div class="mattress-calc__pair">
+              <label class="mattress-calc__field">
+                <span class="visually-hidden">{{ 'sections.mattress_calculator.discount' | t }} (%)</span>
+                <input type="number" inputmode="numeric" min="0" max="90" step="1" value="{{ section.settings.discount }}" data-input="discPct">
+                <span class="mattress-calc__unit" aria-hidden="true">%</span>
+              </label>
+            </div>
+            <p class="mattress-calc__hint">{{ 'sections.mattress_calculator.discount_hint' | t }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="mattress-calc__summary" aria-live="polite">
+        <div class="mattress-calc__stat">
+          <span class="mattress-calc__stat-value" data-output="size">78″ × 60″</span>
+          <span class="mattress-calc__stat-label">{{ 'sections.mattress_calculator.size' | t }}</span>
+        </div>
+        <div class="mattress-calc__stat">
+          <span class="mattress-calc__stat-value" data-output="sft">32.50</span>
+          <span class="mattress-calc__stat-label">SFT (L × W)</span>
+        </div>
+        <div class="mattress-calc__stat">
+          <span class="mattress-calc__stat-value" data-output="cft">10.83</span>
+          <span class="mattress-calc__stat-label">CFT (L × W × T)</span>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Product groups {%- endcomment -%}
+    {%- for group in groups -%}
+      {%- assign group_blocks = section.blocks | where: 'type', group -%}
+      {%- if group_blocks.size == 0 -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- liquid
+        case group
+          when 'ortho'
+            assign group_title = section.settings.ortho_title
+            assign unit = 'CFT'
+          when 'spring'
+            assign group_title = section.settings.spring_title
+            assign unit = 'SFT'
+          else
+            assign group_title = section.settings.topper_title
+            assign unit = 'SFT'
+        endcase
+      -%}
+      <div class="mattress-calc__group">
+        <div class="mattress-calc__group-head">
+          <span class="mattress-calc__badge mattress-calc__badge--{{ group }}">{{ unit }}</span>
+          <h2 class="mattress-calc__group-title h3">{{ group_title | escape }}</h2>
+          <span class="mattress-calc__basis">{{ 'sections.mattress_calculator.price_basis' | t: unit: unit }}</span>
+        </div>
+        <ul class="mattress-calc__cards list-unstyled" role="list">
+          {%- for block in group_blocks -%}
+            <li
+              class="mattress-calc__card mattress-calc__card--{{ group }}"
+              data-rate="{{ block.settings.rate }}"
+              data-unit="{{ unit }}"
+              {{ block.shopify_attributes }}
+            >
+              <p class="mattress-calc__name">{{ block.settings.name | escape }}</p>
+              <p class="mattress-calc__meta">
+                {{- block.settings.meta | escape }}
+                {%- if block.settings.meta != blank %} · {% endif -%}
+                {{ section.settings.currency_symbol | escape }}{{ block.settings.rate }} / {{ unit -}}
+              </p>
+              <div class="mattress-calc__prices">
+                <p class="mattress-calc__mrp">
+                  <span class="mattress-calc__price-label">{{ 'sections.mattress_calculator.mrp' | t }}</span>
+                  <s data-output="mrp">—</s>
+                </p>
+                <p class="mattress-calc__offer">
+                  <span class="mattress-calc__price-label">
+                    {{ 'sections.mattress_calculator.offer' | t }} · <span data-output="pct">{{ section.settings.discount }}</span>%
+                  </span>
+                  <span class="mattress-calc__offer-value" data-output="offer">—</span>
+                </p>
+              </div>
+              <p class="mattress-calc__formula" data-output="formula"></p>
+              {%- if block.settings.product != blank -%}
+                <a href="{{ block.settings.product.url }}" class="mattress-calc__link">
+                  {{- 'sections.mattress_calculator.view_product' | t -}}
+                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endfor -%}
+
+    {%- if section.settings.contact != blank -%}
+      <div class="mattress-calc__contact rte">{{ section.settings.contact }}</div>
+    {%- endif -%}
+  </mattress-calculator>
+</div>
+
+{% schema %}
+{
+  "name": "Mattress calculator",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "default": "Price calculator",
+      "label": "Small label"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Mattress Price Calculator",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" }
+      ],
+      "default": "h0",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "default": "Choose a size to see the price of every mattress. Price list of 01/07/2026.",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Pricing"
+    },
+    {
+      "type": "text",
+      "id": "currency_symbol",
+      "default": "৳",
+      "label": "Currency symbol"
+    },
+    {
+      "type": "range",
+      "id": "discount",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 25,
+      "label": "Offer discount",
+      "info": "Off MRP. Set 0 to show MRP only."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount_input",
+      "default": false,
+      "label": "Let visitors change the discount",
+      "info": "Useful for an internal sales page. Leave off on the public store."
+    },
+    {
+      "type": "text",
+      "id": "ortho_title",
+      "default": "Orthopedic Mattress",
+      "label": "Orthopedic group title"
+    },
+    {
+      "type": "text",
+      "id": "spring_title",
+      "default": "Spring Mattress",
+      "label": "Spring group title"
+    },
+    {
+      "type": "text",
+      "id": "topper_title",
+      "default": "Mattress Toppers",
+      "label": "Topper group title"
+    },
+    {
+      "type": "richtext",
+      "id": "contact",
+      "default": "<p><strong>New Delux Foam</strong> · Cha-104/1, North Badda, Munshi Bari Pragati Sarani, Dhaka-1212 · 01304-736351 · 01918-401714</p>",
+      "label": "Contact text"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ortho",
+      "name": "Orthopedic (per CFT)",
+      "settings": [
+        { "type": "text", "id": "name", "default": "Orthopedic mattress", "label": "Name" },
+        { "type": "text", "id": "meta", "default": "Fabrics 4 ounce · Thickness 4″", "label": "Details" },
+        { "type": "number", "id": "rate", "default": 1000, "label": "Rate per CFT" },
+        { "type": "product", "id": "product", "label": "Linked product", "info": "Optional. Adds a View product link." }
+      ]
+    },
+    {
+      "type": "spring",
+      "name": "Spring (per SFT)",
+      "settings": [
+        { "type": "text", "id": "name", "default": "Spring mattress", "label": "Name" },
+        { "type": "text", "id": "meta", "default": "Fabrics 4 ounce", "label": "Details" },
+        { "type": "number", "id": "rate", "default": 600, "label": "Rate per SFT" },
+        { "type": "product", "id": "product", "label": "Linked product", "info": "Optional. Adds a View product link." }
+      ]
+    },
+    {
+      "type": "topper",
+      "name": "Topper (per SFT)",
+      "settings": [
+        { "type": "text", "id": "name", "default": "Mattress topper", "label": "Name" },
+        { "type": "text", "id": "meta", "default": "Fabrics 4 ounce", "label": "Details" },
+        { "type": "number", "id": "rate", "default": 200, "label": "Rate per SFT" },
+        { "type": "product", "id": "product", "label": "Linked product", "info": "Optional. Adds a View product link." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mattress calculator"
+    }
+  ]
+}
+{% endschema %}
