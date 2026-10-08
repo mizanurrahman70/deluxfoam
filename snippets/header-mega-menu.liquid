@@ -44,7 +44,10 @@
                           aria-current="page"
                         {% endif %}
                       >
-                        {{ childlink.title | escape }}
+                        {{ childlink.title | escape -}}
+                        {%- if childlink.links != blank -%}
+                          {{- 'icon-arrow.svg' | inline_asset_content -}}
+                        {%- endif -%}
                       </a>
                       {%- if childlink.links != blank -%}
                         <ul class="list-unstyled" role="list">
