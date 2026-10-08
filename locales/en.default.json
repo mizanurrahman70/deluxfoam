@@ -409,6 +409,21 @@
       "mrp": "MRP",
       "offer": "Offer price",
       "view_product": "View product"
+    },
+    "foam_calculator": {
+      "size": "Foam size",
+      "thickness": "Thickness",
+      "package_heading": "Sofa Set Package",
+      "package_basis": "Each seat = 1 seat foam + 1 back foam",
+      "combination": "Set combination",
+      "seats_foams": "{{ seats }} seats · {{ foams }} foams",
+      "seat_size": "Seat foam size",
+      "back_size": "Back foam size",
+      "one_per_seat": "One piece per seat",
+      "total_foams": "Total foams",
+      "seat_back": "Seat + back",
+      "total_cft": "Total CFT",
+      "package_price": "Package"
     }
   },
   "localization": {

@@ -1,0 +1,23 @@
+{% comment %}
+  Renders the name, type label and rate of a foam calculator card.
+
+  Accepts:
+  - block: {Object} Foam block
+  - currency: {String} Currency symbol
+
+  Usage:
+  {% render 'foam-calculator-card-head', block: block, currency: currency %}
+{% endcomment %}
+
+<p class="mattress-calc__name foam-calc__name">
+  {{ block.settings.name | escape }}
+  {%- if block.settings.foam_type != blank -%}
+    <span class="foam-calc__type">{{ block.settings.foam_type | escape }}</span>
+  {%- endif -%}
+</p>
+<p class="mattress-calc__meta">
+  {{- currency }}{{ block.settings.rate }} / CFT
+  {%- if block.settings.product != blank %}
+    · <a href="{{ block.settings.product.url }}" class="foam-calc__product-link">{{ 'sections.mattress_calculator.view_product' | t }}</a>
+  {%- endif -%}
+</p>

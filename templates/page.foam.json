@@ -1,0 +1,106 @@
+{
+  "sections": {
+    "calculator": {
+      "type": "foam-calculator",
+      "blocks": {
+        "foam-1": {
+          "type": "foam",
+          "settings": {
+            "name": "Delux 2",
+            "foam_type": "Regular Poly Foam",
+            "rate": 520
+          }
+        },
+        "foam-2": {
+          "type": "foam",
+          "settings": {
+            "name": "Delux 1",
+            "foam_type": "Best Poly Foam",
+            "rate": 575
+          }
+        },
+        "foam-3": {
+          "type": "foam",
+          "settings": {
+            "name": "Delux 280",
+            "foam_type": "Semi Rubber Foam",
+            "rate": 663
+          }
+        },
+        "foam-4": {
+          "type": "foam",
+          "settings": {
+            "name": "Delux 2001",
+            "foam_type": "Full Rubber Foam",
+            "rate": 825
+          }
+        },
+        "foam-5": {
+          "type": "foam",
+          "settings": {
+            "name": "Delux Super Soft",
+            "foam_type": "Super Soft Foam",
+            "rate": 884
+          }
+        },
+        "foam-6": {
+          "type": "foam",
+          "settings": {
+            "name": "Delux 4G",
+            "foam_type": "4G Foam",
+            "rate": 1050
+          }
+        }
+      },
+      "block_order": [
+        "foam-1",
+        "foam-2",
+        "foam-3",
+        "foam-4",
+        "foam-5",
+        "foam-6"
+      ],
+      "settings": {
+        "eyebrow": "Price calculator",
+        "title": "Foam Price Calculator",
+        "heading_size": "h0",
+        "subtitle": "Enter any size to see the price of every foam. Rates in Tk per CFT.",
+        "foam_title": "Foam Prices",
+        "currency_symbol": "৳",
+        "discount": 25,
+        "show_discount_input": false,
+        "show_package": true,
+        "package_title": "Homely Package",
+        "package_text": "Replace all your sofa foams in one go — complete set pricing for your home.",
+        "seat_length": 22,
+        "seat_width": 22,
+        "seat_thickness": 4,
+        "back_length": 22,
+        "back_width": 18,
+        "back_thickness": 3,
+        "contact": "<p><strong>New Delux Foam</strong> · Cha-104/1, North Badda, Munshi Bari Pragati Sarani, Dhaka-1212 · 01304-736351 · 01918-401714</p>",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "newsletter": {
+      "type": "newsletter-inline",
+      "settings": {
+        "title": "Stay Inspired",
+        "heading_size": "h1",
+        "text": "<p>Sign up for design inspiration, new collections, and considered living.</p>",
+        "placeholder": "Enter your email address",
+        "button_label": "Subscribe",
+        "disclaimer": "<p>By subscribing, you agree to our Privacy Policy.</p>",
+        "color_scheme": "scheme-7",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "calculator",
+    "newsletter"
+  ]
+}

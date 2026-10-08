@@ -1,0 +1,135 @@
+/* Foam calculator: builds on section-mattress-calculator.css */
+foam-calculator {
+  display: block;
+}
+
+/* Thickness quick picks */
+.foam-calc__thick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+.foam-calc__thick-chip {
+  padding: 0.4rem 1.2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.2);
+  border-radius: 0.6rem;
+  background-color: rgb(var(--color-background));
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  color: rgba(var(--color-foreground), 0.7);
+  cursor: pointer;
+  transition: border-color var(--duration-short) ease, background-color var(--duration-short) ease,
+    color var(--duration-short) ease;
+}
+
+.foam-calc__thick-chip:hover {
+  border-color: rgb(var(--color-button));
+}
+
+.foam-calc__thick-chip.is-active {
+  border-color: rgb(var(--color-button));
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+/* Size + CFT strip has two figures */
+.foam-calc__summary--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Foam name with type label */
+.foam-calc__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.foam-calc__type {
+  padding: 0.3rem 1rem;
+  border-radius: 99rem;
+  background-color: rgba(var(--color-foreground), 0.06);
+  font-weight: var(--font-body-weight);
+  font-size: calc(var(--font-body-scale) * 1.1rem);
+  letter-spacing: 0.04rem;
+  color: rgba(var(--color-foreground), 0.75);
+  white-space: nowrap;
+}
+
+.foam-calc__product-link {
+  color: rgb(var(--color-foreground));
+  text-underline-offset: 0.3rem;
+}
+
+.foam-calc__product-link:hover {
+  color: rgb(var(--color-button));
+}
+
+/* Homely Package banner: brand black with a red accent */
+.foam-calc__banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin-bottom: 2.4rem;
+  padding: 2rem 2.4rem;
+  overflow: hidden;
+  border-radius: 1.2rem;
+  background-color: rgb(17, 17, 17);
+  color: rgb(255, 255, 255);
+}
+
+.foam-calc__banner::after {
+  content: '';
+  position: absolute;
+  top: -4rem;
+  right: -4rem;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  background-color: rgba(var(--color-button), 0.25);
+}
+
+.foam-calc__banner-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 1rem;
+  background-color: rgb(var(--color-button));
+  color: rgb(255, 255, 255);
+}
+
+.foam-calc__banner-icon svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.foam-calc__banner-title {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: calc(var(--font-heading-scale) * 2.6rem);
+  line-height: 1.1;
+}
+
+.foam-calc__banner-text {
+  margin: 0.4rem 0 0;
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.foam-calc__package .mattress-calc__panel {
+  margin-bottom: 1.6rem;
+}
+
+@media screen and (min-width: 750px) {
+  .foam-calc__sofa-dims {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
