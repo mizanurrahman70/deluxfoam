@@ -160,3 +160,23 @@
   font-weight: var(--font-body-weight);
   color: rgba(var(--color-foreground), 0.7);
 }
+
+/* Panel is as wide as the page content, centred under the header (not full width).
+   Its edges line up with the page content (page-width minus its 5rem side padding). */
+@media screen and (min-width: 990px) {
+  .mega-menu__content {
+    left: 5rem;
+    right: 5rem;
+    width: auto;
+    max-width: calc(var(--page-width) - 10rem);
+    margin: 0 auto;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.08);
+    border-top: 0;
+    border-radius: 0 0 0.8rem 0.8rem;
+  }
+
+  .mega-menu__content .mega-menu__list {
+    max-width: none;
+    padding: 0 4rem;
+  }
+}
