@@ -6,10 +6,12 @@
     custom.children (list of collection references, in display order)
   Keys named custom.custom_parent / custom.custom_children are read as well.
   Every level (max 3) is rendered here as a hidden panel; a small script switches panels.
-  Reuses the markup and CSS of the existing category slider (section-category-slider.css).
+  Reuses the markup and CSS of the existing category slider (section-category-slider.css);
+  its own styles are in section-nested-category.css.
 {%- endcomment -%}
 
 {{ 'section-category-slider.css' | asset_url | stylesheet_tag }}
+{{ 'section-nested-category.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign sid = section.id
@@ -139,122 +141,13 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-
-  #NestedCategory-{{ sid }} {
-    display: block;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__heading-group {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.8rem 2.4rem;
-    min-width: 0;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__view-all {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: calc(var(--font-body-scale) * 1.4rem);
-    color: rgb(var(--color-foreground));
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__view-all .icon {
-    width: 1.2rem;
-    height: 0.9rem;
-    transition: transform var(--duration-short) ease;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__view-all:hover {
-    text-decoration: underline;
-    text-decoration-color: rgb(var(--color-button));
-    text-decoration-thickness: 0.2rem;
-    text-underline-offset: 0.6rem;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__view-all:hover .icon {
-    transform: translateX(0.3rem);
-    color: rgb(var(--color-button));
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__trail ol {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.4rem 1rem;
-    margin: -1.2rem 0 2rem;
-    padding: 0;
-    list-style: none;
-    font-size: calc(var(--font-body-scale) * 1.3rem);
-    letter-spacing: 0.06rem;
-    text-transform: uppercase;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__trail li {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__trail li + li::before {
-    content: '›';
-    color: rgba(var(--color-foreground), 0.4);
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__crumb {
-    text-decoration: none;
-    padding: 0;
-    border: 0;
-    background: none;
-    font: inherit;
-    letter-spacing: inherit;
-    text-transform: inherit;
-    color: rgba(var(--color-foreground), 0.65);
-    cursor: pointer;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__crumb:hover {
-    color: rgb(var(--color-button));
-    text-decoration: underline;
-    text-underline-offset: 0.3rem;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__trail [aria-current] {
-    font-weight: var(--font-body-weight-bold);
-    color: rgb(var(--color-foreground));
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__count {
-    display: block;
-    margin-top: 0.2rem;
-    font-weight: var(--font-body-weight);
-    font-size: calc(var(--font-body-scale) * 1.2rem);
-    opacity: 0.85;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__panel {
-    transition: opacity 0.2s ease;
-  }
-
-  #NestedCategory-{{ sid }} .nested-category__panel.is-fading {
-    opacity: 0;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #NestedCategory-{{ sid }} .nested-category__panel {
-      transition: none;
-    }
-  }
 {%- endstyle -%}
 
 {%- if show_section -%}
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <nested-category
     id="NestedCategory-{{ sid }}"
-    class="category-slider page-width section-{{ sid }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    class="nested-category category-slider page-width section-{{ sid }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     style="--category-columns: {{ columns }}; --category-ratio: {{ ratio }};"
     data-root="{{ root_id }}"
   >
