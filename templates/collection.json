@@ -80,10 +80,32 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "nested_category": {
+      "type": "nested-category",
+      "settings": {
+        "heading": "Shop by Category",
+        "heading_size": "h1",
+        "auto_mode": true,
+        "click_behavior": "page",
+        "hide_empty_grid": true,
+        "grid_section_key": "product-grid",
+        "show_count": true,
+        "columns_desktop": 4,
+        "image_ratio": "portrait",
+        "show_arrows": true,
+        "all_label": "All",
+        "view_all_label": "View all",
+        "open_label": "show collections",
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
     }
   },
   "order": [
     "banner",
+    "nested_category",
     "product-grid",
     "you_may_also_like",
     "newsletter"

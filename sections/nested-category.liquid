@@ -1,0 +1,702 @@
+{%- comment -%}
+  Nested Category: the "Shop by Categories" slider with drill-down.
+  Data comes from collection metafields:
+    custom.level    (integer: 1 main, 2 collection, 3 sub-collection)
+    custom.parent   (collection reference)
+    custom.children (list of collection references, in display order)
+  Keys named custom.custom_parent / custom.custom_children are read as well.
+  Every level (max 3) is rendered here as a hidden panel; a small script switches panels.
+  Reuses the markup and CSS of the existing category slider (section-category-slider.css).
+{%- endcomment -%}
+
+{{ 'section-category-slider.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign sid = section.id
+  assign root_id = 'root'
+
+  case section.settings.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    else
+      assign ratio = '4 / 5'
+  endcase
+  assign columns = section.settings.columns_desktop
+  assign sizes = '(min-width: ' | append: settings.page_width | append: 'px) calc(' | append: settings.page_width | append: 'px / ' | append: columns | append: '), (min-width: 750px) calc(100vw / ' | append: columns | append: '), 75vw'
+
+  comment
+    Level-1 collections: the current collection's children (auto mode on a collection page),
+    otherwise the collections picked in the section settings.
+  endcomment
+  assign auto = false
+  if section.settings.auto_mode and template.name == 'collection' and collection != blank
+    assign auto = true
+    assign roots = collection.metafields.custom.children.value | default: collection.metafields.custom.custom_children.value
+  else
+    assign roots = section.settings.main_collections
+  endif
+
+  comment
+    Handles of every collection that gets its own panel (it has children and is within 3 levels),
+    stored as ",handle,handle," for quick "contains" checks.
+  endcomment
+  assign panel_list = ','
+  for c1 in roots
+    if c1 == blank
+      continue
+    endif
+    assign kids1 = c1.metafields.custom.children.value | default: c1.metafields.custom.custom_children.value
+    if kids1.size > 0
+      assign key = ',' | append: c1.handle | append: ','
+      unless panel_list contains key
+        assign panel_list = panel_list | append: c1.handle | append: ','
+      endunless
+      for c2 in kids1
+        if c2 == blank
+          continue
+        endif
+        assign kids2 = c2.metafields.custom.children.value | default: c2.metafields.custom.custom_children.value
+        if kids2.size > 0
+          assign key = ',' | append: c2.handle | append: ','
+          unless panel_list contains key
+            assign panel_list = panel_list | append: c2.handle | append: ','
+          endunless
+        endif
+      endfor
+    endif
+  endfor
+
+  comment
+    "Open the collection page" mode: no extra panels, every card links to its collection page.
+  endcomment
+  assign inline = true
+  if section.settings.click_behavior == 'page'
+    assign inline = false
+    assign panel_list = ','
+  endif
+
+  comment
+    Trail of parent collections for auto mode on a collection page (Living Room > Sofa Sets).
+  endcomment
+  assign page_parent = blank
+  assign page_grandparent = blank
+  if auto
+    assign page_parent = collection.metafields.custom.parent.value | default: collection.metafields.custom.custom_parent.value
+    if page_parent != blank
+      assign page_grandparent = page_parent.metafields.custom.parent.value | default: page_parent.metafields.custom.custom_parent.value
+    endif
+  endif
+
+  comment
+    Count usable root collections. In auto mode the section is hidden on collections without children,
+    and an empty parent collection hides its product grid so only the sub-collections show.
+  endcomment
+  assign root_count = 0
+  for c in roots
+    if c != blank
+      assign root_count = root_count | plus: 1
+    endif
+  endfor
+  assign show_section = true
+  if auto and root_count == 0 and request.design_mode == false
+    assign show_section = false
+  endif
+  assign hide_grid = false
+  if auto and root_count > 0 and collection.products_count == 0 and section.settings.hide_empty_grid
+    assign hide_grid = true
+  endif
+  assign template_prefix = sid | split: '__' | first
+
+  comment
+    The root panel comes first; split drops empty entries, so name it explicitly.
+  endcomment
+  assign panel_handles = root_id | append: panel_list | split: ','
+  assign root_label = section.settings.all_label
+  if auto
+    assign root_label = collection.title
+  endif
+-%}
+
+{%- if hide_grid -%}
+  {%- style -%}
+    #shopify-section-{{ template_prefix }}__{{ section.settings.grid_section_key }} {
+      display: none;
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ sid }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ sid }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #NestedCategory-{{ sid }} {
+    display: block;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__heading-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.8rem 2.4rem;
+    min-width: 0;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: calc(var(--font-body-scale) * 1.4rem);
+    color: rgb(var(--color-foreground));
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__view-all .icon {
+    width: 1.2rem;
+    height: 0.9rem;
+    transition: transform var(--duration-short) ease;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__view-all:hover {
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--color-button));
+    text-decoration-thickness: 0.2rem;
+    text-underline-offset: 0.6rem;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__view-all:hover .icon {
+    transform: translateX(0.3rem);
+    color: rgb(var(--color-button));
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__trail ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 1rem;
+    margin: -1.2rem 0 2rem;
+    padding: 0;
+    list-style: none;
+    font-size: calc(var(--font-body-scale) * 1.3rem);
+    letter-spacing: 0.06rem;
+    text-transform: uppercase;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__trail li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__trail li + li::before {
+    content: '›';
+    color: rgba(var(--color-foreground), 0.4);
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__crumb {
+    text-decoration: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: rgba(var(--color-foreground), 0.65);
+    cursor: pointer;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__crumb:hover {
+    color: rgb(var(--color-button));
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__trail [aria-current] {
+    font-weight: var(--font-body-weight-bold);
+    color: rgb(var(--color-foreground));
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__count {
+    display: block;
+    margin-top: 0.2rem;
+    font-weight: var(--font-body-weight);
+    font-size: calc(var(--font-body-scale) * 1.2rem);
+    opacity: 0.85;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__panel {
+    transition: opacity 0.2s ease;
+  }
+
+  #NestedCategory-{{ sid }} .nested-category__panel.is-fading {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #NestedCategory-{{ sid }} .nested-category__panel {
+      transition: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- if show_section -%}
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <nested-category
+    id="NestedCategory-{{ sid }}"
+    class="category-slider page-width section-{{ sid }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    style="--category-columns: {{ columns }}; --category-ratio: {{ ratio }};"
+    data-root="{{ root_id }}"
+  >
+    {%- for panel_handle in panel_handles -%}
+      {%- liquid
+        if panel_handle == root_id
+          assign panel_id = root_id
+          assign panel_collection = blank
+          assign items = roots
+        else
+          if panel_handle == blank
+            continue
+          endif
+          assign panel_id = panel_handle
+          assign panel_collection = collections[panel_handle]
+          if panel_collection == blank
+            continue
+          endif
+          assign items = panel_collection.metafields.custom.children.value | default: panel_collection.metafields.custom.custom_children.value
+        endif
+
+        assign parent = blank
+        if panel_collection != blank
+          assign parent = panel_collection.metafields.custom.parent.value | default: panel_collection.metafields.custom.custom_parent.value
+          if parent != blank
+            assign parent_key = ',' | append: parent.handle | append: ','
+            unless panel_list contains parent_key
+              assign parent = blank
+            endunless
+          endif
+        endif
+
+        assign item_count = 0
+        for item in items
+          if item != blank
+            assign item_count = item_count | plus: 1
+          endif
+        endfor
+      -%}
+
+      <div
+        class="nested-category__panel"
+        data-panel-id="{{ panel_id }}"
+        {% unless panel_handle == root_id %}
+          hidden
+        {% endunless %}
+      >
+        <slider-component class="category-slider__component">
+          <div class="category-slider__header">
+            <div class="nested-category__heading-group">
+              {%- if section.settings.heading != blank -%}
+                <h2 class="category-slider__title {{ section.settings.heading_size }}">
+                  {{- section.settings.heading | escape -}}
+                </h2>
+              {%- endif -%}
+              {%- if panel_collection != blank -%}
+                <a href="{{ panel_collection.url }}" class="nested-category__view-all">
+                  {{- section.settings.view_all_label | escape }} {{ panel_collection.title | escape -}}
+                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                </a>
+              {%- endif -%}
+            </div>
+            {%- if section.settings.show_arrows and item_count > 1 -%}
+              <div class="category-slider__buttons">
+                <button
+                  type="button"
+                  class="category-slider__button category-slider__button--prev"
+                  name="previous"
+                  aria-label="{{ 'general.slider.previous_slide' | t }}"
+                  aria-controls="Slider-{{ sid }}-{{ panel_id }}"
+                >
+                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                </button>
+                <button
+                  type="button"
+                  class="category-slider__button"
+                  name="next"
+                  aria-label="{{ 'general.slider.next_slide' | t }}"
+                  aria-controls="Slider-{{ sid }}-{{ panel_id }}"
+                >
+                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                </button>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- if panel_handle == root_id and auto -%}
+            <nav class="nested-category__trail" aria-label="{{ 'general.breadcrumbs' | t }}">
+              <ol>
+                <li><a href="{{ routes.root_url }}" class="nested-category__crumb">{{ section.settings.all_label | escape }}</a></li>
+                {%- if page_grandparent != blank -%}
+                  <li><a href="{{ page_grandparent.url }}" class="nested-category__crumb">{{ page_grandparent.title | escape }}</a></li>
+                {%- endif -%}
+                {%- if page_parent != blank -%}
+                  <li><a href="{{ page_parent.url }}" class="nested-category__crumb">{{ page_parent.title | escape }}</a></li>
+                {%- endif -%}
+                <li><span aria-current="page">{{ collection.title | escape }}</span></li>
+              </ol>
+            </nav>
+          {%- endif -%}
+
+          {%- if panel_collection != blank -%}
+            <nav class="nested-category__trail" aria-label="{{ 'general.breadcrumbs' | t }}">
+              <ol>
+                <li>
+                  <button type="button" class="nested-category__crumb" data-nested-target="{{ root_id }}">
+                    {{- root_label | escape -}}
+                  </button>
+                </li>
+                {%- if parent != blank -%}
+                  <li>
+                    <button type="button" class="nested-category__crumb" data-nested-target="{{ parent.handle }}">
+                      {{- parent.title | escape -}}
+                    </button>
+                  </li>
+                {%- endif -%}
+                <li><span aria-current="location">{{ panel_collection.title | escape }}</span></li>
+              </ol>
+            </nav>
+          {%- endif -%}
+
+          {%- if item_count > 0 -%}
+            <ul id="Slider-{{ sid }}-{{ panel_id }}" class="category-slider__list list-unstyled" role="list">
+              {%- assign slide_index = 0 -%}
+              {%- for item in items -%}
+                {%- if item == blank -%}
+                  {%- continue -%}
+                {%- endif -%}
+                {%- liquid
+                  assign slide_index = slide_index | plus: 1
+                  assign item_key = ',' | append: item.handle | append: ','
+                  assign opens_panel = false
+                  if panel_list contains item_key
+                    assign opens_panel = true
+                  endif
+
+                  assign card_image = item.image | default: item.featured_image
+                  if card_image == blank and item.products.first.featured_media != blank
+                    assign card_image = item.products.first.featured_media
+                  endif
+                  assign placeholder_number = slide_index | minus: 1 | modulo: 6 | plus: 1
+                  assign placeholder_name = 'collection-' | append: placeholder_number
+                -%}
+                <li id="Slide-{{ sid }}-{{ panel_id }}-{{ slide_index }}" class="category-slider__item">
+                  <div class="card-category">
+                    <a
+                      href="{{ item.url }}"
+                      class="card-category__link full-unstyled-link"
+                      {% if opens_panel %}
+                        data-nested-target="{{ item.handle }}"
+                        aria-label="{{ item.title | escape }}: {{ section.settings.open_label | escape }}"
+                      {% else %}
+                        aria-label="{{ item.title | escape }}"
+                      {% endif %}
+                    >
+                      <div class="card-category__media">
+                        {%- if card_image != blank -%}
+                          {{
+                            card_image
+                            | image_url: width: 1200
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '330, 535, 750, 1000, 1200',
+                              sizes: sizes,
+                              alt: '',
+                              class: 'card-category__image'
+                          }}
+                        {%- else -%}
+                          {{ placeholder_name | placeholder_svg_tag: 'card-category__image placeholder-svg' }}
+                        {%- endif -%}
+                      </div>
+                      <p class="card-category__title">
+                        {{ item.title | escape }}
+                        {%- if section.settings.show_count -%}
+                          <span class="nested-category__count">
+                            {%- assign sub_items = item.metafields.custom.children.value | default: item.metafields.custom.custom_children.value -%}
+                            {%- assign sub_count = 0 -%}
+                            {%- for sub in sub_items -%}
+                              {%- if sub != blank -%}
+                                {%- assign sub_count = sub_count | plus: 1 -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                            {%- if sub_count > 0 -%}
+                              {{ sub_count }} {% if sub_count == 1 %}collection{% else %}collections{% endif %}
+                            {%- else -%}
+                              {{ item.products_count }} {% if item.products_count == 1 %}product{% else %}products{% endif %}
+                            {%- endif -%}
+                          </span>
+                        {%- endif -%}
+                      </p>
+                    </a>
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- elsif panel_handle == root_id -%}
+            {%- comment -%} Nothing selected yet: placeholder cards, same layout {%- endcomment -%}
+            <ul id="Slider-{{ sid }}-{{ panel_id }}" class="category-slider__list list-unstyled" role="list">
+              {%- for i in (1..4) -%}
+                <li id="Slide-{{ sid }}-{{ panel_id }}-{{ i }}" class="category-slider__item">
+                  <div class="card-category">
+                    <div class="card-category__media">
+                      {{ 'collection-' | append: i | placeholder_svg_tag: 'card-category__image placeholder-svg' }}
+                    </div>
+                    <p class="card-category__title">{{ 'onboarding.collection_title' | t }}</p>
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </slider-component>
+      </div>
+    {%- endfor -%}
+  </nested-category>
+</div>
+{%- endif -%}
+
+{%- if inline -%}
+<script>
+  if (!customElements.get('nested-category')) {
+    customElements.define(
+      'nested-category',
+      class NestedCategory extends HTMLElement {
+        connectedCallback() {
+          this.reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          this.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-nested-target]');
+            if (!trigger || !this.contains(trigger)) return;
+            const panel = this.panel(trigger.dataset.nestedTarget);
+            if (!panel) return; // no panel: let the link open the collection page
+            event.preventDefault();
+            this.show(panel);
+          });
+        }
+
+        panel(id) {
+          return Array.from(this.querySelectorAll(':scope > .nested-category__panel')).find(
+            (panel) => panel.dataset.panelId === id
+          );
+        }
+
+        show(next) {
+          const current = this.querySelector(':scope > .nested-category__panel:not([hidden])');
+          if (next === current) return;
+
+          const swap = () => {
+            if (current) {
+              current.hidden = true;
+              current.classList.remove('is-fading');
+            }
+            next.hidden = false;
+            this.resetSlider(next);
+            void next.offsetWidth; // apply the faded state, then fade in
+            next.classList.remove('is-fading');
+            const focusTarget = next.querySelector('.nested-category__crumb') || next.querySelector('a, button');
+            if (focusTarget) focusTarget.focus({ preventScroll: true });
+            const top = this.getBoundingClientRect().top;
+            if (top < 0) window.scrollBy({ top: top - 100, behavior: this.reduceMotion ? 'auto' : 'smooth' });
+          };
+
+          if (this.reduceMotion || !current) {
+            swap();
+            return;
+          }
+          next.classList.add('is-fading');
+          current.classList.add('is-fading');
+          clearTimeout(this.timer);
+          this.timer = setTimeout(swap, 200);
+        }
+
+        // Panels were hidden when their sliders started, so recalculate pages and arrow states.
+        resetSlider(panel) {
+          const slider = panel.querySelector('slider-component');
+          if (!slider) return;
+          const list = slider.querySelector('[id^="Slider-"]');
+          if (list) list.scrollLeft = 0;
+          if (typeof slider.resetPages === 'function') slider.resetPages();
+        }
+      }
+    );
+  }
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Nested Category",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Uses the collection metafields custom.children and custom.parent. Cards with children open the next level here; the others open their collection page."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Shop by Categories",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "collection_list",
+      "id": "main_collections",
+      "label": "Main collections",
+      "info": "The level 1 collections shown first, e.g. Living Room, Bedroom, Doors.",
+      "limit": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_mode",
+      "default": false,
+      "label": "Auto mode on collection pages",
+      "info": "On a collection page, show that collection's children instead of the main collections. Hidden on collections without children."
+    },
+    {
+      "type": "select",
+      "id": "click_behavior",
+      "options": [
+        { "value": "page", "label": "Open the collection page" },
+        { "value": "inline", "label": "Show sub-collections here" }
+      ],
+      "default": "page",
+      "label": "When a card is clicked",
+      "info": "Open the collection page: add this section in auto mode to the collection template so each collection page shows its own sub-collections."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_empty_grid",
+      "default": true,
+      "label": "Hide the product grid on empty parent collections",
+      "info": "Auto mode only. A parent collection without products shows just its sub-collections."
+    },
+    {
+      "type": "text",
+      "id": "grid_section_key",
+      "default": "product-grid",
+      "label": "Product grid section ID",
+      "info": "Advanced. The key of the product grid section in the collection template."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "default": true,
+      "label": "Show count under the title"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "Cards visible on desktop"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" },
+        { "value": "landscape", "label": "Landscape" }
+      ],
+      "default": "portrait",
+      "label": "Image ratio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "default": true,
+      "label": "Show arrows"
+    },
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "default": "All",
+      "label": "First breadcrumb"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "default": "View all",
+      "label": "View all link"
+    },
+    {
+      "type": "text",
+      "id": "open_label",
+      "default": "show collections",
+      "label": "Screen reader text for cards with children"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nested Category"
+    }
+  ]
+}
+{% endschema %}
