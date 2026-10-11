@@ -156,11 +156,23 @@
   }
 }
 
-/* Collection cards shown as images only */
-.product-showcase--image-only .card-category__title {
-  display: none;
-}
+/* Collection cards shown as images only: the name appears on hover */
+@media (hover: hover) {
+  .product-showcase--image-only .card-category__title,
+  .product-showcase--image-only .card-category__media::after {
+    opacity: 0;
+    transition: opacity var(--duration-default) ease, transform var(--duration-default) ease;
+  }
 
-.product-showcase--image-only .card-category__media::after {
-  content: none;
+  .product-showcase--image-only .card-category__title {
+    transform: translateY(0.8rem);
+  }
+
+  .product-showcase--image-only .card-category__link:hover .card-category__title,
+  .product-showcase--image-only .card-category__link:focus-visible .card-category__title,
+  .product-showcase--image-only .card-category__link:hover .card-category__media::after,
+  .product-showcase--image-only .card-category__link:focus-visible .card-category__media::after {
+    opacity: 1;
+    transform: none;
+  }
 }
