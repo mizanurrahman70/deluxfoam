@@ -33,9 +33,40 @@ class DetailsDisclosure extends HTMLElement {
 customElements.define('details-disclosure', DetailsDisclosure);
 
 class HeaderMenu extends DetailsDisclosure {
+  static HOVER_CLOSE_DELAY = 250;
+
   constructor() {
     super();
     this.header = document.querySelector('.header-wrapper');
+    this.summary = this.mainDetailsToggle.querySelector('summary');
+
+    // Open on hover for mouse users on desktop; touch and keyboard keep the click behavior
+    if (window.matchMedia('(hover: hover)').matches) {
+      this.addEventListener('pointerenter', this.onPointerEnter.bind(this));
+      this.addEventListener('pointerleave', this.onPointerLeave.bind(this));
+      this.summary.addEventListener('click', this.onSummaryClick.bind(this));
+    }
+  }
+
+  onPointerEnter(event) {
+    if (event.pointerType !== 'mouse') return;
+    clearTimeout(this.closeTimer);
+    if (this.mainDetailsToggle.open) return;
+    this.mainDetailsToggle.setAttribute('open', '');
+    this.summary.setAttribute('aria-expanded', true);
+  }
+
+  onPointerLeave(event) {
+    if (event.pointerType !== 'mouse') return;
+    clearTimeout(this.closeTimer);
+    this.closeTimer = setTimeout(() => this.close(), HeaderMenu.HOVER_CLOSE_DELAY);
+  }
+
+  onSummaryClick(event) {
+    // A mouse click on a menu that hover already opened keeps it open
+    if (event.detail === 0 || !this.mainDetailsToggle.open || !this.matches(':hover')) return;
+    event.preventDefault();
+    setTimeout(() => this.summary.setAttribute('aria-expanded', true));
   }
 
   onToggle() {
