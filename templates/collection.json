@@ -88,7 +88,7 @@
         "heading_size": "h1",
         "auto_mode": true,
         "click_behavior": "page",
-        "hide_empty_grid": true,
+        "hide_empty_grid": false,
         "grid_section_key": "product-grid",
         "show_count": true,
         "columns_desktop": 4,

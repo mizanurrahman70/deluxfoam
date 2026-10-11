@@ -155,3 +155,12 @@
     transition: none;
   }
 }
+
+/* Collection cards shown as images only */
+.product-showcase--image-only .card-category__title {
+  display: none;
+}
+
+.product-showcase--image-only .card-category__media::after {
+  content: none;
+}

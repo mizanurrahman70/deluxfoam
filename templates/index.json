@@ -247,61 +247,21 @@
         "tab-1": {
           "type": "tab",
           "settings": {
-            "label": "Sofa",
-            "collection": "sofa"
+            "label": "",
+            "collection": "living-room"
           }
         },
         "tab-2": {
           "type": "tab",
           "settings": {
-            "label": "Corner Sofa",
-            "collection": "corner-sofa"
-          }
-        },
-        "tab-3": {
-          "type": "tab",
-          "settings": {
-            "label": "Table",
-            "collection": "table"
-          }
-        },
-        "tab-4": {
-          "type": "tab",
-          "settings": {
-            "label": "Tool",
-            "collection": "tool"
-          }
-        },
-        "tab-5": {
-          "type": "tab",
-          "settings": {
-            "label": "Divan",
-            "collection": "divan"
-          }
-        },
-        "tab-6": {
-          "type": "tab",
-          "settings": {
-            "label": "Hardware",
-            "collection": "hardware"
-          }
-        },
-        "tab-7": {
-          "type": "tab",
-          "settings": {
-            "label": "Barrios Fabrics",
-            "collection": "barrios-fabrics"
+            "label": "",
+            "collection": "bedroom"
           }
         }
       },
       "block_order": [
         "tab-1",
-        "tab-2",
-        "tab-3",
-        "tab-4",
-        "tab-5",
-        "tab-6",
-        "tab-7"
+        "tab-2"
       ],
       "settings": {
         "title": "More Ideas and Inspiration",
@@ -309,10 +269,12 @@
         "link_label": "",
         "link_url": "",
         "collection": "all",
+        "tab_content": "collections",
+        "show_collection_title": false,
         "products_to_show": 8,
-        "columns_desktop": 4,
+        "columns_desktop": 3,
         "columns_mobile": "2",
-        "image_ratio": "square",
+        "image_ratio": "portrait",
         "show_type": true,
         "show_subtitle": true,
         "show_button": true,

@@ -1,0 +1,51 @@
+{% comment %}
+  Renders image cards for the collections under a main collection that hold products,
+  so every card opens a page with products. Reads the collection metafields
+  custom.children (or custom.custom_children), up to three levels deep.
+  A child that has products gets a card. A child without products shows its own children instead.
+  A collection without children gets a card itself.
+
+  Accepts:
+  - collection: {Object} Main collection
+  - title: {String} Card title used when the main collection itself is shown (optional)
+  - sizes: {String} Value for the image sizes attribute (optional)
+
+  Usage:
+  {% render 'product-showcase-collection-cards', collection: block.settings.collection, sizes: sizes %}
+{% endcomment %}
+
+{%- liquid
+  assign kids1 = collection.metafields.custom.children.value | default: collection.metafields.custom.custom_children.value
+-%}
+
+{%- if collection == blank -%}
+  {%- comment -%} Nothing to show {%- endcomment -%}
+{%- elsif kids1 == blank -%}
+  <li class="product-showcase__item">
+    {% render 'card-category', collection: collection, title: title, sizes: sizes %}
+  </li>
+{%- else -%}
+  {%- for c1 in kids1 -%}
+    {%- assign kids2 = c1.metafields.custom.children.value | default: c1.metafields.custom.custom_children.value -%}
+    {%- if c1.products_count > 0 or kids2 == blank -%}
+      <li class="product-showcase__item">
+        {% render 'card-category', collection: c1, sizes: sizes, placeholder_index: forloop.index %}
+      </li>
+    {%- else -%}
+      {%- for c2 in kids2 -%}
+        {%- assign kids3 = c2.metafields.custom.children.value | default: c2.metafields.custom.custom_children.value -%}
+        {%- if c2.products_count > 0 or kids3 == blank -%}
+          <li class="product-showcase__item">
+            {% render 'card-category', collection: c2, sizes: sizes, placeholder_index: forloop.index %}
+          </li>
+        {%- else -%}
+          {%- for c3 in kids3 -%}
+            <li class="product-showcase__item">
+              {% render 'card-category', collection: c3, sizes: sizes, placeholder_index: forloop.index %}
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

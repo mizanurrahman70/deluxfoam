@@ -3,7 +3,7 @@
 
   Accepts:
   - collection: {Object} Collection object (optional)
-  - image: {Object} Image that overrides the collection image (optional)
+  - image: {Object} Image that overrides the collection image (optional, falls back to the first product image)
   - title: {String} Title that overrides the collection title (optional)
   - link: {String} URL that overrides the collection URL (optional)
   - placeholder_index: {Number} Used to vary the placeholder image (optional)
@@ -15,7 +15,7 @@
 {% endcomment %}
 
 {%- liquid
-  assign card_image = image | default: collection.featured_image
+  assign card_image = image | default: collection.featured_image | default: collection.products.first.featured_media
   assign card_title = title | default: collection.title
   assign card_link = link | default: collection.url
   assign placeholder_number = placeholder_index | default: 1 | minus: 1 | modulo: 6 | plus: 1
