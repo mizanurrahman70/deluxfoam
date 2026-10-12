@@ -9,6 +9,9 @@
 {%- unless section.settings.show_button == false -%}
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endunless -%}
+{%- if section.settings.layout == 'slider' -%}
+  <script src="{{ 'showcase-slider.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 {%- if section.blocks.size > 0 -%}
   <script src="{{ 'product-tabs.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
@@ -44,6 +47,12 @@
   if section.settings.tab_content == 'collections'
     assign show_collections = true
   endif
+  assign is_slider = false
+  assign grid_class = 'product-showcase__grid list-unstyled'
+  if section.settings.layout == 'slider'
+    assign is_slider = true
+    assign grid_class = grid_class | append: ' product-showcase__grid--slider'
+  endif
   assign has_tabs = false
   if section.blocks.size > 0
     assign has_tabs = true
@@ -66,7 +75,8 @@
     {%- capture all_panel -%}
       {%- if show_collections -%}
         {%- comment -%} Main collections: the tab collections, or the children of the section collection without tabs {%- endcomment -%}
-        <ul class="product-showcase__grid list-unstyled" role="list">
+        {%- capture grid -%}
+        <ul class="{{ grid_class }}" role="list">
           {%- if has_tabs -%}
             {%- for block in section.blocks -%}
               {% render 'product-showcase-collection-cards',
@@ -92,8 +102,11 @@
             {%- endfor -%}
           {%- endif -%}
         </ul>
+        {%- endcapture -%}
+        {% render 'product-showcase-slider', content: grid, enabled: is_slider, rows: section.settings.slider_rows %}
       {%- else -%}
-      <ul class="product-showcase__grid list-unstyled" role="list">
+      {%- capture grid -%}
+      <ul class="{{ grid_class }}" role="list">
         {%- if section.settings.collection != blank and section.settings.collection.products_count > 0 -%}
           {%- for product in section.settings.collection.products limit: limit -%}
             <li class="product-showcase__item">
@@ -121,6 +134,8 @@
           {%- endfor -%}
         {%- endif -%}
       </ul>
+      {%- endcapture -%}
+      {% render 'product-showcase-slider', content: grid, enabled: is_slider, rows: section.settings.slider_rows %}
       {%- if section.settings.button_label != blank and section.settings.collection.products_count > limit -%}
         <div class="product-showcase__footer">
           <a
@@ -182,13 +197,16 @@
           >
             {%- if show_collections -%}
               {%- assign tab_collection = block.settings.collection -%}
-              <ul class="product-showcase__grid list-unstyled" role="list">
+              {%- capture grid -%}
+              <ul class="{{ grid_class }}" role="list">
                 {% render 'product-showcase-collection-cards',
                   collection: tab_collection,
                   title: block.settings.label,
                   sizes: sizes
                 %}
               </ul>
+              {%- endcapture -%}
+              {% render 'product-showcase-slider', content: grid, enabled: is_slider, rows: section.settings.slider_rows %}
               {%- if section.settings.button_label != blank and tab_collection != blank -%}
                 <div class="product-showcase__footer">
                   <a href="{{ tab_collection.url }}" class="product-showcase__button button">
@@ -197,7 +215,8 @@
                 </div>
               {%- endif -%}
             {%- else -%}
-            <ul class="product-showcase__grid list-unstyled" role="list">
+            {%- capture grid -%}
+            <ul class="{{ grid_class }}" role="list">
               {%- for product in block.settings.collection.products limit: limit -%}
                 <li class="product-showcase__item">
                   {% render 'card-product-simple',
@@ -214,6 +233,8 @@
                 <li class="product-showcase__empty">{{ 'sections.collection_template.empty' | t }}</li>
               {%- endfor -%}
             </ul>
+            {%- endcapture -%}
+            {% render 'product-showcase-slider', content: grid, enabled: is_slider, rows: section.settings.slider_rows %}
             {%- if section.settings.button_label != blank and block.settings.collection.products_count > limit -%}
               <div class="product-showcase__footer">
                 <a href="{{ block.settings.collection.url }}" class="product-showcase__button button">
@@ -317,6 +338,40 @@
       ],
       "default": "2",
       "label": "t:sections.featured-collection.settings.columns_mobile.label"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "slider",
+          "label": "Slider"
+        }
+      ],
+      "default": "grid",
+      "label": "Layout",
+      "info": "Slider shows arrows when there are more cards than fit."
+    },
+    {
+      "type": "select",
+      "id": "slider_rows",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1",
+      "label": "Slider rows",
+      "info": "Two rows are used only when the cards don't fit in one row."
     },
     {
       "type": "header",

@@ -88,6 +88,7 @@
       "type": "nested-category",
       "name": "Nested Category",
       "settings": {
+        "rows": "2",
         "heading": "Shop by Categories",
         "heading_size": "h1",
         "main_collections": [
@@ -302,6 +303,8 @@
         "products_to_show": 8,
         "columns_desktop": 3,
         "columns_mobile": "2",
+        "layout": "slider",
+        "slider_rows": "2",
         "image_ratio": "portrait",
         "show_type": true,
         "show_subtitle": true,

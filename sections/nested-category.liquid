@@ -186,6 +186,12 @@
             assign item_count = item_count | plus: 1
           endif
         endfor
+
+        # Two rows: each slide stacks two cards, only when the cards don't fit in one row
+        assign stack_rows = 1
+        if section.settings.rows == '2' and item_count > columns
+          assign stack_rows = 2
+        endif
       -%}
 
       <div
@@ -290,8 +296,15 @@
                   endif
                   assign placeholder_number = slide_index | minus: 1 | modulo: 6 | plus: 1
                   assign placeholder_name = 'collection-' | append: placeholder_number
+                  assign stack_position = slide_index | minus: 1 | modulo: stack_rows
+                  assign column_index = slide_index | minus: 1 | divided_by: stack_rows | plus: 1
                 -%}
-                <li id="Slide-{{ sid }}-{{ panel_id }}-{{ slide_index }}" class="category-slider__item">
+                {%- if stack_position == 0 -%}
+                  <li
+                    id="Slide-{{ sid }}-{{ panel_id }}-{{ column_index }}"
+                    class="category-slider__item{% if stack_rows > 1 %} nested-category__stack{% endif %}"
+                  >
+                {%- endif -%}
                   <div class="card-category">
                     <a
                       href="{{ item.url }}"
@@ -340,7 +353,10 @@
                       </p>
                     </a>
                   </div>
-                </li>
+                {%- assign last_in_stack = stack_rows | minus: 1 -%}
+                {%- if stack_position == last_in_stack or slide_index == item_count -%}
+                  </li>
+                {%- endif -%}
               {%- endfor -%}
             </ul>
           {%- elsif panel_handle == root_id -%}
@@ -515,6 +531,17 @@
       "step": 1,
       "default": 4,
       "label": "Cards visible on desktop"
+    },
+    {
+      "type": "select",
+      "id": "rows",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1",
+      "label": "Rows",
+      "info": "Two rows are used only when there are more cards than fit in one row."
     },
     {
       "type": "select",

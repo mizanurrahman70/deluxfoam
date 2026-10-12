@@ -84,6 +84,7 @@
     "nested_category": {
       "type": "nested-category",
       "settings": {
+        "rows": "2",
         "heading": "Shop by Category",
         "heading_size": "h1",
         "auto_mode": true,

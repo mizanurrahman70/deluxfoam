@@ -107,3 +107,10 @@
     transition: none;
   }
 }
+
+/* Two rows: each slide holds a column of two cards */
+.nested-category .nested-category__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--category-gap);
+}

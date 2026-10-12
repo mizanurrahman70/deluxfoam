@@ -1,0 +1,38 @@
+{% comment %}
+  Wraps a product showcase grid in a horizontal slider with previous and next buttons,
+  or outputs the grid unchanged when the slider is off.
+
+  Accepts:
+  - content: {String} Grid markup (the <ul class="product-showcase__grid">)
+  - enabled: {Boolean} Render the slider
+  - rows: {Number} Number of rows inside the slider
+
+  Usage:
+  {% render 'product-showcase-slider', content: grid, enabled: is_slider, rows: section.settings.slider_rows %}
+{% endcomment %}
+
+{%- if enabled -%}
+  <showcase-slider class="product-showcase__slider" data-rows="{{ rows | default: 1 }}">
+    {{ content }}
+    <button
+      type="button"
+      class="product-showcase__slider-button product-showcase__slider-button--prev"
+      name="previous"
+      aria-label="{{ 'general.slider.previous_slide' | t }}"
+      disabled
+    >
+      {{- 'icon-arrow.svg' | inline_asset_content -}}
+    </button>
+    <button
+      type="button"
+      class="product-showcase__slider-button product-showcase__slider-button--next"
+      name="next"
+      aria-label="{{ 'general.slider.next_slide' | t }}"
+      disabled
+    >
+      {{- 'icon-arrow.svg' | inline_asset_content -}}
+    </button>
+  </showcase-slider>
+{%- else -%}
+  {{ content }}
+{%- endif -%}
