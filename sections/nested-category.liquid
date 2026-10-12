@@ -26,6 +26,10 @@
       assign ratio = '4 / 5'
   endcase
   assign columns = section.settings.columns_desktop
+  assign is_grid = false
+  if section.settings.layout == 'grid'
+    assign is_grid = true
+  endif
   assign sizes = '(min-width: ' | append: settings.page_width | append: 'px) calc(' | append: settings.page_width | append: 'px / ' | append: columns | append: '), (min-width: 750px) calc(100vw / ' | append: columns | append: '), 75vw'
 
   comment
@@ -189,7 +193,7 @@
 
         # Two rows: each slide stacks two cards, only when the cards don't fit in one row
         assign stack_rows = 1
-        if section.settings.rows == '2' and item_count > columns
+        if is_grid == false and section.settings.rows == '2' and item_count > columns
           assign stack_rows = 2
         endif
       -%}
@@ -216,7 +220,7 @@
                 </a>
               {%- endif -%}
             </div>
-            {%- if section.settings.show_arrows and item_count > 1 -%}
+            {%- if is_grid == false and section.settings.show_arrows and item_count > 1 -%}
               <div class="category-slider__buttons">
                 <button
                   type="button"
@@ -276,7 +280,7 @@
           {%- endif -%}
 
           {%- if item_count > 0 -%}
-            <ul id="Slider-{{ sid }}-{{ panel_id }}" class="category-slider__list list-unstyled" role="list">
+            <ul id="Slider-{{ sid }}-{{ panel_id }}" class="category-slider__list list-unstyled{% if is_grid %} nested-category__grid{% endif %}" role="list">
               {%- assign slide_index = 0 -%}
               {%- for item in items -%}
                 {%- if item == blank -%}
@@ -361,7 +365,7 @@
             </ul>
           {%- elsif panel_handle == root_id -%}
             {%- comment -%} Nothing selected yet: placeholder cards, same layout {%- endcomment -%}
-            <ul id="Slider-{{ sid }}-{{ panel_id }}" class="category-slider__list list-unstyled" role="list">
+            <ul id="Slider-{{ sid }}-{{ panel_id }}" class="category-slider__list list-unstyled{% if is_grid %} nested-category__grid{% endif %}" role="list">
               {%- for i in (1..4) -%}
                 <li id="Slide-{{ sid }}-{{ panel_id }}-{{ i }}" class="category-slider__item">
                   <div class="card-category">
@@ -531,6 +535,17 @@
       "step": 1,
       "default": 4,
       "label": "Cards visible on desktop"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        { "value": "slider", "label": "Slider" },
+        { "value": "grid", "label": "Grid" }
+      ],
+      "default": "slider",
+      "label": "Layout",
+      "info": "Grid shows every card in rows, without arrows."
     },
     {
       "type": "select",
