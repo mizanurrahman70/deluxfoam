@@ -5,9 +5,20 @@
   {% render 'header-mega-menu' %}
 {% endcomment %}
 
-<nav class="header__inline-menu">
+{%- liquid
+  assign menu_links = section.settings.menu.links
+  assign visible_count = section.settings.menu_visible_items | default: 10
+  assign show_all_menu = false
+  if visible_count > 0 and menu_links.size > visible_count
+    assign show_all_menu = true
+  else
+    assign visible_count = menu_links.size
+  endif
+-%}
+
+<nav class="header__inline-menu{% if show_all_menu %} header__inline-menu--limited{% endif %}">
   <ul class="list-menu list-menu--inline" role="list">
-    {%- for link in section.settings.menu.links -%}
+    {%- for link in menu_links limit: visible_count -%}
       <li>
         {%- if link.links != blank -%}
           <header-menu>
@@ -35,39 +46,8 @@
                   role="list"
                 >
                   {%- for childlink in link.links -%}
-                    <li>
-                      <a
-                        id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                        href="{{ childlink.url }}"
-                        class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
-                        {% if childlink.current %}
-                          aria-current="page"
-                        {% endif %}
-                      >
-                        {{ childlink.title | escape -}}
-                        {%- if childlink.links != blank -%}
-                          {{- 'icon-arrow.svg' | inline_asset_content -}}
-                        {%- endif -%}
-                      </a>
-                      {%- if childlink.links != blank -%}
-                        <ul class="list-unstyled" role="list">
-                          {%- for grandchildlink in childlink.links -%}
-                            <li>
-                              <a
-                                id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                href="{{ grandchildlink.url }}"
-                                class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
-                                {% if grandchildlink.current %}
-                                  aria-current="page"
-                                {% endif %}
-                              >
-                                {{ grandchildlink.title | escape }}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </li>
+                    {%- assign id_prefix = 'HeaderMenu-' | append: link.handle -%}
+                    {% render 'header-mega-menu-group', link: childlink, id_prefix: id_prefix %}
                   {%- endfor -%}
                 </ul>
               </div>
@@ -93,5 +73,36 @@
         {%- endif -%}
       </li>
     {%- endfor -%}
+
+    {%- if show_all_menu -%}
+      {%- comment -%} Every menu item, including the ones already shown above {%- endcomment -%}
+      <li class="header__menu-all">
+        <header-menu>
+          <details id="Details-HeaderMenu-all" class="mega-menu mega-menu--all">
+            <summary id="HeaderMenu-all" class="header__menu-item list-menu__item link focus-inset">
+              <span>{{- section.settings.all_menu_label | default: 'All Products' | escape -}}</span>
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </summary>
+            <div
+              id="MegaMenu-Content-all"
+              class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+              tabindex="-1"
+            >
+              <ul class="mega-menu__list page-width" role="list">
+                {%- for link in menu_links -%}
+                  {% render 'header-mega-menu-group', link: link, id_prefix: 'HeaderMenu-all' %}
+                {%- endfor -%}
+              </ul>
+              <div class="mega-menu__footer page-width">
+                <a href="{{ routes.all_products_collection_url }}" class="mega-menu__view-all link">
+                  {{- section.settings.all_menu_link_label | default: 'View all products' | escape -}}
+                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                </a>
+              </div>
+            </div>
+          </details>
+        </header-menu>
+      </li>
+    {%- endif -%}
   </ul>
 </nav>

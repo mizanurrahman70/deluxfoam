@@ -1,0 +1,45 @@
+{% comment %}
+  Renders one column group of the mega menu: a bold heading link and its child links.
+
+  Accepts:
+  - link: {Object} Menu link used as the heading
+  - id_prefix: {String} Prefix for the element IDs
+
+  Usage:
+  {% render 'header-mega-menu-group', link: childlink, id_prefix: 'HeaderMenu-living-room' %}
+{% endcomment %}
+
+{%- assign group_id = id_prefix | append: '-' | append: link.handle -%}
+<li>
+  <a
+    id="{{ group_id }}"
+    href="{{ link.url }}"
+    class="mega-menu__link mega-menu__link--level-2 link{% if link.current %} mega-menu__link--active{% endif %}"
+    {% if link.current %}
+      aria-current="page"
+    {% endif %}
+  >
+    {{ link.title | escape -}}
+    {%- if link.links != blank -%}
+      {{- 'icon-arrow.svg' | inline_asset_content -}}
+    {%- endif -%}
+  </a>
+  {%- if link.links != blank -%}
+    <ul class="list-unstyled" role="list">
+      {%- for sublink in link.links -%}
+        <li>
+          <a
+            id="{{ group_id }}-{{ sublink.handle }}"
+            href="{{ sublink.url }}"
+            class="mega-menu__link link{% if sublink.current %} mega-menu__link--active{% endif %}"
+            {% if sublink.current %}
+              aria-current="page"
+            {% endif %}
+          >
+            {{ sublink.title | escape }}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</li>

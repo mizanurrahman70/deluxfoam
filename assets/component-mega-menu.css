@@ -180,3 +180,83 @@
     padding: 0 4rem;
   }
 }
+
+/* All Products panel: every menu item, with a link to the full catalog */
+.mega-menu--all .mega-menu__content {
+  max-height: calc(100vh - var(--header-bottom-position-desktop, 20rem) - 4rem);
+  overflow-y: auto;
+}
+
+@media screen and (min-width: 1200px) {
+  .mega-menu--all .mega-menu__list {
+    columns: 4 18rem;
+  }
+}
+
+.mega-menu__footer {
+  margin-top: 2.4rem;
+}
+
+.mega-menu__view-all {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding-top: 2rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  font-weight: var(--font-body-weight-bold);
+  font-size: calc(var(--font-body-scale) * 1.5rem);
+  color: rgb(var(--color-button));
+  text-decoration: none;
+}
+
+.mega-menu__view-all .icon-arrow {
+  width: 1.4rem;
+  transition: transform var(--duration-short) ease;
+}
+
+.mega-menu__view-all:hover .icon-arrow {
+  transform: translateX(0.4rem);
+}
+
+@media screen and (min-width: 990px) {
+  .mega-menu__content .mega-menu__footer {
+    max-width: none;
+    padding: 0 4rem;
+  }
+}
+
+/* With All Products, drop the last visible items on narrower screens so the menu stays on one line.
+   They are still listed in the All Products panel. */
+@media screen and (min-width: 990px) and (max-width: 1599px) {
+  .header__inline-menu--limited > ul > li:nth-child(n + 9):not(.header__menu-all) {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 990px) and (max-width: 1399px) {
+  .header__inline-menu--limited > ul > li:nth-child(n + 7):not(.header__menu-all) {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+  .header__inline-menu--limited > ul > li:nth-child(n + 5):not(.header__menu-all) {
+    display: none;
+  }
+}
+
+/* Tighter spacing when the menu holds many items, so the logo keeps its size */
+@media screen and (min-width: 990px) {
+  .header__inline-menu--limited .header__menu-item {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+
+  .header__inline-menu--limited summary.header__menu-item {
+    padding-right: 2rem;
+  }
+
+  .header__inline-menu--limited .header__menu-item .icon-caret {
+    right: 0.4rem;
+  }
+}
