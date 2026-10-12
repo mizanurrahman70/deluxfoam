@@ -18,7 +18,7 @@
           "type": "text",
           "settings": {
             "heading": "DELUXFOAM",
-            "subtext": "<p>Serving households across Dhaka & all of Bangladesh with premium comfortable products.</p>"
+            "subtext": "<p><br/>Premium comfort for households across Dhaka and Bangladesh<br/><br/></p>"
           }
         },
         "living": {
@@ -46,7 +46,7 @@
           "type": "contact",
           "settings": {
             "heading": "Contact",
-            "link_label": "Contact us",
+            "link_label": "",
             "link": "/pages/contact"
           }
         }
@@ -66,7 +66,7 @@
         "enable_follow_on_shop": true,
         "show_social": false,
         "enable_country_selector": false,
-        "enable_language_selector": false,
+        "enable_language_selector": true,
         "payment_enable": false,
         "show_policy": true,
         "margin_top": 0,

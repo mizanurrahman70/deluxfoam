@@ -19,6 +19,30 @@
         "color_scheme": "scheme-1"
       }
     },
+    "nested_category": {
+      "type": "nested-category",
+      "settings": {
+        "heading": "Shop by Category",
+        "heading_size": "h1",
+        "main_collections": [],
+        "auto_mode": true,
+        "click_behavior": "page",
+        "hide_empty_grid": false,
+        "grid_section_key": "product-grid",
+        "show_count": true,
+        "columns_desktop": 5,
+        "layout": "grid",
+        "rows": "1",
+        "image_ratio": "portrait",
+        "show_arrows": true,
+        "all_label": "All",
+        "view_all_label": "View all",
+        "open_label": "show collections",
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
     "product-grid": {
       "type": "main-collection-product-grid",
       "settings": {
@@ -55,10 +79,14 @@
         "products_to_show": 4,
         "columns_desktop": 4,
         "columns_mobile": "2",
+        "layout": "grid",
+        "slider_rows": "1",
         "image_ratio": "square",
         "show_type": true,
         "show_subtitle": false,
         "show_button": true,
+        "tab_content": "products",
+        "show_collection_title": true,
         "all_tab_label": "All",
         "button_label": "",
         "button_link": "",
@@ -79,28 +107,6 @@
         "color_scheme": "scheme-7",
         "padding_top": 64,
         "padding_bottom": 64
-      }
-    },
-    "nested_category": {
-      "type": "nested-category",
-      "settings": {
-        "layout": "grid",
-        "heading": "Shop by Category",
-        "heading_size": "h1",
-        "auto_mode": true,
-        "click_behavior": "page",
-        "hide_empty_grid": false,
-        "grid_section_key": "product-grid",
-        "show_count": true,
-        "columns_desktop": 4,
-        "image_ratio": "portrait",
-        "show_arrows": true,
-        "all_label": "All",
-        "view_all_label": "View all",
-        "open_label": "show collections",
-        "color_scheme": "scheme-1",
-        "padding_top": 32,
-        "padding_bottom": 32
       }
     }
   },
