@@ -282,3 +282,51 @@ showcase-slider.is-scrollable .product-showcase__slider-button {
     right: -2.2rem;
   }
 }
+
+/* Image-only collection slider with two rows: staggered (masonry) tiles.
+   Each column holds one tall and one short picture, alternating column by column. */
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] {
+  --masonry-gap: 1.2rem;
+  --masonry-unit: 3.6rem;
+  grid-template-rows: repeat(10, var(--masonry-unit));
+  grid-auto-columns: calc((100% - var(--masonry-gap) * (var(--slider-columns) - 1)) / var(--slider-columns));
+  gap: var(--masonry-gap);
+}
+
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] > .product-showcase__item {
+  grid-row: span 5;
+}
+
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] > .product-showcase__item:nth-child(4n + 1),
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] > .product-showcase__item:nth-child(4n + 4) {
+  grid-row: span 6;
+}
+
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] > .product-showcase__item:nth-child(4n + 2),
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] > .product-showcase__item:nth-child(4n + 3) {
+  grid-row: span 4;
+}
+
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] .card-category,
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] .card-category__link,
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] .card-category__media {
+  height: 100%;
+}
+
+.product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] .card-category__media {
+  aspect-ratio: auto;
+}
+
+@media screen and (min-width: 750px) {
+  .product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] {
+    --masonry-gap: 1.6rem;
+    --masonry-unit: 5rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .product-showcase--image-only .product-showcase__grid--slider[style*='--slider-rows: 2'] {
+    --masonry-gap: 2rem;
+    --masonry-unit: 6.4rem;
+  }
+}
