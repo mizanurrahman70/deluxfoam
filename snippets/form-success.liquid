@@ -1,0 +1,53 @@
+{% comment %}
+  Confirmation panel shown in place of a contact form after it was sent.
+  Offers "Continue shopping" and, when a WhatsApp number is set in Theme settings, a WhatsApp chat.
+
+  Accepts:
+  - heading: {String} Heading (optional, uses the translation when blank)
+  - text: {String} Rich text under the heading (optional, uses the translation when blank)
+  - again_url: {String} Link for "Send another message" (optional, hidden when blank)
+
+  Usage:
+  {% render 'form-success', heading: section.settings.success_heading, text: section.settings.success_text, again_url: product.url %}
+{% endcomment %}
+
+{{ 'component-form-success.css' | asset_url | stylesheet_tag }}
+
+{%- assign whatsapp_number = settings.contact_whatsapp | remove: '+' | remove: ' ' | remove: '-' -%}
+
+<div class="form-success" role="status" tabindex="-1" autofocus>
+  <span class="form-success__icon">{{- 'icon-checkmark.svg' | inline_asset_content -}}</span>
+  <h2 class="form-success__heading h2">
+    {%- if heading != blank -%}
+      {{ heading | escape }}
+    {%- else -%}
+      {{ 'sections.form_success.heading' | t }}
+    {%- endif -%}
+  </h2>
+  <div class="form-success__text rte">
+    {%- if text != blank -%}
+      {{ text }}
+    {%- else -%}
+      <p>{{ 'sections.form_success.text' | t }}</p>
+    {%- endif -%}
+  </div>
+  <div class="form-success__actions">
+    <a href="{{ routes.all_products_collection_url }}" class="form-success__button button">
+      {{- 'sections.form_success.continue' | t -}}
+    </a>
+    {%- if whatsapp_number != blank -%}
+      <a
+        href="https://wa.me/{{ whatsapp_number }}"
+        class="form-success__button form-success__button--whatsapp button button--secondary"
+        target="_blank"
+        rel="noopener"
+      >
+        {{- 'icon-whatsapp.svg' | inline_asset_content -}}
+        {{- 'sections.form_success.whatsapp' | t -}}
+      </a>
+    {%- endif -%}
+  </div>
+  {%- if again_url != blank -%}
+    <a href="{{ again_url }}" class="form-success__again link">{{ 'sections.form_success.again' | t }}</a>
+  {%- endif -%}
+</div>

@@ -397,6 +397,13 @@
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
     },
+    "form_success": {
+      "heading": "Thank you, your message is sent!",
+      "text": "We'll get back to you within 1 working day. For a faster reply, message us on WhatsApp.",
+      "continue": "Continue shopping",
+      "whatsapp": "Chat on WhatsApp",
+      "again": "Send another message"
+    },
     "contact_details": {
       "address": "Address",
       "mobile": "Mobile",

@@ -27,10 +27,13 @@
       {%- assign form_id = 'RequestForm-' | append: section.id -%}
       {%- form 'contact', id: form_id, class: 'request-form__form' -%}
         {%- if form.posted_successfully? -%}
-          <p class="request-form__message form-status form-status-list form__message" tabindex="-1" autofocus>
-            {{- 'templates.contact.form.post_success' | t -}}
-          </p>
-        {%- elsif form.errors -%}
+          {% render 'form-success',
+            heading: section.settings.success_heading,
+            text: section.settings.success_text,
+            again_url: request.path
+          %}
+        {%- else -%}
+        {%- if form.errors -%}
           <div class="request-form__message form__message" role="alert">
             {{ form.errors | default_errors }}
           </div>
@@ -83,6 +86,7 @@
             {{- section.settings.button_label | escape -}}
           </button>
         </div>
+        {%- endif -%}
       {%- endform -%}
     </div>
   </div>
@@ -170,6 +174,22 @@
       "id": "button_label",
       "default": "Submit request",
       "label": "Button label"
+    },
+    {
+      "type": "header",
+      "content": "After sending"
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "default": "Thank you, we got your request!",
+      "label": "Confirmation heading"
+    },
+    {
+      "type": "richtext",
+      "id": "success_text",
+      "default": "<p>Our team will look at your requirements and contact you within 1 working day with a price and delivery time. For a faster reply, message us on WhatsApp.</p>",
+      "label": "Confirmation text"
     },
     {
       "type": "color_scheme",
