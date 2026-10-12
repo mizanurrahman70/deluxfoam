@@ -18,7 +18,7 @@
           "type": "text",
           "settings": {
             "heading": "DELUXFOAM",
-            "subtext": "<p>Considered comfort for slow, everyday living.</p>"
+            "subtext": "<p>Serving households across Dhaka & all of Bangladesh with premium comfortable products.</p>"
           }
         },
         "living": {
@@ -41,20 +41,29 @@
             "heading": "Studio",
             "menu": "footer"
           }
+        },
+        "contact": {
+          "type": "contact",
+          "settings": {
+            "heading": "Contact",
+            "link_label": "Contact us",
+            "link": "/pages/contact"
+          }
         }
       },
       "block_order": [
         "brand",
         "living",
         "support",
-        "studio"
+        "studio",
+        "contact"
       ],
       "settings": {
         "color_scheme": "scheme-6",
         "minimal_style": true,
         "newsletter_enable": false,
         "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": false,
+        "enable_follow_on_shop": true,
         "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false,

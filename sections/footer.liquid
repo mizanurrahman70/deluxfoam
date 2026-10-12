@@ -86,6 +86,17 @@
                     <div class="footer-block__details-content rte">
                       {{ block.settings.subtext }}
                     </div>
+                  {%- when 'contact' -%}
+                    {{ 'component-contact-details.css' | asset_url | stylesheet_tag }}
+                    <div class="footer-block__details-content">
+                      {% render 'contact-details', class: 'contact-details--footer' %}
+                      {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+                        <a href="{{ block.settings.link }}" class="contact-details__more link">
+                          {{- block.settings.link_label | escape -}}
+                          {{- 'icon-arrow.svg' | inline_asset_content -}}
+                        </a>
+                      {%- endif -%}
+                    </div>
                   {%- when 'link_list' -%}
                     {%- if block.settings.menu != blank -%}
                       <ul class="footer-block__details-content list-unstyled">
@@ -360,6 +371,35 @@
           "default": true,
           "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
           "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Contact",
+          "label": "Heading"
+        },
+        {
+          "type": "paragraph",
+          "content": "Edit the details in Theme settings > Contact information."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "default": "Contact us",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "For example your contact page."
         }
       ]
     },

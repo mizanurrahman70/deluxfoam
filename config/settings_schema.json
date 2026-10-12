@@ -1301,6 +1301,36 @@
     ]
   },
   {
+    "name": "Contact information",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shown in the footer Contact block and on the contact page."
+      },
+      {
+        "type": "textarea",
+        "id": "contact_address",
+        "label": "Address"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Mobile"
+      },
+      {
+        "type": "text",
+        "id": "contact_whatsapp",
+        "label": "WhatsApp number",
+        "info": "With country code, e.g. +8801918401714."
+      },
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Email"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.social-media.name",
     "settings": [
       {

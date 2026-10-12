@@ -1,0 +1,61 @@
+{% comment %}
+  Renders the store contact details from Theme settings > Contact information:
+  address (links to Google Maps), mobile, WhatsApp and email.
+
+  Accepts:
+  - class: {String} Extra class for the list (optional)
+  - show_labels: {Boolean} Show a small label above each value (optional, default false)
+
+  Usage:
+  {% render 'contact-details', class: 'footer-contact', show_labels: true %}
+{% endcomment %}
+
+{%- liquid
+  assign whatsapp_number = settings.contact_whatsapp | remove: '+' | remove: ' ' | remove: '-'
+  assign phone_number = settings.contact_phone | remove: ' ' | remove: '-'
+  assign map_query = settings.contact_address | strip_newlines | url_encode
+  assign map_url = 'https://www.google.com/maps/search/?api=1&query=' | append: map_query
+-%}
+
+<ul class="contact-details list-unstyled {{ class }}" role="list">
+  {%- if settings.contact_address != blank -%}
+    <li class="contact-details__item">
+      <span class="contact-details__icon">{{- 'icon-map-pin.svg' | inline_asset_content -}}</span>
+      <span class="contact-details__body">
+        {%- if show_labels -%}<span class="contact-details__label">{{ 'sections.contact_details.address' | t }}</span>{%- endif -%}
+        <a href="{{ map_url }}" class="contact-details__value link" target="_blank" rel="noopener">
+          {{- settings.contact_address | escape | newline_to_br -}}
+        </a>
+      </span>
+    </li>
+  {%- endif -%}
+  {%- if settings.contact_phone != blank -%}
+    <li class="contact-details__item">
+      <span class="contact-details__icon">{{- 'icon-phone.svg' | inline_asset_content -}}</span>
+      <span class="contact-details__body">
+        {%- if show_labels -%}<span class="contact-details__label">{{ 'sections.contact_details.mobile' | t }}</span>{%- endif -%}
+        <a href="tel:{{ phone_number }}" class="contact-details__value link">{{ settings.contact_phone | escape }}</a>
+      </span>
+    </li>
+  {%- endif -%}
+  {%- if settings.contact_whatsapp != blank -%}
+    <li class="contact-details__item">
+      <span class="contact-details__icon">{{- 'icon-whatsapp.svg' | inline_asset_content -}}</span>
+      <span class="contact-details__body">
+        {%- if show_labels -%}<span class="contact-details__label">{{ 'sections.contact_details.whatsapp' | t }}</span>{%- endif -%}
+        <a href="https://wa.me/{{ whatsapp_number }}" class="contact-details__value link" target="_blank" rel="noopener">
+          {{- settings.contact_whatsapp | escape -}}
+        </a>
+      </span>
+    </li>
+  {%- endif -%}
+  {%- if settings.contact_email != blank -%}
+    <li class="contact-details__item">
+      <span class="contact-details__icon">{{- 'icon-email.svg' | inline_asset_content -}}</span>
+      <span class="contact-details__body">
+        {%- if show_labels -%}<span class="contact-details__label">{{ 'sections.contact_details.email' | t }}</span>{%- endif -%}
+        <a href="mailto:{{ settings.contact_email }}" class="contact-details__value link">{{ settings.contact_email | escape }}</a>
+      </span>
+    </li>
+  {%- endif -%}
+</ul>

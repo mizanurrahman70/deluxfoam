@@ -397,6 +397,13 @@
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
     },
+    "contact_details": {
+      "address": "Address",
+      "mobile": "Mobile",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "directions": "Get directions"
+    },
     "mattress_calculator": {
       "size": "Mattress size",
       "length": "Length",

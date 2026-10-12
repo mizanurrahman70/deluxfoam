@@ -1,0 +1,100 @@
+.contact-details {
+  display: grid;
+  gap: 1.4rem;
+  margin: 0;
+}
+
+.contact-details__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.contact-details__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background-color: rgba(var(--color-button), 0.1);
+  color: rgb(var(--color-button));
+}
+
+.contact-details__icon .icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.contact-details__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  padding-top: 0.5rem;
+}
+
+.contact-details__label {
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+  letter-spacing: 0.06rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.contact-details__value {
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  line-height: 1.5;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color var(--duration-short) ease;
+}
+
+.contact-details__value:hover {
+  color: rgb(var(--color-button));
+  text-decoration: none;
+}
+
+/* Footer: compact, inherits the footer text color */
+.contact-details--footer {
+  gap: 1rem;
+}
+
+.contact-details--footer .contact-details__icon {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.contact-details--footer .contact-details__icon .icon {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.contact-details--footer .contact-details__body {
+  padding-top: 0.3rem;
+}
+
+.contact-details--footer .contact-details__value {
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.contact-details__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  font-weight: var(--font-body-weight-bold);
+  color: rgb(var(--color-button));
+  text-decoration: none;
+}
+
+.contact-details__more .icon {
+  width: 1.2rem;
+  transition: transform var(--duration-short) ease;
+}
+
+.contact-details__more:hover .icon {
+  transform: translateX(0.3rem);
+}
