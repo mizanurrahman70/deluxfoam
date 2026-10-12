@@ -193,6 +193,34 @@
     "more_ideas": {
       "type": "product-showcase",
       "blocks": {
+        "tab_EzqNEd": {
+          "type": "tab",
+          "settings": {
+            "label": "",
+            "collection": "office-sofas"
+          }
+        },
+        "tab_VVQAAy": {
+          "type": "tab",
+          "settings": {
+            "label": "kids room",
+            "collection": "kids-room"
+          }
+        },
+        "tab_giW6YE": {
+          "type": "tab",
+          "settings": {
+            "label": "Kitchen",
+            "collection": "kitchen"
+          }
+        },
+        "tab_L9pBLC": {
+          "type": "tab",
+          "settings": {
+            "label": "",
+            "collection": "doors"
+          }
+        },
         "tab-1": {
           "type": "tab",
           "settings": {
@@ -209,6 +237,10 @@
         }
       },
       "block_order": [
+        "tab_EzqNEd",
+        "tab_VVQAAy",
+        "tab_giW6YE",
+        "tab_L9pBLC",
         "tab-1",
         "tab-2"
       ],
