@@ -88,114 +88,43 @@
       "type": "nested-category",
       "name": "Nested Category",
       "settings": {
-        "rows": "2",
         "heading": "Shop by Categories",
         "heading_size": "h1",
         "main_collections": [
           "living-room",
-          "bedroom"
+          "bedroom",
+          "2-door-wardrobe",
+          "2-seater-dining-set",
+          "2-seater-office-sofa",
+          "2-seater-sofa",
+          "3-door-wardrobe",
+          "3-seater-sofa",
+          "4-door-wardrobe",
+          "4-seater-dining-set",
+          "6-seater-dining-set",
+          "8-seater-dining-set",
+          "academic-furniture",
+          "accent-chair",
+          "auditorium-chair",
+          "auditorium-furniture",
+          "bar-cabinet",
+          "bar-stool",
+          "bed-storage-drawer",
+          "bedroom-mattress"
         ],
         "auto_mode": false,
         "click_behavior": "page",
         "hide_empty_grid": false,
         "grid_section_key": "product-grid",
         "show_count": true,
-        "columns_desktop": 4,
+        "columns_desktop": 5,
+        "rows": "2",
         "image_ratio": "portrait",
         "show_arrows": true,
         "all_label": "All",
         "view_all_label": "View all",
         "open_label": "show collections",
         "color_scheme": "",
-        "padding_top": 72,
-        "padding_bottom": 36
-      }
-    },
-    "category_slider": {
-      "type": "category-slider",
-      "blocks": {
-        "category-1": {
-          "type": "category",
-          "settings": {
-            "collection": "sofa",
-            "image": "shopify://shop_images/photo-1594809512566-021e8369702a_781c23bf-4c74-4913-a274-1176a7b375e3.jpg",
-            "title": "Sofa",
-            "link": ""
-          }
-        },
-        "category-2": {
-          "type": "category",
-          "settings": {
-            "collection": "corner-sofa",
-            "image": "shopify://shop_images/photo-1484101403633-562f891dc89a.jpg",
-            "title": "Corner Sofa",
-            "link": ""
-          }
-        },
-        "category-3": {
-          "type": "category",
-          "settings": {
-            "collection": "hardware",
-            "image": "shopify://shop_images/photo-1645651964715-d200ce0939cc.jpg",
-            "title": "Hardwood",
-            "link": ""
-          }
-        },
-        "category-4": {
-          "type": "category",
-          "settings": {
-            "collection": "table",
-            "image": "shopify://shop_images/photo-1631396326646-c06a935ff3a6_c41d1135-99a6-4fdc-886b-6b5e38329cd7.jpg",
-            "title": "Table",
-            "link": ""
-          }
-        },
-        "category_XGCqge": {
-          "type": "category",
-          "settings": {
-            "collection": "barrios-fabrics",
-            "image": "shopify://shop_images/photo-1634712282287-14ed57b9cc89.jpg",
-            "title": "",
-            "link": ""
-          }
-        },
-        "category_4jFB9M": {
-          "type": "category",
-          "settings": {
-            "collection": "tool",
-            "image": "shopify://shop_images/photo-1605701249987-f0bb9b505d06_84e7e871-8162-4a80-b4d8-1ebf69ad689b.jpg",
-            "title": "",
-            "link": ""
-          }
-        },
-        "category_cTGxpe": {
-          "type": "category",
-          "settings": {
-            "collection": "divan",
-            "image": "shopify://shop_images/photo-1552259013-a245aa0fb94a_c70f21a3-9469-4a63-9070-5c059efd6faa.jpg",
-            "title": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "category-1",
-        "category-2",
-        "category-3",
-        "category-4",
-        "category_XGCqge",
-        "category_4jFB9M",
-        "category_cTGxpe"
-      ],
-      "settings": {
-        "title": "Shop by Categories",
-        "heading_size": "h1",
-        "columns_desktop": 4,
-        "image_ratio": "portrait",
-        "show_arrows": true,
-        "autoplay": true,
-        "autoplay_speed": 3,
-        "color_scheme": "scheme-1",
         "padding_top": 72,
         "padding_bottom": 36
       }
@@ -211,6 +140,8 @@
         "products_to_show": 10,
         "columns_desktop": 5,
         "columns_mobile": "2",
+        "layout": "grid",
+        "slider_rows": "1",
         "image_ratio": "square",
         "show_type": false,
         "show_subtitle": true,
@@ -236,6 +167,8 @@
         "products_to_show": 5,
         "columns_desktop": 5,
         "columns_mobile": "2",
+        "layout": "grid",
+        "slider_rows": "1",
         "image_ratio": "portrait",
         "show_type": true,
         "show_subtitle": false,
@@ -259,9 +192,9 @@
         "heading_size": "h0",
         "text": "<p>Velvet, chenille, linen or jacquard. Built in our own factory and ready in 10–15 working days, with free delivery inside Dhaka.</p>",
         "button_label": "Shop sofas",
-        "button_link": "shopify://collections/sofa",
+        "button_link": "shopify://collections/sofa-sets",
         "link_label": "Browse fabrics",
-        "link": "shopify://collections/barrios-fabrics",
+        "link": "shopify://collections/fabrics",
         "height": "medium",
         "content_position": "left",
         "overlay_opacity": 40,
@@ -570,7 +503,6 @@
   "order": [
     "hero",
     "nested_category_NhDEiq",
-    "category_slider",
     "best_sellers",
     "popular_furniture",
     "promo_banner",
