@@ -533,7 +533,8 @@
 
 @media screen and (min-width: 990px) {
   .footer--minimal .footer__blocks-wrapper.grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 4rem 6rem;
   }
 }
 
@@ -615,5 +616,26 @@
 @media screen and (min-width: 750px) {
   .footer--minimal .policies {
     margin-left: auto;
+  }
+}
+
+/* Phones: Shop and Company links side by side, brand and contact full width */
+@media screen and (max-width: 749px) {
+  .footer--minimal .footer__blocks-wrapper.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3.2rem 2rem;
+  }
+
+  .footer--minimal .footer-block.grid__item {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer--minimal .footer-block--text,
+  .footer--minimal .footer-block:has(.contact-details) {
+    grid-column: 1 / -1;
   }
 }

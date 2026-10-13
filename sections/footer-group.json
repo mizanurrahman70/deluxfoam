@@ -18,28 +18,7 @@
           "type": "text",
           "settings": {
             "heading": "DELUXFOAM",
-            "subtext": "<p><br/>Premium comfort for households across Dhaka and Bangladesh<br/><br/></p>"
-          }
-        },
-        "living": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Living",
-            "menu": "footer"
-          }
-        },
-        "support": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Support",
-            "menu": "footer"
-          }
-        },
-        "studio": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Studio",
-            "menu": "footer"
+            "subtext": "<p>Premium comfort for households across Dhaka and Bangladesh.</p>"
           }
         },
         "contact": {
@@ -49,13 +28,42 @@
             "link_label": "",
             "link": "/pages/contact"
           }
+        },
+        "shop": {
+          "type": "links",
+          "settings": {
+            "heading": "Shop",
+            "link_1_label": "Furniture",
+            "link_1_url": "shopify://collections/furniture",
+            "link_2_label": "Fabrics",
+            "link_2_url": "shopify://collections/fabrics",
+            "link_3_label": "Mattress",
+            "link_3_url": "shopify://collections/mattress",
+            "link_4_label": "Foam",
+            "link_4_url": "shopify://collections/foam",
+            "link_5_label": "All products",
+            "link_5_url": "shopify://collections/all"
+          }
+        },
+        "company": {
+          "type": "links",
+          "settings": {
+            "heading": "Company",
+            "link_1_label": "About us",
+            "link_1_url": "/pages/about-us",
+            "link_2_label": "Contact us",
+            "link_2_url": "/pages/contact",
+            "link_3_label": "Mattress price calculator",
+            "link_3_url": "/pages/mattress-price-calculator",
+            "link_4_label": "Foam price calculator",
+            "link_4_url": "/pages/foam-price-calculator"
+          }
         }
       },
       "block_order": [
         "brand",
-        "living",
-        "support",
-        "studio",
+        "shop",
+        "company",
         "contact"
       ],
       "settings": {

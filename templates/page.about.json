@@ -1,0 +1,156 @@
+{
+  "sections": {
+    "banner": {
+      "type": "promo-banner",
+      "settings": {
+        "image": "shopify://shop_images/photo-1493663284031-b7e3aefcae8e.jpg",
+        "eyebrow": "About us",
+        "heading": "Comfort made in Dhaka",
+        "heading_size": "h0",
+        "text": "<p>New Delux Foam makes foam, mattresses and furniture for homes and offices across Bangladesh, built in our own factory.</p>",
+        "button_label": "Shop furniture",
+        "button_link": "shopify://collections/all",
+        "link_label": "Contact us",
+        "link": "/pages/contact",
+        "height": "medium",
+        "content_position": "left",
+        "overlay_opacity": 45,
+        "full_width": false,
+        "color_scheme": "scheme-1",
+        "text_color_scheme": "scheme-3",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "story": {
+      "type": "image-with-text",
+      "blocks": {
+        "caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "Our story",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "From foam to finished furniture",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We started with foam, and foam is still at the heart of what we do. Today our team cuts the foam, builds the frames and finishes every sofa, bed and mattress in our own factory.</p><p>Because we make everything ourselves, we can build to your size, your fabric and your budget, and stand behind every piece we deliver.</p>",
+            "text_style": "body"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Get a foam price",
+            "button_link": "/pages/foam-price-calculator",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/photo-1626081063434-79a2169791b1.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "why_us": {
+      "type": "multicolumn",
+      "blocks": {
+        "factory": {
+          "type": "column",
+          "settings": {
+            "title": "Our own factory",
+            "text": "<p>Foam, frames and upholstery are made under one roof, so we control the quality at every step.</p>"
+          }
+        },
+        "custom": {
+          "type": "column",
+          "settings": {
+            "title": "Made to your size",
+            "text": "<p>Choose the size, firmness and fabric. Custom orders are ready in 10–15 working days.</p>"
+          }
+        },
+        "fabrics": {
+          "type": "column",
+          "settings": {
+            "title": "Fabrics you can feel",
+            "text": "<p>Velvet, chenille, jacquard and linen, ready to see and touch at our showroom.</p>"
+          }
+        },
+        "delivery": {
+          "type": "column",
+          "settings": {
+            "title": "Free delivery in Dhaka",
+            "text": "<p>We deliver and place your furniture inside Dhaka at no extra cost, and ship across Bangladesh.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "factory",
+        "custom",
+        "fabrics",
+        "delivery"
+      ],
+      "settings": {
+        "title": "Why customers choose us",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "scheme-1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "visit": {
+      "type": "contact-info",
+      "settings": {
+        "heading": "Visit our showroom",
+        "heading_size": "h1",
+        "text": "<p>See our foams, fabrics and furniture in person. Call or message us on WhatsApp before you come and we’ll have samples ready.</p>",
+        "show_map": true,
+        "map_height": 400,
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "story",
+    "why_us",
+    "visit"
+  ]
+}

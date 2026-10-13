@@ -86,6 +86,27 @@
                     <div class="footer-block__details-content rte">
                       {{ block.settings.subtext }}
                     </div>
+                  {%- when 'links' -%}
+                    <ul class="footer-block__details-content list-unstyled">
+                      {%- for i in (1..6) -%}
+                        {%- liquid
+                          assign label_key = 'link_' | append: i | append: '_label'
+                          assign url_key = 'link_' | append: i | append: '_url'
+                          assign link_label = block.settings[label_key]
+                          assign link_url = block.settings[url_key]
+                        -%}
+                        {%- if link_label != blank and link_url != blank -%}
+                          <li>
+                            <a
+                              href="{{ link_url }}"
+                              class="link link--text list-menu__item list-menu__item--link{% if link_url == request.path %} list-menu__item--active{% endif %}"
+                            >
+                              {{- link_label | escape -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
                   {%- when 'contact' -%}
                     {{ 'component-contact-details.css' | asset_url | stylesheet_tag }}
                     <div class="footer-block__details-content">
@@ -371,6 +392,82 @@
           "default": true,
           "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
           "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+        }
+      ]
+    },
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Company",
+          "label": "Heading"
+        },
+        {
+          "type": "paragraph",
+          "content": "Type the links directly. Empty rows are skipped."
+        },
+        {
+          "type": "text",
+          "id": "link_1_label",
+          "label": "Link 1 label"
+        },
+        {
+          "type": "url",
+          "id": "link_1_url",
+          "label": "Link 1"
+        },
+        {
+          "type": "text",
+          "id": "link_2_label",
+          "label": "Link 2 label"
+        },
+        {
+          "type": "url",
+          "id": "link_2_url",
+          "label": "Link 2"
+        },
+        {
+          "type": "text",
+          "id": "link_3_label",
+          "label": "Link 3 label"
+        },
+        {
+          "type": "url",
+          "id": "link_3_url",
+          "label": "Link 3"
+        },
+        {
+          "type": "text",
+          "id": "link_4_label",
+          "label": "Link 4 label"
+        },
+        {
+          "type": "url",
+          "id": "link_4_url",
+          "label": "Link 4"
+        },
+        {
+          "type": "text",
+          "id": "link_5_label",
+          "label": "Link 5 label"
+        },
+        {
+          "type": "url",
+          "id": "link_5_url",
+          "label": "Link 5"
+        },
+        {
+          "type": "text",
+          "id": "link_6_label",
+          "label": "Link 6 label"
+        },
+        {
+          "type": "url",
+          "id": "link_6_url",
+          "label": "Link 6"
         }
       ]
     },
