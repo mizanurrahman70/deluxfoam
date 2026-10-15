@@ -15,7 +15,7 @@
         "slide-1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/furniture-hero-banner.png",
+            "image": "shopify://shop_images/banner-1.jpg",
             "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
@@ -33,7 +33,7 @@
         "slide_H8fmx8": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/hardware-hero-banner.png",
+            "image": "shopify://shop_images/banner-2.jpg",
             "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
@@ -513,7 +513,7 @@
       "settings": {
         "title": "Frequently Asked Questions",
         "heading_size": "h1",
-        "image": "shopify://shop_images/photo-1552259013-a245aa0fb94a_c70f21a3-9469-4a63-9070-5c059efd6faa.jpg",
+        "image": "shopify://shop_images/faq.jpg",
         "image_position": "left",
         "color_scheme": "scheme-1",
         "padding_top": 48,
