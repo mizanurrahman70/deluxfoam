@@ -1,0 +1,51 @@
+{% comment %}
+  Renders an image-led product tile: image with a title centered below, optional price.
+
+  Accepts:
+  - product: {Object} Product object (optional, renders a placeholder when blank)
+  - sizes: {String} Value for the image sizes attribute (optional)
+  - show_price: {Boolean} Show the price under the title (optional)
+  - placeholder_index: {Number} Varies the placeholder image (optional)
+
+  Usage:
+  {% render 'card-product-tile', product: product, show_price: false %}
+{% endcomment %}
+
+<div class="product-tile">
+  {%- if product != blank -%}
+    <a href="{{ product.url }}" class="product-tile__link">
+      <div class="product-tile__media">
+        {%- if product.featured_media -%}
+          {%- assign image_alt = product.featured_media.alt | default: product.title -%}
+          {{
+            product.featured_media
+            | image_url: width: 1000
+            | image_tag:
+              loading: 'lazy',
+              widths: '300, 450, 600, 800, 1000',
+              sizes: sizes,
+              alt: image_alt,
+              class: 'product-tile__image'
+          }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'product-tile__image placeholder-svg' }}
+        {%- endif -%}
+      </div>
+      <p class="product-tile__title">{{ product.title | escape }}</p>
+    </a>
+    {%- if show_price -%}
+      <div class="product-tile__price">
+        {% render 'price', product: product, price_class: '' %}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    {%- liquid
+      assign placeholder_number = placeholder_index | default: 1 | minus: 1 | modulo: 6 | plus: 1
+      assign placeholder_name = 'product-' | append: placeholder_number
+    -%}
+    <div class="product-tile__media">
+      {{ placeholder_name | placeholder_svg_tag: 'product-tile__image placeholder-svg' }}
+    </div>
+    <p class="product-tile__title">{{ 'onboarding.product_title' | t }}</p>
+  {%- endif -%}
+</div>

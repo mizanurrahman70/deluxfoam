@@ -1,0 +1,227 @@
+{{ 'section-product-tabs-showcase.css' | asset_url | stylesheet_tag }}
+{%- if section.blocks.size > 1 -%}
+  <script src="{{ 'product-tabs.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  case section.settings.image_ratio
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    else
+      assign ratio = '1 / 1'
+  endcase
+  assign columns = section.settings.columns_desktop
+  assign limit = section.settings.products_to_show
+  assign sizes = '(min-width: 990px) calc(100vw / ' | append: columns | append: '), 50vw'
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="tabs-showcase page-width section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    style="--tabs-showcase-columns: {{ columns }}; --tabs-showcase-ratio: {{ ratio }};"
+  >
+    <product-tabs class="tabs-showcase__tabs">
+      <div class="tabs-showcase__tablist" role="tablist">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            role="tab"
+            id="Tab-{{ section.id }}-{{ block.id }}"
+            class="tabs-showcase__tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-controls="TabPanel-{{ section.id }}-{{ block.id }}"
+            {% unless forloop.first %}
+              tabindex="-1"
+            {% endunless %}
+            {{ block.shopify_attributes }}
+          >
+            <span class="tabs-showcase__tab-arrow" aria-hidden="true">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+            {{- block.settings.label | default: block.settings.collection.title | escape -}}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign tab_collection = block.settings.collection
+          if tab_collection == blank and block.settings.sort_order == 'newest'
+            assign tab_collection = collections.all
+          endif
+        -%}
+        <div
+          id="TabPanel-{{ section.id }}-{{ block.id }}"
+          class="tabs-showcase__panel"
+          role="tabpanel"
+          aria-labelledby="Tab-{{ section.id }}-{{ block.id }}"
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+        >
+          <ul class="tabs-showcase__grid list-unstyled" role="list">
+            {%- if tab_collection != blank and tab_collection.products_count > 0 -%}
+              {%- comment -%} Newest first sorts up to 250 products by the date they were added {%- endcomment -%}
+              {%- paginate tab_collection.products by 250 -%}
+                {%- liquid
+                  assign tab_products = tab_collection.products
+                  if block.settings.sort_order == 'newest'
+                    assign tab_products = tab_products | sort: 'created_at' | reverse
+                  endif
+                -%}
+              {%- endpaginate -%}
+              {%- for item in tab_products limit: limit -%}
+                <li class="tabs-showcase__item">
+                  {% render 'card-product-tile',
+                    product: item,
+                    sizes: sizes,
+                    show_price: section.settings.show_price
+                  %}
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for i in (1..columns) -%}
+                <li class="tabs-showcase__item">
+                  {% render 'card-product-tile', placeholder_index: i %}
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
+        </div>
+      {%- endfor -%}
+    </product-tabs>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.products_to_show.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "landscape", "label": "Landscape" }
+      ],
+      "default": "square",
+      "label": "Image ratio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "default": false,
+      "label": "Show price"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "default": "New Arrivals",
+          "label": "Label"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.featured-collection.settings.collection.label",
+          "info": "With Newest first and no collection, all products are used."
+        },
+        {
+          "type": "select",
+          "id": "sort_order",
+          "options": [
+            { "value": "newest", "label": "Newest first" },
+            { "value": "collection", "label": "Collection order" }
+          ],
+          "default": "collection",
+          "label": "Product order",
+          "info": "Newest first shows the latest added products automatically."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product tabs",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "New Arrivals", "sort_order": "newest" } },
+        { "type": "tab", "settings": { "label": "What’s Trending", "sort_order": "collection" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

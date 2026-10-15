@@ -116,7 +116,16 @@
       {%- capture grid -%}
       <ul class="{{ grid_class }}" role="list">
         {%- if showcase_collection != blank and showcase_collection.products_count > 0 -%}
-          {%- for product in showcase_collection.products limit: limit -%}
+          {%- comment -%} Newest first sorts up to 250 products of the collection by date added {%- endcomment -%}
+          {%- paginate showcase_collection.products by 250 -%}
+            {%- liquid
+              assign showcase_products = showcase_collection.products
+              if section.settings.sort_order == 'newest'
+                assign showcase_products = showcase_products | sort: 'created_at' | reverse
+              endif
+            -%}
+          {%- endpaginate -%}
+          {%- for product in showcase_products limit: limit -%}
             <li class="product-showcase__item">
               {% render 'card-product-simple',
                 product: product,
@@ -312,6 +321,17 @@
       "type": "collection",
       "id": "collection",
       "label": "t:sections.featured-collection.settings.collection.label"
+    },
+    {
+      "type": "select",
+      "id": "sort_order",
+      "options": [
+        { "value": "collection", "label": "Collection order" },
+        { "value": "newest", "label": "Newest first" }
+      ],
+      "default": "collection",
+      "label": "Product order",
+      "info": "Newest first shows the most recently added products, e.g. for New Arrivals."
     },
     {
       "type": "checkbox",

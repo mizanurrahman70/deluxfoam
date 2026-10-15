@@ -1,0 +1,156 @@
+/* Tabs: "→ New Arrivals   What's Trending" — the active tab is dark with an arrow, the others are muted */
+.tabs-showcase__tablist {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 2.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.tabs-showcase__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.4rem 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: calc(var(--font-heading-scale) * 2rem);
+  line-height: 1.3;
+  color: rgba(var(--color-foreground), 0.45);
+  cursor: pointer;
+  transition: color var(--duration-default) ease;
+}
+
+.tabs-showcase__tab:hover,
+.tabs-showcase__tab[aria-selected='true'] {
+  color: rgb(var(--color-foreground));
+}
+
+.tabs-showcase__tab-arrow {
+  display: none;
+  width: 2.4rem;
+}
+
+.tabs-showcase__tab-arrow svg {
+  width: 100%;
+  height: auto;
+}
+
+.tabs-showcase__tab[aria-selected='true'] .tabs-showcase__tab-arrow {
+  display: inline-flex;
+}
+
+/* Only one tab: show it as a plain heading */
+.tabs-showcase__tab:only-child {
+  cursor: default;
+}
+
+@media screen and (min-width: 750px) {
+  .tabs-showcase__tablist {
+    gap: 0.8rem 3.2rem;
+    margin-bottom: 2.8rem;
+  }
+
+  .tabs-showcase__tab {
+    font-size: calc(var(--font-heading-scale) * 2.4rem);
+  }
+
+  .tabs-showcase__tab-arrow {
+    width: 3.4rem;
+  }
+}
+
+/* Grid: two columns on mobile, the chosen number on desktop */
+.tabs-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.4rem 1rem;
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .tabs-showcase__grid {
+    grid-template-columns: repeat(min(var(--tabs-showcase-columns), 3), minmax(0, 1fr));
+    gap: 3.2rem 1.2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .tabs-showcase__grid {
+    grid-template-columns: repeat(var(--tabs-showcase-columns), minmax(0, 1fr));
+  }
+}
+
+/* Tile */
+.product-tile {
+  text-align: center;
+}
+
+.product-tile__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-tile__media {
+  overflow: hidden;
+  aspect-ratio: var(--tabs-showcase-ratio, 1 / 1);
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+.product-tile__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+@media (hover: hover) {
+  .product-tile__link:hover .product-tile__image {
+    transform: scale(1.04);
+  }
+
+  .product-tile__link:hover .product-tile__title {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+}
+
+.product-tile__title {
+  margin: 1.6rem 0 0;
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  line-height: 1.4;
+  color: rgb(var(--color-foreground));
+}
+
+.product-tile__price {
+  margin-top: 0.4rem;
+}
+
+.product-tile__price .price {
+  justify-content: center;
+}
+
+@media screen and (min-width: 750px) {
+  .product-tile__title {
+    font-size: calc(var(--font-body-scale) * 1.5rem);
+  }
+}
+
+/* Tab switch animation (classes added by product-tabs.js) */
+.tabs-showcase__panel {
+  transition: opacity 0.18s ease;
+}
+
+.tabs-showcase__panel.is-leaving,
+.tabs-showcase__panel.is-entering {
+  opacity: 0;
+}
+
+.tabs-showcase__panel.is-entering.is-entered {
+  opacity: 1;
+  transition-duration: 0.3s;
+}
