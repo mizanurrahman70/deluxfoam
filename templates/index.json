@@ -338,7 +338,7 @@
             "heading": "Elevate your space for less",
             "text": "Shop our exclusive sale now!",
             "link_label": "Learn more",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/living-room"
           }
         },
         "promo-2": {
@@ -348,7 +348,7 @@
             "heading": "Home essentials",
             "text": "Discounted for a limited time!",
             "link_label": "Learn more",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections"
           }
         },
         "promo-3": {
