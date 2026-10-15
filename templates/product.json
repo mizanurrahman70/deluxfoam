@@ -214,7 +214,8 @@
         "show_button": false,
         "color_scheme": "scheme-1",
         "padding_top": 48,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "source": "category"
       }
     },
     "newsletter": {

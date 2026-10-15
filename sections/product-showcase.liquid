@@ -57,6 +57,14 @@
   if section.blocks.size > 0
     assign has_tabs = true
   endif
+
+  comment
+    On a collection page this can show the collection being viewed instead of the chosen one.
+  endcomment
+  assign showcase_collection = section.settings.collection
+  if section.settings.use_current_collection and collection != blank
+    assign showcase_collection = collection
+  endif
 -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
@@ -107,8 +115,8 @@
       {%- else -%}
       {%- capture grid -%}
       <ul class="{{ grid_class }}" role="list">
-        {%- if section.settings.collection != blank and section.settings.collection.products_count > 0 -%}
-          {%- for product in section.settings.collection.products limit: limit -%}
+        {%- if showcase_collection != blank and showcase_collection.products_count > 0 -%}
+          {%- for product in showcase_collection.products limit: limit -%}
             <li class="product-showcase__item">
               {% render 'card-product-simple',
                 product: product,
@@ -136,10 +144,10 @@
       </ul>
       {%- endcapture -%}
       {% render 'product-showcase-slider', content: grid, enabled: is_slider, rows: section.settings.slider_rows %}
-      {%- if section.settings.button_label != blank and section.settings.collection.products_count > limit -%}
+      {%- if section.settings.button_label != blank and showcase_collection.products_count > limit -%}
         <div class="product-showcase__footer">
           <a
-            href="{{ section.settings.button_link | default: section.settings.collection.url }}"
+            href="{{ section.settings.button_link | default: showcase_collection.url }}"
             class="product-showcase__button button"
           >
             {{- section.settings.button_label | escape -}}
@@ -304,6 +312,13 @@
       "type": "collection",
       "id": "collection",
       "label": "t:sections.featured-collection.settings.collection.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_current_collection",
+      "default": false,
+      "label": "Use the collection being viewed",
+      "info": "On collection pages, shows products from that collection instead of the one chosen above."
     },
     {
       "type": "range",

@@ -51,52 +51,90 @@
 -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <product-recommendations
-    class="category-slider page-width section-{{ section.id }}-padding"
-    style="--category-columns: {{ columns }};"
-    data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}&intent={{ section.settings.intent }}"
-    data-section-id="{{ section.id }}"
-    data-product-id="{{ product.id }}"
-  >
+  {%- if section.settings.source == 'category' -%}
     {%- comment -%}
-      The page first renders a filled row from the product's collection, topped up with other products.
-      Shopify's recommendations replace it only when there are enough of them to fill a row;
-      otherwise this section renders nothing for the recommendations request and the first row stays.
+      Same category: products whose Shopify product category (Products > Category in the admin) matches
+      this product's come first. When there are too few, the slider is topped up from the product's
+      collection, the fallback collection, then other products. Looks through up to 250 products.
     {%- endcomment -%}
-    {%- if recommendations.performed -%}
-      {%- if recommendations.products_count >= columns -%}
+    <div class="category-slider page-width section-{{ section.id }}-padding" style="--category-columns: {{ columns }};">
+      {%- if product -%}
+        {%- comment -%}
+          Pool order sets the top-up order: the product's collection, the fallback collection, then all products.
+          The snippet puts products from the same category first.
+        {%- endcomment -%}
+        {%- paginate collections.all.products by 250 -%}
+          {%- liquid
+            assign pool = collections.all.products
+            if section.settings.fallback_collection != blank
+              assign pool = section.settings.fallback_collection.products | concat: pool
+            endif
+            if product.collections.size > 0
+              assign pool = product.collections.first.products | concat: pool
+            endif
+          -%}
+          {% render 'products-slider',
+            products: pool,
+            section: section,
+            ratio: ratio,
+            limit: section.settings.products_to_show,
+            exclude_id: product.id,
+            category_id: product.category.id,
+            link_label: section.settings.link_label,
+            link_url: view_all_url,
+            autoplay_speed: autoplay_speed
+          %}
+        {%- endpaginate -%}
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <product-recommendations
+      class="category-slider page-width section-{{ section.id }}-padding"
+      style="--category-columns: {{ columns }};"
+      data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}&intent={{ section.settings.intent }}"
+      data-section-id="{{ section.id }}"
+      data-product-id="{{ product.id }}"
+    >
+      {%- comment -%}
+        The page first renders a filled row from the product's collection, topped up with other products.
+        Shopify's recommendations replace it only when there are enough of them to fill a row;
+        otherwise this section renders nothing for the recommendations request and the first row stays.
+      {%- endcomment -%}
+      {%- if recommendations.performed -%}
+        {%- if recommendations.products_count >= columns -%}
+          {% render 'products-slider',
+            products: recommendations.products,
+            section: section,
+            ratio: ratio,
+            limit: section.settings.products_to_show,
+            link_label: section.settings.link_label,
+            link_url: view_all_url,
+            autoplay_speed: autoplay_speed
+          %}
+        {%- endif -%}
+      {%- elsif product -%}
+        {%- liquid
+          assign pool = collections.all.products
+          if product.collections.size > 0
+            assign pool = product.collections.first.products | concat: pool
+          endif
+          if section.settings.fallback_collection != blank
+            assign pool = section.settings.fallback_collection.products | concat: pool
+          endif
+        -%}
         {% render 'products-slider',
-          products: recommendations.products,
+          products: pool,
           section: section,
           ratio: ratio,
           limit: section.settings.products_to_show,
+          exclude_id: product.id,
           link_label: section.settings.link_label,
           link_url: view_all_url,
           autoplay_speed: autoplay_speed
         %}
       {%- endif -%}
-    {%- elsif product -%}
-      {%- liquid
-        assign pool = collections.all.products
-        if product.collections.size > 0
-          assign pool = product.collections.first.products | concat: pool
-        endif
-        if section.settings.fallback_collection != blank
-          assign pool = section.settings.fallback_collection.products | concat: pool
-        endif
-      -%}
-      {% render 'products-slider',
-        products: pool,
-        section: section,
-        ratio: ratio,
-        limit: section.settings.products_to_show,
-        exclude_id: product.id,
-        link_label: section.settings.link_label,
-        link_url: view_all_url,
-        autoplay_speed: autoplay_speed
-      %}
-    {%- endif -%}
-  </product-recommendations>
+    </product-recommendations>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -110,7 +148,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Recommendations come from Shopify and improve over time. You can set them manually with the Search & Discovery app."
+      "content": "Shows products from the same product category, or Shopify's recommendations (set them manually with the Search & Discovery app)."
     },
     {
       "type": "inline_richtext",
@@ -136,6 +174,23 @@
     },
     {
       "type": "select",
+      "id": "source",
+      "options": [
+        {
+          "value": "category",
+          "label": "Same product category"
+        },
+        {
+          "value": "shopify",
+          "label": "Shopify recommendations"
+        }
+      ],
+      "default": "category",
+      "label": "Products to show",
+      "info": "Same product category uses the Category field set on each product in the admin."
+    },
+    {
+      "type": "select",
       "id": "intent",
       "options": [
         {
@@ -148,7 +203,8 @@
         }
       ],
       "default": "related",
-      "label": "Recommendation type"
+      "label": "Recommendation type",
+      "info": "Used with Shopify recommendations."
     },
     {
       "type": "collection",

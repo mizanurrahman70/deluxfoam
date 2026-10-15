@@ -12,6 +12,8 @@
   - link_url: {String} URL of that link (optional)
   - autoplay_speed: {Number} Milliseconds between automatic slides; 0 or blank turns it off (optional,
     needs slider-autoplay.js)
+  - category_id: {String} Shopify product category ID. Products in that category are shown first, then the
+    rest of `products` fill the remaining slots (optional)
 
   Products that appear more than once in `products` are shown once.
 
@@ -21,16 +23,28 @@
 
 {%- liquid
   assign max = limit | default: 8
+  assign first_pass = 2
+  if category_id != blank
+    assign first_pass = 1
+  endif
+
+  comment
+    Pass 1 takes products in category_id, pass 2 takes the rest. Without category_id only pass 2 runs.
+  endcomment
   assign count = 0
   assign seen = ','
-  for item in products
-    assign key = ',' | append: item.id | append: ','
-    if item.id != exclude_id and count < max
-      unless seen contains key
-        assign count = count | plus: 1
-        assign seen = seen | append: item.id | append: ','
-      endunless
-    endif
+  for pass in (first_pass..2)
+    for item in products
+      assign key = ',' | append: item.id | append: ','
+      if item.id == exclude_id or count >= max or seen contains key
+        continue
+      endif
+      if pass == 1 and item.category.id != category_id
+        continue
+      endif
+      assign count = count | plus: 1
+      assign seen = seen | append: item.id | append: ','
+    endfor
   endfor
 -%}
 
@@ -78,9 +92,13 @@
     <ul id="Slider-{{ section.id }}" class="category-slider__list list-unstyled" role="list">
       {%- assign shown = 0 -%}
       {%- assign seen = ',' -%}
+      {%- for pass in (first_pass..2) -%}
       {%- for item in products -%}
         {%- assign key = ',' | append: item.id | append: ',' -%}
         {%- if item.id == exclude_id or shown >= max or seen contains key -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- if pass == 1 and item.category.id != category_id -%}
           {%- continue -%}
         {%- endif -%}
         {%- assign shown = shown | plus: 1 -%}
@@ -96,6 +114,7 @@
             show_button: section.settings.show_button
           %}
         </li>
+      {%- endfor -%}
       {%- endfor -%}
     </ul>
   </slider-component>
