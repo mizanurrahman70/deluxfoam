@@ -228,14 +228,14 @@
         "tab_VVQAAy": {
           "type": "tab",
           "settings": {
-            "label": "kids room",
+            "label": "",
             "collection": "fabrics"
           }
         },
         "tab_giW6YE": {
           "type": "tab",
           "settings": {
-            "label": "Kitchen",
+            "label": "Foam",
             "collection": "foam"
           }
         },
@@ -243,28 +243,42 @@
           "type": "tab",
           "settings": {
             "label": "",
-            "collection": "mattress"
+            "collection": "institutional"
           }
         },
         "tab_L9pBLC": {
           "type": "tab",
           "settings": {
             "label": "",
-            "collection": "fabrics"
+            "collection": "kids-room"
           }
         },
         "tab-1": {
           "type": "tab",
           "settings": {
             "label": "",
-            "collection": "living-room"
+            "collection": "kitchen"
           }
         },
         "tab-2": {
           "type": "tab",
           "settings": {
             "label": "",
-            "collection": "bedroom"
+            "collection": "living-room"
+          }
+        },
+        "tab_JEA4Er": {
+          "type": "tab",
+          "settings": {
+            "label": "",
+            "collection": "mattress"
+          }
+        },
+        "tab_zabXpm": {
+          "type": "tab",
+          "settings": {
+            "label": "",
+            "collection": "office-furniture"
           }
         }
       },
@@ -276,7 +290,9 @@
         "tab_wCB7JH",
         "tab_L9pBLC",
         "tab-1",
-        "tab-2"
+        "tab-2",
+        "tab_JEA4Er",
+        "tab_zabXpm"
       ],
       "settings": {
         "title": "More Ideas and Inspiration",
