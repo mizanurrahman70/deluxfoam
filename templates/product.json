@@ -18,8 +18,26 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "badge": {
+          "type": "badge",
+          "settings": {
+            "source": "type",
+            "suffix": "Collection"
+          }
+        },
         "title": {
           "type": "title",
+          "settings": {}
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {
+            "exclude": "Barrios, Barrios Fabrics, Sofa, Corner Sofa, Divan, Table, Fabric, Tool, Hardware, Living Room, Upholstery, Spare Parts, Sofa Parts",
+            "limit": 5
+          }
+        },
+        "rating": {
+          "type": "rating",
           "settings": {}
         },
         "price": {
@@ -47,26 +65,8 @@
         "share": {
           "type": "share",
           "settings": {
-            "share_label": "Share",
-            "show_wishlist": true
-          }
-        },
-        "rating": {
-          "type": "rating",
-          "settings": {}
-        },
-        "badge": {
-          "type": "badge",
-          "settings": {
-            "source": "type",
-            "suffix": "Collection"
-          }
-        },
-        "tags": {
-          "type": "tags",
-          "settings": {
-            "exclude": "Barrios, Barrios Fabrics, Sofa, Corner Sofa, Divan, Table, Fabric, Tool, Hardware, Living Room, Upholstery, Spare Parts, Sofa Parts",
-            "limit": 5
+            "show_wishlist": true,
+            "share_label": "Share"
           }
         },
         "facts": {
@@ -103,6 +103,7 @@
         "intro"
       ],
       "settings": {
+        "layout_style": "minimal",
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
         "media_size": "medium",
@@ -115,8 +116,7 @@
         "hide_variants": false,
         "enable_video_looping": false,
         "padding_top": 8,
-        "padding_bottom": 48,
-        "layout_style": "minimal"
+        "padding_bottom": 48
       }
     },
     "info_tabs": {
@@ -125,7 +125,8 @@
         "tab-about": {
           "type": "tab",
           "settings": {
-            "title": "About Product"
+            "title": "About Product",
+            "collapsible": false
           }
         },
         "description": {
@@ -143,28 +144,32 @@
           "type": "row",
           "settings": {
             "heading": "Can I choose my own fabric?",
-            "content": "<p>Yes. Every sofa, corner sofa and divan can be made in any fabric from the Barrios Fabrics range: velvet, chenille, linen blend, jacquard, Rexin or water-resistant performance fabric. Free swatches are posted on request.</p>"
+            "content": "<p>Yes. Every sofa, corner sofa and divan can be made in any fabric from the Barrios Fabrics range: velvet, chenille, linen blend, jacquard, Rexin or water-resistant performance fabric. Free swatches are posted on request.</p>",
+            "page": ""
           }
         },
         "faq-2": {
           "type": "row",
           "settings": {
             "heading": "How long do custom orders take?",
-            "content": "<p>Custom sizing, seat firmness and fabric changes take 10–15 working days from order confirmation.</p>"
+            "content": "<p>Custom sizing, seat firmness and fabric changes take 10–15 working days from order confirmation.</p>",
+            "page": ""
           }
         },
         "faq-3": {
           "type": "row",
           "settings": {
             "heading": "Do you deliver outside Dhaka?",
-            "content": "<p>Yes. Delivery and placement are free inside Dhaka. Outside Dhaka, delivery is quoted when you book.</p>"
+            "content": "<p>Yes. Delivery and placement are free inside Dhaka. Outside Dhaka, delivery is quoted when you book.</p>",
+            "page": ""
           }
         },
         "faq-4": {
           "type": "row",
           "settings": {
             "heading": "Can I buy replacement parts?",
-            "content": "<p>Yes. Legs, springs, webbing, brackets and connector clips from the Barrios Hardware range fit standard Barrios frames.</p>"
+            "content": "<p>Yes. Legs, springs, webbing, brackets and connector clips from the Barrios Hardware range fit standard Barrios frames.</p>",
+            "page": ""
           }
         }
       },
@@ -196,6 +201,8 @@
         "message_label": "Your custom request",
         "message_placeholder": "Tell us about your specific requirements (materials, dimensions, etc.)",
         "button_label": "Submit request",
+        "success_heading": "Thank you, we got your request!",
+        "success_text": "<p>Our team will look at your requirements and contact you within 1 working day with a price and delivery time. For a faster reply, message us on WhatsApp.</p>",
         "color_scheme": "scheme-1",
         "padding_top": 48,
         "padding_bottom": 48
@@ -206,16 +213,21 @@
       "settings": {
         "title": "You May Also Like",
         "heading_size": "h1",
+        "source": "category",
         "intent": "related",
+        "fallback_collection": "",
         "products_to_show": 8,
-        "columns_desktop": 4,
+        "columns_desktop": 5,
         "image_ratio": "portrait",
         "show_type": true,
         "show_button": false,
+        "link_label": "View All Products",
+        "link_url": "",
+        "autoplay": true,
+        "autoplay_speed": 3,
         "color_scheme": "scheme-1",
         "padding_top": 48,
-        "padding_bottom": 80,
-        "source": "category"
+        "padding_bottom": 80
       }
     },
     "newsletter": {
@@ -234,14 +246,19 @@
     },
     "disclosures": {
       "type": "disclosures",
+      "disabled": true,
       "settings": {
+        "heading": "Disclosures",
+        "heading_size": "h2",
+        "open_by_default": false,
+        "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 0
-      },
-      "disabled": true
+      }
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -256,8 +273,7 @@
         "show_rating": false,
         "padding_top": 36,
         "padding_bottom": 28
-      },
-      "disabled": true
+      }
     }
   },
   "order": [
