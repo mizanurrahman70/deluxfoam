@@ -1,0 +1,27 @@
+{% comment %}
+  Renders a short product description for product cards.
+
+  Uses the product metafield custom.short_description (single or multi line text) when set,
+  otherwise falls back to the product description with HTML stripped, truncated to a few words.
+  Display is clamped to two lines in CSS.
+
+  Accepts:
+  - product: {Object} Product object
+  - class: {String} CSS class for the paragraph (optional)
+  - words: {Number} Word limit for the fallback description (optional, default: 16)
+
+  Usage:
+  {% render 'card-product-description', product: card_product, class: 'card__description' %}
+{% endcomment %}
+
+{%- liquid
+  assign word_limit = words | default: 16
+  assign short_description = product.metafields.custom.short_description.value
+  if short_description == blank
+    assign short_description = product.description | strip_html | strip_newlines | truncatewords: word_limit
+  endif
+-%}
+
+{%- if short_description != blank -%}
+  <p class="{{ class | default: 'card__description' }}">{{ short_description | strip_html | escape }}</p>
+{%- endif -%}

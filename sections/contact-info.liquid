@@ -47,6 +47,27 @@
       </div>
     {%- endif -%}
   </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="contact-outlets page-width section-{{ section.id }}-padding">
+      {%- if section.settings.outlets_heading != blank -%}
+        <h2 class="contact-outlets__heading h2">{{ section.settings.outlets_heading | escape }}</h2>
+      {%- endif -%}
+      <ul class="contact-outlets__grid list-unstyled" role="list">
+        {%- for block in section.blocks -%}
+          <li
+            class="contact-outlet{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {{ block.shopify_attributes }}
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade style="--animation-order: {{ forloop.index }};"
+            {% endif %}
+          >
+            {% render 'contact-outlet', block: block %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -102,6 +123,12 @@
       "label": "Map height"
     },
     {
+      "type": "text",
+      "id": "outlets_heading",
+      "default": "Our outlets",
+      "label": "Outlets heading"
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
@@ -130,6 +157,31 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "outlet",
+      "name": "Outlet",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "default": "Showroom",
+          "label": "Name"
+        },
+        {
+          "type": "textarea",
+          "id": "address",
+          "label": "Address"
+        },
+        {
+          "type": "textarea",
+          "id": "contacts",
+          "label": "Contacts",
+          "info": "One per line, as: number - name. Example: 01805833370 - Mr. Nayeem Ahmed"
+        }
+      ]
     }
   ],
   "presets": [

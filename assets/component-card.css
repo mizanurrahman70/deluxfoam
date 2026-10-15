@@ -593,3 +593,13 @@
     clip-path: polygon(var(--shape--blob-5));
   }
 }
+
+.card__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin: 0;
+  line-height: 1.45;
+}

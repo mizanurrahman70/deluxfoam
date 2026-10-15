@@ -67,3 +67,109 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.contact-outlets {
+  padding-top: 0;
+}
+
+.contact-outlets__heading {
+  margin: 0 0 2.4rem;
+}
+
+.contact-outlets__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.6rem;
+  margin: 0;
+}
+
+.contact-outlet__card {
+  height: 100%;
+  padding: 2.4rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  border-radius: var(--text-boxes-radius);
+  background-color: rgba(var(--color-foreground), 0.02);
+}
+
+.contact-outlet__name {
+  margin: 0 0 1.4rem;
+}
+
+.contact-outlet__address,
+.contact-outlet__phone {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: calc(var(--font-body-scale) * 1.4rem);
+  line-height: 1.5;
+}
+
+.contact-outlet__address {
+  margin-bottom: 1.6rem;
+  color: rgba(var(--color-foreground), 0.75);
+  text-decoration: none;
+}
+
+.contact-outlet__address:hover {
+  color: rgb(var(--color-foreground));
+}
+
+.contact-outlet__icon {
+  flex: none;
+  display: inline-flex;
+  margin-top: 0.2rem;
+  color: rgb(var(--color-foreground));
+}
+
+.contact-outlet__icon svg {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.contact-outlet__phones {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding-top: 1.6rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.contact-outlet__address + .contact-outlet__phones {
+  margin-top: 0;
+}
+
+.contact-outlet__name + .contact-outlet__phones {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.contact-outlet__number {
+  display: block;
+  font-weight: var(--font-body-weight-bold);
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.contact-outlet__number:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.contact-outlet__person {
+  display: block;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+@media screen and (min-width: 750px) {
+  .contact-outlets__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .contact-outlets__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

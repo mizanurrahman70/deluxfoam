@@ -276,27 +276,30 @@
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "<p>\"The Velvet Lounge Chair is even more beautiful in person. The craftsmanship is evident in every detail.\"</p>",
-            "author": "Sarah Jenkins",
-            "product_label": "Velvet Lounge Chair"
+            "quote": "<p>“Affordable, comfortable, and the warranty gives me peace of mind.”</p>",
+            "author": "Rafiq, Chittagong",
+            "product_label": "",
+            "image_asset": "testimonial-1.png"
           }
         },
         "testimonial-2": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "<p>\"Exceptional quality and service. The delivery was seamless, and the table fits perfectly in my dining room.\"</p>",
-            "author": "David Miller",
-            "product_label": "Marble Coffee Table"
+            "quote": "<p>“Best mattress I’ve ever owned — my back pain is gone! Delivery was fast and smooth.”</p>",
+            "author": "Ayesha Begum",
+            "product_label": "",
+            "image_asset": "testimonial-2.png"
           }
         },
         "testimonial-3": {
           "type": "testimonial",
           "settings": {
-            "rating": 4,
-            "quote": "<p>\"Love the minimalist design of the floor lamp. It adds a sophisticated touch to my study area.\"</p>",
-            "author": "Elena Rodriguez",
-            "product_label": "Ceramic Floor Lamp"
+            "rating": 5,
+            "quote": "<p>“Customer service is excellent, and the mattress quality is unmatched.”</p>",
+            "author": "Rafiq, Chittagong",
+            "product_label": "",
+            "image_asset": "testimonial-3.png"
           }
         }
       },
@@ -311,7 +314,9 @@
         "columns_desktop": 3,
         "color_scheme": "scheme-1",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "layout": "soft",
+        "show_rating": true
       }
     },
     "shorts": {

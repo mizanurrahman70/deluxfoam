@@ -60,6 +60,7 @@
       {%- if show_subtitle and subtitle != blank -%}
         <p class="card-simple__subtitle">{{ subtitle | escape }}</p>
       {%- endif -%}
+      {% render 'card-product-description', product: product, class: 'card-simple__description' %}
       <div class="card-simple__price-row">
         <div class="card-simple__price">
           {% render 'price', product: product, price_class: '' %}

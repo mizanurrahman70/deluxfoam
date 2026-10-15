@@ -1,0 +1,64 @@
+{% comment %}
+  Renders one outlet card for the contact page: name, address (links to Google Maps) and phone contacts.
+
+  Accepts:
+  - block: {Object} Outlet block with settings name, address and contacts.
+    contacts is one entry per line, as "number - name" (anything after the first " - " is the name).
+
+  Usage:
+  {% render 'contact-outlet', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign address = block.settings.address | strip
+  assign map_query = address | strip_newlines | url_encode
+  assign contact_lines = block.settings.contacts | strip | newline_to_br | split: '<br />'
+-%}
+
+<div class="contact-outlet__card">
+  {%- if block.settings.name != blank -%}
+    <h3 class="contact-outlet__name h4">{{ block.settings.name | escape }}</h3>
+  {%- endif -%}
+
+  {%- if address != blank -%}
+    <a
+      href="https://www.google.com/maps/search/?api=1&query={{ map_query }}"
+      class="contact-outlet__address link"
+      target="_blank"
+      rel="noopener"
+    >
+      <span class="contact-outlet__icon">{{- 'icon-map-pin.svg' | inline_asset_content -}}</span>
+      <span>{{ address | escape | newline_to_br }}</span>
+    </a>
+  {%- endif -%}
+
+  {%- if block.settings.contacts != blank -%}
+    <ul class="contact-outlet__phones list-unstyled" role="list">
+      {%- for line in contact_lines -%}
+        {%- liquid
+          assign entry = line | strip
+          if entry == blank
+            continue
+          endif
+          assign parts = entry | split: ' - '
+          assign number = parts.first | strip
+          assign person = entry | remove_first: parts.first | remove_first: ' - ' | strip
+          assign tel = number | remove: ' ' | remove: '-' | remove: '‑'
+          assign tel_first = tel | slice: 0
+          if tel_first == '0'
+            assign tel = '+88' | append: tel
+          endif
+        -%}
+        <li class="contact-outlet__phone">
+          <span class="contact-outlet__icon">{{- 'icon-phone.svg' | inline_asset_content -}}</span>
+          <span>
+            <a href="tel:{{ tel }}" class="contact-outlet__number link">{{ number | escape }}</a>
+            {%- if person != blank -%}
+              <span class="contact-outlet__person">{{ person | escape }}</span>
+            {%- endif -%}
+          </span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>

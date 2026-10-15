@@ -17,41 +17,88 @@
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div
-    class="testimonials page-width section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    class="testimonials testimonials--{{ section.settings.layout }} page-width section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     style="--testimonial-columns: {{ section.settings.columns_desktop }};"
   >
     {% render 'section-heading', title: section.settings.title, heading_size: section.settings.heading_size %}
 
+    {%- liquid
+      assign is_soft = false
+      if section.settings.layout == 'soft'
+        assign is_soft = true
+      endif
+    -%}
     <ul class="testimonials__list list-unstyled" role="list">
       {%- for block in section.blocks -%}
         <li class="testimonials__card" {{ block.shopify_attributes }}>
+          {%- capture avatar -%}
+            {%- if block.settings.image != blank -%}
+              <div class="testimonials__avatar">
+                {{
+                  block.settings.image
+                  | image_url: width: 240
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '120, 240',
+                    sizes: '120px',
+                    alt: block.settings.author,
+                    class: 'testimonials__avatar-image'
+                }}
+              </div>
+            {%- elsif block.settings.image_asset != blank -%}
+              <div class="testimonials__avatar">
+                <img
+                  src="{{ block.settings.image_asset | strip | asset_url }}"
+                  alt="{{ block.settings.author | escape }}"
+                  class="testimonials__avatar-image"
+                  loading="lazy"
+                  width="120"
+                  height="120"
+                >
+              </div>
+            {%- endif -%}
+          {%- endcapture -%}
+
+          {%- if is_soft -%}
+            <svg class="testimonials__quote-mark" viewBox="0 0 32 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M0 24V14.4C0 6.6 4.2 1.8 12.6 0l1.5 3.2C9.6 4.6 7.3 7.3 7.2 11.2H13V24H0zm19 0V14.4C19 6.6 23.2 1.8 31.6 0l1.4 3.2c-4.5 1.4-6.8 4.1-6.9 8H32V24H19z"/>
+            </svg>
+          {%- else -%}
+            {{ avatar }}
+          {%- endif -%}
+
           {%- assign rating = block.settings.rating -%}
-          <div
-            class="testimonials__rating"
-            role="img"
-            aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: rating, rating_max: 5 }}"
-          >
-            {%- for i in (1..5) -%}
-              <svg
-                class="testimonials__star{% if i > rating %} testimonials__star--empty{% endif %}"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path fill="currentColor" d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L10 15l-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/>
-              </svg>
-            {%- endfor -%}
-          </div>
+          {%- if section.settings.show_rating and rating > 0 -%}
+            <div
+              class="testimonials__rating"
+              role="img"
+              aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: rating, rating_max: 5 }}"
+            >
+              {%- for i in (1..5) -%}
+                <svg
+                  class="testimonials__star{% if i > rating %} testimonials__star--empty{% endif %}"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path fill="currentColor" d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L10 15l-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/>
+                </svg>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
           {%- if block.settings.quote != blank -%}
             <blockquote class="testimonials__quote">{{ block.settings.quote }}</blockquote>
           {%- endif -%}
           <div class="testimonials__author">
-            {%- if block.settings.author != blank -%}
-              <p class="testimonials__name">{{ block.settings.author | escape }}</p>
-            {%- endif -%}
-            {%- if block.settings.product_label != blank -%}
-              <p class="testimonials__product">{{ block.settings.product_label | escape }}</p>
-            {%- endif -%}
+            {%- if is_soft -%}{{ avatar }}{%- endif -%}
+            <div class="testimonials__author-text">
+              {%- if block.settings.author != blank -%}
+                <p class="testimonials__name">{{ block.settings.author | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.product_label != blank -%}
+                <p class="testimonials__product">{{ block.settings.product_label | escape }}</p>
+              {%- endif -%}
+            </div>
           </div>
         </li>
       {%- endfor -%}
@@ -94,6 +141,23 @@
       ],
       "default": "h1",
       "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        { "value": "card", "label": "Cards" },
+        { "value": "centered", "label": "Centered with photo" },
+        { "value": "soft", "label": "Soft cards" }
+      ],
+      "default": "card",
+      "label": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show star rating"
     },
     {
       "type": "range",
@@ -140,6 +204,18 @@
       "type": "testimonial",
       "name": "Testimonial",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer photo",
+          "info": "Square image works best. Shown as a circle."
+        },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Photo file from theme assets",
+          "info": "Used only when no customer photo is selected. Example: testimonial-1.png"
+        },
         {
           "type": "range",
           "id": "rating",

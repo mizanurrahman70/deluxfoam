@@ -36,8 +36,76 @@
         "map_height": 400,
         "color_scheme": "scheme-1",
         "padding_top": 12,
-        "padding_bottom": 36
-      }
+        "padding_bottom": 36,
+        "outlets_heading": "Our outlets"
+      },
+      "blocks": {
+        "outlet_1": {
+          "type": "outlet",
+          "settings": {
+            "name": "Corporate Office",
+            "address": "383, Razzak Plaza, Moghbazar, Dhaka",
+            "contacts": "01805833370 - Mr. Nayeem Ahmed"
+          }
+        },
+        "outlet_2": {
+          "type": "outlet",
+          "settings": {
+            "name": "New Delux Foam Uttar Badda",
+            "address": "Cha 107/1, North Badda, Progoti Sarani, Badda, Dhaka",
+            "contacts": "01729670272 - Mr. Arif Dhali - Curtain\n01805833361 - Mr. Hasan Molla - Furniture\n01805833363 - Mr. Mohammed Moazzem Hossain"
+          }
+        },
+        "outlet_3": {
+          "type": "outlet",
+          "settings": {
+            "name": "New Delux Furniture Uttara",
+            "address": "Plot - 71/73, Sonargaon Janapath Road, Sector #13, Uttara, Dhaka",
+            "contacts": "01805833366 - Mr. Shomsher Ali\n01727151554 - Mr. Aowlad Hasan"
+          }
+        },
+        "outlet_4": {
+          "type": "outlet",
+          "settings": {
+            "name": "New Delux Furniture G.M Bari",
+            "address": "244/249, G.M. Bari, Shatarkul Road, Bhawalia Para, 2nd Floor, China Garments, Uttar Badda, Dhaka-1212, Bangladesh",
+            "contacts": "+880 1711-777051 - Mr. Mehedi Hasan"
+          }
+        },
+        "outlet_5": {
+          "type": "outlet",
+          "settings": {
+            "name": "Barrio's Fabrics",
+            "address": "Dag #60, House #73, GM Bari, Satarkul Road, North Badda, Dhaka-1212",
+            "contacts": "01793553093 - Mr. Shamim\n01805833376 - Mr. Samiul Alim"
+          }
+        },
+        "outlet_6": {
+          "type": "outlet",
+          "settings": {
+            "name": "Furniture View",
+            "address": "",
+            "contacts": "01805833365 - Mr. Mujibul Huda Chowdhury\n01711777052 - Mr. Mujibul Huda Chowdhury"
+          }
+        },
+        "outlet_7": {
+          "type": "outlet",
+          "settings": {
+            "name": "Factory Outlet",
+            "address": "",
+            "contacts": "01918401714 - Mr. Almas Hossain\n01731931998 - Mr. Monir Hossain"
+          }
+        }
+      },
+      "block_order": [
+        "outlet_1",
+        "outlet_2",
+        "outlet_3",
+        "outlet_4",
+        "outlet_5",
+        "outlet_6",
+        "outlet_7"
+      ]
     }
   },
   "order": [

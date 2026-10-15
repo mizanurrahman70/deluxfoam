@@ -238,3 +238,19 @@
     font-size: calc(var(--font-body-scale) * 1.5rem);
   }
 }
+
+.card-simple__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin: 0.6rem 0 0;
+  font-size: calc(var(--font-body-scale) * 1.3rem);
+  line-height: 1.45;
+  color: rgba(var(--color-foreground), 0.65);
+}
+
+.card-simple--compact .card-simple__description {
+  font-size: calc(var(--font-body-scale) * 1.2rem);
+}
