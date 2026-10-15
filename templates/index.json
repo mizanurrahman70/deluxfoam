@@ -215,28 +215,28 @@
           "type": "tab",
           "settings": {
             "label": "",
-            "collection": "foam"
+            "collection": "bedroom"
           }
         },
         "tab_EzqNEd": {
           "type": "tab",
           "settings": {
             "label": "",
-            "collection": "office-sofas"
+            "collection": "dining"
           }
         },
         "tab_VVQAAy": {
           "type": "tab",
           "settings": {
             "label": "kids room",
-            "collection": "kids-room"
+            "collection": "fabrics"
           }
         },
         "tab_giW6YE": {
           "type": "tab",
           "settings": {
             "label": "Kitchen",
-            "collection": "kitchen"
+            "collection": "foam"
           }
         },
         "tab_wCB7JH": {
