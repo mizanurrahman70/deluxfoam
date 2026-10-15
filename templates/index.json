@@ -352,19 +352,19 @@
           "type": "promo",
           "settings": {
             "image": "shopify://shop_images/box-tall-inside-the-seat.jpg",
-            "heading": "Elevate your space for less",
-            "text": "Shop our exclusive sale now!",
-            "link_label": "Learn more",
-            "link": "shopify://collections/living-room"
+            "heading": "Comfort starts inside the seat",
+            "text": "Pick the right New Delux foam for your sofa or bed.",
+            "link_label": "Shop Foam",
+            "link": "shopify://collections/foam-1"
           }
         },
         "promo-2": {
           "type": "promo",
           "settings": {
             "image": "shopify://shop_images/box-wide-1-choose-fabric.jpg",
-            "heading": "Home essentials",
-            "text": "Discounted for a limited time!",
-            "link_label": "Learn more",
+            "heading": "Shop Fabrics",
+            "text": "Velvet, chenille, jacquard and linen swatches.",
+            "link_label": "Choose your fabric",
             "link": "shopify://collections/fabrics"
           }
         },
@@ -372,10 +372,10 @@
           "type": "promo",
           "settings": {
             "image": "shopify://shop_images/box-wide-2-cosy-corner.jpg",
-            "heading": "Style upgrade alert",
-            "text": "Discover our limited time sale!",
-            "link_label": "Learn more",
-            "link": "shopify://collections/corner-table"
+            "heading": "Make a cosy corner",
+            "text": "Sofas for every living room.",
+            "link_label": "Shop Sofas",
+            "link": "shopify://collections/sofa-sets"
           }
         }
       },
