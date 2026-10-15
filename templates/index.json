@@ -94,7 +94,8 @@
           "furniture",
           "fabrics",
           "matress",
-          "foam"
+          "foam",
+          "foam-1"
         ],
         "auto_mode": false,
         "click_behavior": "page",
