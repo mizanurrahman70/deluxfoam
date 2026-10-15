@@ -208,61 +208,16 @@
         "padding_bottom": 36
       }
     },
-    "best_sellers": {
-      "type": "product-showcase",
-      "settings": {
-        "title": "Best Sellers",
-        "heading_size": "h1",
-        "link_label": "View All Products",
-        "link_url": "shopify://collections/all",
-        "collection": "all",
-        "fill_menu": "main-menu",
-        "sort_order": "collection",
-        "use_current_collection": false,
-        "products_to_show": 10,
-        "columns_desktop": 5,
-        "columns_mobile": "2",
-        "layout": "grid",
-        "slider_rows": "1",
-        "image_ratio": "square",
-        "show_type": false,
-        "show_subtitle": true,
-        "show_button": true,
-        "tab_content": "products",
-        "show_collection_title": true,
-        "all_tab_label": "All",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "promo_banner": {
-      "type": "promo-banner",
-      "settings": {
-        "image": "shopify://shop_images/foam-products-promo-banner-no-text.png",
-        "eyebrow": "Made to order",
-        "heading": "Your sofa, in any fabric you choose",
-        "heading_size": "h0",
-        "text": "<p>Velvet, chenille, linen or jacquard. Built in our own factory and ready in 10–15 working days, with free delivery inside Dhaka.</p>",
-        "button_label": "Shop sofas",
-        "button_link": "shopify://collections/sofa-sets",
-        "link_label": "Browse fabrics",
-        "link": "shopify://collections/fabrics",
-        "height": "medium",
-        "content_position": "left",
-        "overlay_opacity": 40,
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "text_color_scheme": "scheme-3",
-        "padding_top": 24,
-        "padding_bottom": 24
-      }
-    },
     "more_ideas": {
       "type": "product-showcase",
       "blocks": {
+        "tab_77KR7D": {
+          "type": "tab",
+          "settings": {
+            "label": "",
+            "collection": "foam"
+          }
+        },
         "tab_EzqNEd": {
           "type": "tab",
           "settings": {
@@ -284,11 +239,18 @@
             "collection": "kitchen"
           }
         },
+        "tab_wCB7JH": {
+          "type": "tab",
+          "settings": {
+            "label": "",
+            "collection": "mattress"
+          }
+        },
         "tab_L9pBLC": {
           "type": "tab",
           "settings": {
             "label": "",
-            "collection": "doors"
+            "collection": "fabrics"
           }
         },
         "tab-1": {
@@ -307,9 +269,11 @@
         }
       },
       "block_order": [
+        "tab_77KR7D",
         "tab_EzqNEd",
         "tab_VVQAAy",
         "tab_giW6YE",
+        "tab_wCB7JH",
         "tab_L9pBLC",
         "tab-1",
         "tab-2"
@@ -340,6 +304,106 @@
         "color_scheme": "scheme-1",
         "padding_top": 48,
         "padding_bottom": 48
+      }
+    },
+    "promo_banner": {
+      "type": "promo-banner",
+      "settings": {
+        "image": "shopify://shop_images/foam-products-promo-banner-no-text.png",
+        "eyebrow": "Made to order",
+        "heading": "Your sofa, in any fabric you choose",
+        "heading_size": "h0",
+        "text": "<p>Velvet, chenille, linen or jacquard. Built in our own factory and ready in 10–15 working days, with free delivery inside Dhaka.</p>",
+        "button_label": "Shop sofas",
+        "button_link": "shopify://collections/sofa-sets",
+        "link_label": "Browse fabrics",
+        "link": "shopify://collections/fabrics",
+        "height": "medium",
+        "content_position": "left",
+        "overlay_opacity": 40,
+        "full_width": false,
+        "color_scheme": "scheme-1",
+        "text_color_scheme": "scheme-3",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "promo_collage": {
+      "type": "promo-collage",
+      "blocks": {
+        "promo-1": {
+          "type": "promo",
+          "settings": {
+            "image": "shopify://shop_images/photo-1590375096341-0c6b35a09d79.jpg",
+            "heading": "Elevate your space for less",
+            "text": "Shop our exclusive sale now!",
+            "link_label": "Learn more",
+            "link": "shopify://collections/all"
+          }
+        },
+        "promo-2": {
+          "type": "promo",
+          "settings": {
+            "image": "shopify://shop_images/photo-1493663284031-b7e3aefcae8e.jpg",
+            "heading": "Home essentials",
+            "text": "Discounted for a limited time!",
+            "link_label": "Learn more",
+            "link": "shopify://collections/all"
+          }
+        },
+        "promo-3": {
+          "type": "promo",
+          "settings": {
+            "image": "shopify://shop_images/photo-1626081063434-79a2169791b1.jpg",
+            "heading": "Style upgrade alert",
+            "text": "Discover our limited time sale!",
+            "link_label": "Learn more",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "promo-1",
+        "promo-2",
+        "promo-3"
+      ],
+      "settings": {
+        "full_width": true,
+        "overlay_opacity": 35,
+        "color_scheme": "scheme-1",
+        "text_color_scheme": "scheme-3",
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    },
+    "best_sellers": {
+      "type": "product-showcase",
+      "settings": {
+        "title": "Best Sellers",
+        "heading_size": "h1",
+        "link_label": "View All Products",
+        "link_url": "shopify://collections/all",
+        "collection": "all",
+        "fill_menu": "main-menu",
+        "sort_order": "collection",
+        "use_current_collection": false,
+        "products_to_show": 10,
+        "columns_desktop": 5,
+        "columns_mobile": "2",
+        "layout": "grid",
+        "slider_rows": "1",
+        "image_ratio": "square",
+        "show_type": false,
+        "show_subtitle": true,
+        "show_button": true,
+        "tab_content": "products",
+        "show_collection_title": true,
+        "all_tab_label": "All",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "testimonials": {
@@ -389,54 +453,6 @@
         "columns_desktop": 3,
         "color_scheme": "scheme-1",
         "padding_top": 48,
-        "padding_bottom": 48
-      }
-    },
-    "promo_collage": {
-      "type": "promo-collage",
-      "blocks": {
-        "promo-1": {
-          "type": "promo",
-          "settings": {
-            "image": "shopify://shop_images/photo-1590375096341-0c6b35a09d79.jpg",
-            "heading": "Elevate your space for less",
-            "text": "Shop our exclusive sale now!",
-            "link_label": "Learn more",
-            "link": "shopify://collections/all"
-          }
-        },
-        "promo-2": {
-          "type": "promo",
-          "settings": {
-            "image": "shopify://shop_images/photo-1493663284031-b7e3aefcae8e.jpg",
-            "heading": "Home essentials",
-            "text": "Discounted for a limited time!",
-            "link_label": "Learn more",
-            "link": "shopify://collections/all"
-          }
-        },
-        "promo-3": {
-          "type": "promo",
-          "settings": {
-            "image": "shopify://shop_images/photo-1626081063434-79a2169791b1.jpg",
-            "heading": "Style upgrade alert",
-            "text": "Discover our limited time sale!",
-            "link_label": "Learn more",
-            "link": "shopify://collections/all"
-          }
-        }
-      },
-      "block_order": [
-        "promo-1",
-        "promo-2",
-        "promo-3"
-      ],
-      "settings": {
-        "full_width": true,
-        "overlay_opacity": 35,
-        "color_scheme": "scheme-1",
-        "text_color_scheme": "scheme-3",
-        "padding_top": 0,
         "padding_bottom": 48
       }
     },
