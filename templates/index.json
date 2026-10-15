@@ -309,7 +309,7 @@
     "promo_banner": {
       "type": "promo-banner",
       "settings": {
-        "image": "shopify://shop_images/foam-products-promo-banner-no-text.png",
+        "image": "shopify://shop_images/wide-banner-fabric.jpg",
         "eyebrow": "Made to order",
         "heading": "Your sofa, in any fabric you choose",
         "heading_size": "h0",
@@ -334,7 +334,7 @@
         "promo-1": {
           "type": "promo",
           "settings": {
-            "image": "shopify://shop_images/photo-1590375096341-0c6b35a09d79.jpg",
+            "image": "shopify://shop_images/box-tall-inside-the-seat.jpg",
             "heading": "Elevate your space for less",
             "text": "Shop our exclusive sale now!",
             "link_label": "Learn more",
@@ -344,21 +344,21 @@
         "promo-2": {
           "type": "promo",
           "settings": {
-            "image": "shopify://shop_images/photo-1493663284031-b7e3aefcae8e.jpg",
+            "image": "shopify://shop_images/box-wide-1-choose-fabric.jpg",
             "heading": "Home essentials",
             "text": "Discounted for a limited time!",
             "link_label": "Learn more",
-            "link": "shopify://collections"
+            "link": "shopify://collections/fabrics"
           }
         },
         "promo-3": {
           "type": "promo",
           "settings": {
-            "image": "shopify://shop_images/photo-1626081063434-79a2169791b1.jpg",
+            "image": "shopify://shop_images/box-wide-2-cosy-corner.jpg",
             "heading": "Style upgrade alert",
             "text": "Discover our limited time sale!",
             "link_label": "Learn more",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/corner-table"
           }
         }
       },
