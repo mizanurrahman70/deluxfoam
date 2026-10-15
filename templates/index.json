@@ -200,8 +200,8 @@
         "tab_trending"
       ],
       "settings": {
-        "products_to_show": 4,
-        "columns_desktop": 4,
+        "products_to_show": 5,
+        "columns_desktop": 5,
         "image_ratio": "square",
         "show_price": false,
         "color_scheme": "scheme-1",
