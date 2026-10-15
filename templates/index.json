@@ -120,36 +120,36 @@
         "short_6YraCB": {
           "type": "short",
           "settings": {
-            "image": "shopify://shop_images/photo-1560352624-5170564e4213.jpg",
-            "link": "shopify://collections/divan"
+            "image": "shopify://shop_images/bedroom_7496ef87-b51f-4414-a729-061c0016d44d.jpg",
+            "link": "shopify://collections/bedroom"
           }
         },
         "short-1": {
           "type": "short",
           "settings": {
-            "image": "shopify://shop_images/photo-1594809512566-021e8369702a_781c23bf-4c74-4913-a274-1176a7b375e3.jpg",
-            "link": "shopify://collections/sofa"
+            "image": "shopify://shop_images/dining.jpg",
+            "link": "shopify://collections/dining"
           }
         },
         "short-2": {
           "type": "short",
           "settings": {
-            "image": "shopify://shop_images/photo-1725831497798-a9440836e146.jpg",
-            "link": "shopify://collections/corner-sofa"
+            "image": "shopify://shop_images/fabrics.jpg",
+            "link": "shopify://collections/fabrics"
           }
         },
         "short-3": {
           "type": "short",
           "settings": {
-            "image": "shopify://shop_images/photo-1497218770144-3fea6dbc33fe.jpg",
-            "link": "shopify://collections/center-tables"
+            "image": "shopify://shop_images/foam.jpg",
+            "link": "shopify://collections/foam"
           }
         },
         "short-4": {
           "type": "short",
           "settings": {
-            "image": "shopify://shop_images/photo-1608613304899-ea8098577e38.jpg",
-            "link": "shopify://collections/furniture"
+            "image": "shopify://shop_images/institutional.jpg",
+            "link": "shopify://collections/institutional"
           }
         }
       },
