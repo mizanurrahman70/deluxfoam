@@ -85,7 +85,10 @@
         "show_policy": true,
         "margin_top": 0,
         "padding_top": 56,
-        "padding_bottom": 32
+        "padding_bottom": 32,
+        "developer_label": "Developed by",
+        "developer_name": "Trideas",
+        "developer_url": "https://traideas.com/"
       }
     }
   },

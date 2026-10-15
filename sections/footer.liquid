@@ -331,10 +331,24 @@
     </div>
     <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
       <div class="footer__copyright caption">
-        <small class="copyright__content"
-          >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
-        </small>
-        <small class="copyright__content">{{ powered_by_link }}</small>
+        {%- if section.settings.developer_name != blank -%}
+          <small class="copyright__content copyright__content--developer">
+            {{- section.settings.developer_label | escape }}
+            {% if section.settings.developer_url != blank -%}
+              <a
+                href="{{ section.settings.developer_url }}"
+                class="copyright__developer-link"
+                style="--developer-color: {{ section.settings.developer_color }};"
+                target="_blank"
+                rel="noopener"
+              >
+                {{- section.settings.developer_name | escape -}}
+              </a>
+            {%- else -%}
+              {{- section.settings.developer_name | escape -}}
+            {%- endif -%}
+          </small>
+        {%- endif -%}
         {%- if section.settings.show_policy -%}
           <ul class="policies list-unstyled">
             {%- for policy in shop.policies -%}
@@ -635,6 +649,34 @@
       "default": true,
       "label": "t:sections.footer.settings.show_policy.label",
       "info": "t:sections.footer.settings.show_policy.info"
+    },
+    {
+      "type": "header",
+      "content": "Developer credit"
+    },
+    {
+      "type": "text",
+      "id": "developer_label",
+      "default": "Developed by",
+      "label": "Label"
+    },
+    {
+      "type": "text",
+      "id": "developer_name",
+      "default": "Trideas",
+      "label": "Name",
+      "info": "Leave empty to hide the credit."
+    },
+    {
+      "type": "url",
+      "id": "developer_url",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "developer_color",
+      "default": "#e01a22",
+      "label": "Name color"
     },
     {
       "type": "header",
