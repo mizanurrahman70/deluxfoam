@@ -142,14 +142,14 @@
           "type": "short",
           "settings": {
             "image": "shopify://shop_images/photo-1497218770144-3fea6dbc33fe.jpg",
-            "link": "shopify://collections/tool"
+            "link": "shopify://collections/center-tables"
           }
         },
         "short-4": {
           "type": "short",
           "settings": {
             "image": "shopify://shop_images/photo-1608613304899-ea8098577e38.jpg",
-            "link": "shopify://collections/hardware"
+            "link": "shopify://collections/furniture"
           }
         }
       },
