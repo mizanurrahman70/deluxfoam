@@ -17,16 +17,8 @@
         "brand": {
           "type": "text",
           "settings": {
-            "heading": "DELUXFOAM",
+            "heading": "NEW DELUXFOAM",
             "subtext": "<p>Premium comfort for households across Dhaka and Bangladesh.</p>"
-          }
-        },
-        "contact": {
-          "type": "contact",
-          "settings": {
-            "heading": "Contact",
-            "link_label": "",
-            "link": "/pages/contact"
           }
         },
         "shop": {
@@ -42,7 +34,9 @@
             "link_4_label": "Foam",
             "link_4_url": "shopify://collections/foam",
             "link_5_label": "All products",
-            "link_5_url": "shopify://collections/all"
+            "link_5_url": "shopify://collections/all",
+            "link_6_label": "",
+            "link_6_url": ""
           }
         },
         "company": {
@@ -56,7 +50,19 @@
             "link_3_label": "Mattress price calculator",
             "link_3_url": "/pages/mattress-price-calculator",
             "link_4_label": "Foam price calculator",
-            "link_4_url": "/pages/foam-price-calculator"
+            "link_4_url": "/pages/foam-price-calculator",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "contact": {
+          "type": "contact",
+          "settings": {
+            "heading": "Contact",
+            "link_label": "",
+            "link": "/pages/contact"
           }
         }
       },
