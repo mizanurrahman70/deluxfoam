@@ -55,23 +55,25 @@
     {%- comment -%}
       Same category: products whose Shopify product category (Products > Category in the admin) matches
       this product's come first. When there are too few, the slider is topped up from the product's
-      collection, the fallback collection, then other products. Looks through up to 250 products.
+      collections, the fallback collection, then other products. Looks through up to 250 products.
     {%- endcomment -%}
     <div class="category-slider page-width section-{{ section.id }}-padding" style="--category-columns: {{ columns }};">
       {%- if product -%}
         {%- comment -%}
-          Pool order sets the top-up order: the product's collection, the fallback collection, then all products.
+          Pool order sets the top-up order: the product's collections (up to 3), the fallback collection, then all products.
           The snippet puts products from the same category first.
         {%- endcomment -%}
         {%- paginate collections.all.products by 250 -%}
           {%- liquid
-            assign pool = collections.all.products
+            assign pool = collections.all.products | uniq
             if section.settings.fallback_collection != blank
-              assign pool = section.settings.fallback_collection.products | concat: pool
+              assign extra_products = section.settings.fallback_collection.products | uniq
+              assign pool = extra_products | concat: pool
             endif
-            if product.collections.size > 0
-              assign pool = product.collections.first.products | concat: pool
-            endif
+            for product_collection in product.collections reversed limit: 3
+              assign extra_products = product_collection.products | uniq
+              assign pool = extra_products | concat: pool
+            endfor
           -%}
           {% render 'products-slider',
             products: pool,
@@ -114,12 +116,14 @@
         {%- endif -%}
       {%- elsif product -%}
         {%- liquid
-          assign pool = collections.all.products
+          assign pool = collections.all.products | uniq
           if product.collections.size > 0
-            assign pool = product.collections.first.products | concat: pool
+            assign extra_products = product.collections.first.products | uniq
+            assign pool = extra_products | concat: pool
           endif
           if section.settings.fallback_collection != blank
-            assign pool = section.settings.fallback_collection.products | concat: pool
+            assign extra_products = section.settings.fallback_collection.products | uniq
+            assign pool = extra_products | concat: pool
           endif
         -%}
         {% render 'products-slider',

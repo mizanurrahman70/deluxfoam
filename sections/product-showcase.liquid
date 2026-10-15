@@ -115,17 +115,107 @@
       {%- else -%}
       {%- capture grid -%}
       <ul class="{{ grid_class }}" role="list">
-        {%- if showcase_collection != blank and showcase_collection.products_count > 0 -%}
+        {%- liquid
+          assign showcase_products = blank
+          if showcase_collection != blank and showcase_collection.products_count > 0
+            assign showcase_products = showcase_collection.products | uniq
+          endif
+        -%}
+        {%- if showcase_products != blank and section.settings.sort_order == 'newest' -%}
           {%- comment -%} Newest first sorts up to 250 products of the collection by date added {%- endcomment -%}
           {%- paginate showcase_collection.products by 250 -%}
-            {%- liquid
-              assign showcase_products = showcase_collection.products
-              if section.settings.sort_order == 'newest'
-                assign showcase_products = showcase_products | sort: 'created_at' | reverse
-              endif
-            -%}
+            {%- assign showcase_products = showcase_collection.products | sort: 'created_at' | reverse -%}
           {%- endpaginate -%}
-          {%- for product in showcase_products limit: limit -%}
+        {%- endif -%}
+        {%- liquid
+          comment
+            On a collection page with too few products, fill up from its parent and grandparent collections
+            (collection metafield custom.parent, or the collection whose custom.children includes it).
+          endcomment
+          if section.settings.use_current_collection and collection != blank and showcase_collection.products_count < limit
+            assign fill_collection = collection.metafields.custom.parent.value | default: collection.metafields.custom.custom_parent.value
+            if fill_collection == blank
+              comment
+                No custom.parent set: use the collection that lists this one in its custom.children.
+              endcomment
+              for candidate in collections
+                assign candidate_children = candidate.metafields.custom.children.value | default: candidate.metafields.custom.custom_children.value
+                for child in candidate_children
+                  if child.id == collection.id
+                    assign fill_collection = candidate
+                    break
+                  endif
+                endfor
+                if fill_collection != blank
+                  break
+                endif
+              endfor
+            endif
+            for level in (1..2)
+              if fill_collection == blank
+                break
+              endif
+              if showcase_products == blank
+                assign showcase_products = fill_collection.products | uniq
+              else
+                assign extra_products = fill_collection.products | uniq
+                assign showcase_products = showcase_products | concat: extra_products
+              endif
+              assign fill_collection = fill_collection.metafields.custom.parent.value | default: fill_collection.metafields.custom.custom_parent.value
+            endfor
+
+            comment
+              Then the menu: find this collection in the fill menu, add the parent menu item's collection
+              (when it links to one) and the collections next to it (e.g. Foam > Delux-1, Delux-2, ...).
+            endcomment
+            assign menu_parent = blank
+            for link1 in linklists[section.settings.fill_menu].links
+              for link2 in link1.links
+                if link2.type == 'collection_link' and link2.object.id == collection.id
+                  assign menu_parent = link1
+                endif
+                for link3 in link2.links
+                  if link3.type == 'collection_link' and link3.object.id == collection.id
+                    assign menu_parent = link2
+                  endif
+                endfor
+              endfor
+            endfor
+            if menu_parent != blank
+              if menu_parent.type == 'collection_link'
+                if showcase_products == blank
+                  assign showcase_products = menu_parent.object.products | uniq
+                else
+                  assign extra_products = menu_parent.object.products | uniq
+                  assign showcase_products = showcase_products | concat: extra_products
+                endif
+              endif
+              for sibling in menu_parent.links limit: 12
+                if sibling.type == 'collection_link' and sibling.object.id != collection.id
+                  if showcase_products == blank
+                    assign showcase_products = sibling.object.products | uniq
+                  else
+                    assign extra_products = sibling.object.products | uniq
+                    assign showcase_products = showcase_products | concat: extra_products
+                  endif
+                endif
+              endfor
+            endif
+          endif
+        -%}
+        {%- if showcase_products != blank -%}
+          {%- assign shown = 0 -%}
+          {%- assign seen = ',' -%}
+          {%- for product in showcase_products -%}
+            {%- assign key = ',' | append: product.id | append: ',' -%}
+            {%- if seen contains key -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- if shown >= limit -%}
+              {%- break -%}
+            {%- endif -%}
+            {%- assign shown = shown | plus: 1 -%}
+            {%- assign seen = seen | append: product.id | append: ',' -%}
             <li class="product-showcase__item">
               {% render 'card-product-simple',
                 product: product,
@@ -323,6 +413,13 @@
       "label": "t:sections.featured-collection.settings.collection.label"
     },
     {
+      "type": "link_list",
+      "id": "fill_menu",
+      "default": "main-menu",
+      "label": "Menu for related collections",
+      "info": "With the collection being viewed: when it has too few products, the row is filled from its parent and neighbouring collections in this menu."
+    },
+    {
       "type": "select",
       "id": "sort_order",
       "options": [
@@ -338,7 +435,7 @@
       "id": "use_current_collection",
       "default": false,
       "label": "Use the collection being viewed",
-      "info": "On collection pages, shows products from that collection instead of the one chosen above."
+      "info": "On collection pages, shows products from that collection instead of the one chosen above. When it has too few, the row is filled from its parent collection (custom.parent metafield)."
     },
     {
       "type": "range",
